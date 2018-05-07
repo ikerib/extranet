@@ -31,10 +31,6 @@ class DefaultController extends Controller
 
         $dirs = $finder->directories()->in( $myPath );
 
-        foreach ($dirs as $dir) {
-
-        }
-
         return $this->render('default/index.html.twig', [
             'controller_name' => 'frogaaaaaaaaaaaaaaaaaaa',
         ]);
