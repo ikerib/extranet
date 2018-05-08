@@ -7,11 +7,36 @@ use Symfony\Component\Ldap\Adapter\ExtLdap\Adapter;
 use Symfony\Component\Ldap\Ldap;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Core\User\LdapUserProvider as SymfonyLdapUserProvider;
+use Symfony\Component\Security\Core\User\User;
+use Symfony\Component\Ldap\Entry;
 
 class SecurityController extends Controller
 {
+
+    /**
+     * LDAP TALDEEN IZENAK MINUSKULAZ IPINI!!
+     */
+
+    /** @var array maps ldap groups to roles */
+    private $groupMapping = [   // Definitely requires modification for your setup
+        'app-web_egutegia' => 'ROLE_USER',
+        'rol-antolakuntza_informatika' => 'ROLE_ADMIN'
+    ];
+
+
+    /** @var string extracts group name from dn string */
+    private $groupNameRegExp = '/^CN=(?P<group>[^,]+)/i'; // You might want to change it to match your ldap server
+//    private $groupNameRegExp = '/^CN=(?P<group>[^,]+),ou.*$/i'; // You might want to change it to match your ldap server
+
+
+
+
+
+
     /**
      * @Route("/login", name="login")
      * @param Request             $request
@@ -36,8 +61,9 @@ class SecurityController extends Controller
 
     /**
      * @Route("/userdata", name="userdata")
-     * @param Request             $request
+     * @param Request $request
      *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function userdata(Request $request)
     {
@@ -54,8 +80,6 @@ class SecurityController extends Controller
 
         $ldap = new Adapter(array('host' => $ip));
         $ldap->getConnection()->bind($searchdn, $passwd);
-//        $query = $ldap->createQuery($basedn, "CN=iibarguren,CN=Users,DC=pasaia,DC=net", array());
-//        $query = $ldap->createQuery($basedn, "(&(sAMAccountName={$username})(memberOf=cn=users))", array());
         $query = $ldap->createQuery($basedn, "(sAMAccountName=iibarguren)", array());
         $result = $query->execute();
 
@@ -70,12 +94,57 @@ class SecurityController extends Controller
         }
 
         $entry = $result[0];
+        $roles = [];
 
 
-        $this->getUser()->setAttribute( 'memberOf', $entry->getAttribute( 'memberOf' ) );
-        $this->getUser()->setAttribute( 'deparment', $entry->getAttribute( 'department' ) );
+
+
+
+        foreach ($entry->getAttribute('memberOf') as $groupLine) { // Iterate through each group entry line
+            $groupName = strtolower($this->getGroupName($groupLine)); // Extract and normalize the group name fron the line
+            if (array_key_exists($groupName, $this->groupMapping)) { // Check if the group is in the mapping
+                $roles[] = $this->groupMapping[$groupName]; // Map the group to the role the user will have
+            }
+        }
+
+        $this->get('session')->set('memberOf', $entry->getAttribute( 'memberOf' ));
+        $this->get('session')->set('deparment', $entry->getAttribute( 'department' ) );
+
+        $token = new UsernamePasswordToken(
+            $this->getUser(),
+            null,
+            'main',
+            $roles
+        );
+
+        $this->get( 'security.token_storage' )->setToken( $token );
+
 
         return $this->redirectToRoute( 'froga' );
 
     }
+
+    /**
+     * Get the group name from the DN
+     * @param string $dn
+     * @return string
+     */
+    private function getGroupName($dn)
+    {
+        $matches = [];
+        return preg_match($this->groupNameRegExp, $dn, $matches) ? $matches['group'] : '';
+    }
+
+    /**
+     * @Route("/logout", name="logout")
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function logout(Request $request) {
+        $this->get( 'security.token_storage' )->setToken( null );
+        $this->get( 'request_stack' )->getCurrentRequest()->getSession()->invalidate();
+        return $this->redirectToRoute( 'login' );
+    }
+
 }
