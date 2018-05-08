@@ -53,6 +53,12 @@ class Karpeta
     public function __construct()
     {
         $this->taldeak = new ArrayCollection();
+        $this->enabled = 1;
+    }
+
+    public function __toString()
+    {
+        return $this->getName();
     }
 
     /*****************************************************************************************************************/

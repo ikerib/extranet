@@ -21,7 +21,7 @@ class DefaultController extends Controller
 
 
     /**
-     * @Route("/froga", name="default")
+     * @Route("/froga", name="froga")
      */
     public function froga()
     {

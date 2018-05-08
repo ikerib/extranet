@@ -1,6 +1,52 @@
-#easy_admin:
-#    entities:
-#        # List the entity class name you want to manage
-#        - App\Entity\Product
-#        - App\Entity\Category
-#        - App\Entity\User
+easy_admin:
+    site_name: 'Extranet - Admin gunea'
+    design:
+            brand_color: '#1ABC9C'
+    list:
+        max_results: 30
+
+    formats:
+        date:     'd/m/Y'
+        time:     'H:i'
+        datetime: 'd/m/Y H:i:s'
+
+    entities:
+        Taldea:
+            class: App\Entity\Taldea
+            label: 'Taldeak'
+            form:
+                title: 'Taldea sortu'
+                fields:
+                    - { property: 'name', type: 'text', label: 'Izena:' }
+                    - { property: 'karpetak', type: 'easyadmin_autocomplete' }
+
+            edit:
+                title: 'Aldatu Taldea'
+
+            list:
+                title: 'Taldeen zerrenda:'
+                fields: ['id', 'name', 'enabled']
+                sort: 'name'
+
+            search: ['name','id']
+
+
+        Karpeta:
+            class: App\Entity\Karpeta
+            label: 'Karpetak'
+            form:
+                title: 'Karpeta sortu'
+                fields:
+                    - { property: 'name', type: 'text', label: 'Izena:' }
+                    - { property: 'taldeak', type: 'easyadmin_autocomplete' }
+
+            edit:
+                title: 'Aldatu Karpeta'
+
+            list:
+                title: 'Karpeten zerrenda:'
+                fields: ['id', 'name', 'enabled']
+                sort: 'name'
+
+            search: ['name','id']
+

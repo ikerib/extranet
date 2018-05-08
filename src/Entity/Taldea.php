@@ -53,6 +53,12 @@ class Taldea
     public function __construct()
     {
         $this->karpetak = new ArrayCollection();
+        $this->enabled = 1;
+    }
+
+    public function __toString()
+    {
+        return $this->getName();
     }
 
     /*****************************************************************************************************************/
