@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Taldea{% endblock %}
+
+{% block body %}
+    <h1>Create new Taldea</h1>
+
+    {{ include('taldea/_form.html.twig') }}
+
+    <a href="{{ path('taldea_index') }}">back to list</a>
+{% endblock %}

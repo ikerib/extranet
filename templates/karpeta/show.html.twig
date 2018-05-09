@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Karpeta{% endblock %}
+
+{% block body %}
+    <h1>Karpeta</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ karpetum.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ karpetum.name }}</td>
+            </tr>
+            <tr>
+                <th>Enabled</th>
+                <td>{{ karpetum.enabled ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Created</th>
+                <td>{{ karpetum.created ? karpetum.created|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Updated</th>
+                <td>{{ karpetum.updated ? karpetum.updated|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('karpeta_index') }}">back to list</a>
+
+    <a href="{{ path('karpeta_edit', {'id': karpetum.id}) }}">edit</a>
+
+    {{ include('karpeta/_delete_form.html.twig') }}
+{% endblock %}

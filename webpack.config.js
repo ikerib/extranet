@@ -15,8 +15,9 @@ Encore
 
 
 
-    .addStyleEntry('css/app', './assets/css/app.scss')
+    .addStyleEntry('css/app', ['./assets/css/app.scss', './assets/css/dashboard.scss'])
     .addStyleEntry('css/login', './assets/css/login.scss')
+    // .addStyleEntry('css/dashboard', './assets/css/dashboard.scss')
 
     // uncomment if you use Sass/SCSS files
     .enableSassLoader()

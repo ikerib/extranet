@@ -1,0 +1,15 @@
+app.menu.home: Hasiera
+app.menu.taldeak: Taldeak
+app.menu.zerrenda: Zerrenda
+app.menu.berria: Berria
+app.menu.karpetak: Karpetak
+app.taldea.zerrenda: 'Karpeten zerrenda'
+app.crud.Name: Izena
+app.crud.Enabled: Erakutsi
+app.crid.Created: Sortua
+app.crud.Updated: Eguneratua
+app.crud.actions: Ekintzak
+app.crud.show: Ikusi
+app.crud.edit: Aldatu
+app.karpeta.new: 'Karpetak: berria'
+app.crud.save: 'Gorde'

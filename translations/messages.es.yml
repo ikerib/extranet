@@ -1,0 +1,15 @@
+app.menu.home: Inicio
+app.menu.taldeak: Grupos
+app.menu.zerrenda: Listado
+app.menu.berria: Nuevo
+app.menu.karpetak: Carpetas
+app.taldea.zerrenda: 'Carpetas: listado'
+app.crud.Name: Nombre
+app.crud.Enabled: Visible
+app.crid.Created: Creado
+app.crud.Updated: Actualizado
+app.crud.actions: Acciones
+app.crud.show: Ver
+app.crud.edit: Editar
+app.karpeta.new: 'Carpetas: nuevo'
+app.crud.save: 'Guardar'

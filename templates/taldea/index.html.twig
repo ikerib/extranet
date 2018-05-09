@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Taldea index{% endblock %}
+
+{% block sidemenu %}{% endblock %}
+
+{% block body %}
+
+    <h1>{{ "app.taldea.zerrenda" | trans }}</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>{{ "app.crud.Name" | trans }}</th>
+                <th>{{ "app.crud.Enabled" | trans }}</th>
+                <th>{{ "app.crid.Created" | trans }}</th>
+                <th>{{ "app.crud.Updated" | trans }}</th>
+                <th>{{ "app.crud.actions" | trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for taldea in taldeas %}
+            <tr>
+                <td>{{ taldea.id }}</td>
+                <td>{{ taldea.name }}</td>
+                <td>{{ taldea.enabled ? 'Yes' : 'No' }}</td>
+                <td>{{ taldea.created ? taldea.created|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ taldea.updated ? taldea.updated|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('taldea_show', {'id': taldea.id}) }}"><i class="fas fa-user"></i>{{ 'app.crud.show' | trans }}</a>
+                    <a href="{{ path('taldea_edit', {'id': taldea.id}) }}"><i class="fas fa-eye"></i><i class="fa fa-eye"></i>{{ 'app.crud.edit' | trans}}</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
