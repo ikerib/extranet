@@ -3,7 +3,7 @@ app.menu.taldeak: Grupos
 app.menu.zerrenda: Listado
 app.menu.berria: Nuevo
 app.menu.karpetak: Carpetas
-app.taldea.zerrenda: 'Carpetas: listado'
+app.taldea.zerrenda: 'Grupos: listado'
 app.crud.Name: Nombre
 app.crud.Enabled: Visible
 app.crid.Created: Creado

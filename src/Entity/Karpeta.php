@@ -53,6 +53,8 @@ class Karpeta
     public function __construct()
     {
         $this->taldeak = new ArrayCollection();
+        $this->created = new \DateTime();
+        $this->created = new \DateTime();
         $this->enabled = 1;
     }
 

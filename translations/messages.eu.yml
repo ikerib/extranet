@@ -3,7 +3,7 @@ app.menu.taldeak: Taldeak
 app.menu.zerrenda: Zerrenda
 app.menu.berria: Berria
 app.menu.karpetak: Karpetak
-app.taldea.zerrenda: 'Karpeten zerrenda'
+app.taldea.zerrenda: 'Taldeen zerrenda'
 app.crud.Name: Izena
 app.crud.Enabled: Erakutsi
 app.crid.Created: Sortua

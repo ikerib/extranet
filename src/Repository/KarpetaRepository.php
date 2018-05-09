@@ -19,9 +19,18 @@ class KarpetaRepository extends ServiceEntityRepository
         parent::__construct($registry, Karpeta::class);
     }
 
-//    /**
-//     * @return Karpeta[] Returns an array of Karpeta objects
-//     */
+
+    public function isThisFolderOnMysql($folderName) {
+        return $this->createQueryBuilder( 'k' )
+                    ->andWhere( 'k.name = :name' )
+                    ->setParameter( 'name', $folderName )
+                    ->getQuery()
+                    ->getOneOrNullResult();
+    }
+
+    /**
+     * @return Karpeta[] Returns an array of Karpeta objects
+     */
     /*
     public function findByExampleField($value)
     {
@@ -34,9 +43,9 @@ class KarpetaRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-    */
 
-    /*
+
+
     public function findOneBySomeField($value): ?Karpeta
     {
         return $this->createQueryBuilder('k')

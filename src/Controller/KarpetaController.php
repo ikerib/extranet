@@ -17,6 +17,9 @@ class KarpetaController extends Controller
 {
     /**
      * @Route("/", name="karpeta_index", methods="GET")
+     * @param KarpetaRepository $karpetaRepository
+     *
+     * @return Response
      */
     public function index(KarpetaRepository $karpetaRepository): Response
     {
@@ -25,15 +28,23 @@ class KarpetaController extends Controller
 
     /**
      * @Route("/new", name="karpeta_new", methods="GET|POST")
+     * @param Request $request
+     *
+     * @return Response
      */
     public function new(Request $request): Response
     {
         $karpetum = new Karpeta();
-        $form = $this->createForm(KarpetaType::class, $karpetum);
+        $em = $this->getDoctrine()->getManager();
+
+        $form = $this->createForm(KarpetaType::class, $karpetum, array(
+            'entity_manager' => $em,
+            'action'    => $this->generateUrl('karpeta_new'),
+            'method'    => 'POST'
+        ));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
             $em->persist($karpetum);
             $em->flush();
 
@@ -48,6 +59,9 @@ class KarpetaController extends Controller
 
     /**
      * @Route("/{id}", name="karpeta_show", methods="GET")
+     * @param Karpeta $karpetum
+     *
+     * @return Response
      */
     public function show(Karpeta $karpetum): Response
     {
@@ -56,10 +70,19 @@ class KarpetaController extends Controller
 
     /**
      * @Route("/{id}/edit", name="karpeta_edit", methods="GET|POST")
+     * @param Request $request
+     * @param Karpeta $karpetum
+     *
+     * @return Response
      */
     public function edit(Request $request, Karpeta $karpetum): Response
     {
-        $form = $this->createForm(KarpetaType::class, $karpetum);
+        $em = $this->getDoctrine()->getManager();
+        $form = $this->createForm(KarpetaType::class, $karpetum, array(
+            'entity_manager' => $em,
+            'action'    => $this->generateUrl('karpeta_new'),
+            'method'    => 'POST'
+        ));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
