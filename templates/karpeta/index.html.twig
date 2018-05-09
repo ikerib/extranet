@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ "app.karpeta.zerrenda" |trans }}{% endblock %}
+{% block title %}{{ "app.karpetum.zerrenda" |trans }}{% endblock %}
 
 {% block sidebar %}{% endblock %}
 {% block main %}
@@ -30,8 +30,10 @@
                 <td>{{ karpetum.created ? karpetum.created|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ karpetum.updated ? karpetum.updated|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('karpeta_show', {'id': karpetum.id}) }}">delete</a>
-                    <a href="{{ path('karpeta_edit', {'id': karpetum.id}) }}">edit</a>
+                    <ul class="list-inline">
+                        <li class="list-inline-item"><a class="btn btn-sm btn-primary" href="{{ path('karpeta_edit', {'id': karpetum.id}) }}">{{ 'app.crud.edit' | trans}}</a></li>
+                        <li class="list-inline-item">{{ include('karpeta/_delete_form.html.twig', { id: karpetum.id }) }}</li>
+                    </ul>
                 </td>
             </tr>
         {% else %}
