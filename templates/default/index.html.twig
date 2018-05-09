@@ -17,4 +17,7 @@
         <li>Your template at <code><a href="{{ 'templates/default/index.html.twig'|file_link(0) }}">templates/default/index.html.twig</a></code></li>
     </ul>
 </div>
+
+    {{ dump(app.session.get('memberOf')) }}
+
 {% endblock %}

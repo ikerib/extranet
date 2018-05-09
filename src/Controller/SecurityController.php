@@ -27,14 +27,16 @@ class SecurityController extends Controller
         'rol-antolakuntza_informatika' => 'ROLE_ADMIN'
     ];
 
+    private $ldapTaldeak = [];
 
     /** @var string extracts group name from dn string */
     private $groupNameRegExp = '/^CN=(?P<group>[^,]+)/i'; // You might want to change it to match your ldap server
-//    private $groupNameRegExp = '/^CN=(?P<group>[^,]+),ou.*$/i'; // You might want to change it to match your ldap server
 
+    /** @var string extracts group name from dn string */
+    private $groupTaldeaRegExp = '(^(ROL|Saila|Taldea))'; // ROL - Taldea - Saila -rekin hasten den begiratzen du
 
-
-
+    /** @var string extracts group name from dn string */
+    private $TaldeIzenaRegExp = '/^CN=([^,]+)/i'; // ROL - Taldea - Saila -rekin hasten den begiratzen du
 
 
     /**
@@ -71,17 +73,7 @@ class SecurityController extends Controller
         $user = $this->getUser();
         $username = $user->getUsername();
 
-        /** Irakurri .env datuak  **/
-        $ip = getenv( 'LDAP_IP' );
-        $searchdn = getenv( 'LDAP_SEARCH_DN' );
-        $basedn = getenv( 'LDAP_BASE_DN' );
-        $passwd = getenv( 'LDAP_PASSWD' );
-
-
-        $ldap = new Adapter(array('host' => $ip));
-        $ldap->getConnection()->bind($searchdn, $passwd);
-        $query = $ldap->createQuery($basedn, "(sAMAccountName=iibarguren)", array());
-        $result = $query->execute();
+        $result = $this->getLdapInfo( $username );
 
         $count = count($result);
 
@@ -95,21 +87,41 @@ class SecurityController extends Controller
 
         $entry = $result[0];
         $roles = [];
+        $taldeak=$entry->getAttribute( 'memberOf');
+
+        foreach ($taldeak as $t) {
+            array_push( $this->ldapTaldeak, $t );
+        }
 
 
-
-
-
+        /**
+         * ESKURATU LDAP Taldeak
+         */
         foreach ($entry->getAttribute('memberOf') as $groupLine) { // Iterate through each group entry line
             $groupName = strtolower($this->getGroupName($groupLine)); // Extract and normalize the group name fron the line
             if (array_key_exists($groupName, $this->groupMapping)) { // Check if the group is in the mapping
                 $roles[] = $this->groupMapping[$groupName]; // Map the group to the role the user will have
             }
+
+
+
+
+            $this->ldap_recursive(  $this->getGroupName($groupLine));
+
         }
 
-        $this->get('session')->set('memberOf', $entry->getAttribute( 'memberOf' ));
+
+
+
+        /**
+         * Sesio bariable batean gorde agian erabilgarri izan daitekeen informazioa
+         */
+        $this->get('session')->set('memberOf', $this->ldapTaldeak);
         $this->get('session')->set('deparment', $entry->getAttribute( 'department' ) );
 
+        /**
+         * User objectu berria sortu, rol berriekin
+         */
         $token = new UsernamePasswordToken(
             $this->getUser(),
             null,
@@ -147,4 +159,39 @@ class SecurityController extends Controller
         return $this->redirectToRoute( 'login' );
     }
 
+
+    public function getLdapInfo($username) {
+        /** Irakurri .env datuak  **/
+        $ip = getenv( 'LDAP_IP' );
+        $searchdn = getenv( 'LDAP_SEARCH_DN' );
+        $basedn = getenv( 'LDAP_BASE_DN' );
+        $passwd = getenv( 'LDAP_PASSWD' );
+
+
+        /**
+         * LDAP KONTSULTA EGIN erabiltzailearen bila
+         */
+        $ldap = new Adapter(array('host' => $ip));
+        $ldap->getConnection()->bind($searchdn, $passwd);
+        $query = $ldap->createQuery($basedn, "(sAMAccountName=$username)", array());
+        return $query->execute();
+    }
+
+    public function ldap_recursive($name) {
+        if ( preg_match($this->groupTaldeaRegExp,$name) ) {
+            $tal = $this->getLdapInfo(  $name  );
+
+            if ( count($tal)) {
+                $taldek = $tal[0]->getAttribute( 'memberOf' );
+                if ( ! is_null($taldek)) {
+                    foreach ($taldek as $t) {
+                        if ( ! in_array($t, $this->ldapTaldeak) ) {
+                            array_push( $this->ldapTaldeak, $t );
+                            $this->ldap_recursive( $this->getGroupName( $t ) );
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
