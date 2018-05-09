@@ -22,8 +22,8 @@ class KarpetaRepository extends ServiceEntityRepository
 
     public function isThisFolderOnMysql($folderName) {
         return $this->createQueryBuilder( 'k' )
-                    ->andWhere( 'k.name = :name' )
-                    ->setParameter( 'name', $folderName )
+                    ->andWhere( 'k.path = :path' )
+                    ->setParameter( 'path', $folderName )
                     ->getQuery()
                     ->getOneOrNullResult();
     }

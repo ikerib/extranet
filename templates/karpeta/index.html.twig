@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Karpeta index{% endblock %}
+{% block title %}{{ "app.karpeta.zerrenda" |trans }}{% endblock %}
 
 {% block sidebar %}{% endblock %}
 {% block main %}
@@ -8,29 +8,29 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Karpeta index</h1>
+    <h1>{{ "app.karpeta.zerrenda" |trans }}</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Enabled</th>
-                <th>Created</th>
-                <th>Updated</th>
-                <th>actions</th>
+                <th>{{ "app.crud.Name" | trans }}</th>
+                <th>{{ "app.crud.Path" | trans }}</th>
+                <th>{{ "app.crud.Enabled" | trans }}</th>
+                <th>{{ "app.crud.Created" | trans }}</th>
+                <th>{{ "app.crud.Updated" | trans }}</th>
+                <th>{{ "app.crud.actions" | trans }}</th>
             </tr>
         </thead>
         <tbody>
         {% for karpetum in karpetas %}
             <tr>
-                <td>{{ karpetum.id }}</td>
                 <td>{{ karpetum.name }}</td>
+                <td>{{ karpetum.path }}</td>
                 <td>{{ karpetum.enabled ? 'Yes' : 'No' }}</td>
                 <td>{{ karpetum.created ? karpetum.created|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ karpetum.updated ? karpetum.updated|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('karpeta_show', {'id': karpetum.id}) }}">show</a>
+                    <a href="{{ path('karpeta_show', {'id': karpetum.id}) }}">delete</a>
                     <a href="{{ path('karpeta_edit', {'id': karpetum.id}) }}">edit</a>
                 </td>
             </tr>
@@ -42,5 +42,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('karpeta_new') }}">Create new</a>
 {% endblock %}

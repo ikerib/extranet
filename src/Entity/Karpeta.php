@@ -25,6 +25,11 @@ class Karpeta
     private $name;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $path;
+
+    /**
      * @ORM\Column(type="boolean")
      */
     private $enabled;
@@ -54,7 +59,7 @@ class Karpeta
     {
         $this->taldeak = new ArrayCollection();
         $this->created = new \DateTime();
-        $this->created = new \DateTime();
+        $this->updated = new \DateTime();
         $this->enabled = 1;
     }
 
@@ -168,6 +173,18 @@ class Karpeta
         if ($this->taldeak->contains($taldeak)) {
             $this->taldeak->removeElement($taldeak);
         }
+
+        return $this;
+    }
+
+    public function getPath(): ?string
+    {
+        return $this->path;
+    }
+
+    public function setPath(string $path): self
+    {
+        $this->path = $path;
 
         return $this;
     }

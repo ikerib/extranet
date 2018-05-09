@@ -3,13 +3,17 @@ app.menu.taldeak: Taldeak
 app.menu.zerrenda: Zerrenda
 app.menu.berria: Berria
 app.menu.karpetak: Karpetak
+app.taldea.new: 'Talde berria'
 app.taldea.zerrenda: 'Taldeen zerrenda'
 app.crud.Name: Izena
 app.crud.Enabled: Erakutsi
-app.crid.Created: Sortua
+app.crud.Created: Sortua
 app.crud.Updated: Eguneratua
+app.crud.Path: Path
 app.crud.actions: Ekintzak
 app.crud.show: Ikusi
 app.crud.edit: Aldatu
 app.karpeta.new: 'Karpetak: berria'
-app.crud.save: 'Gorde'
+app.karpeta.zerrenda: 'Karpetak: zerrenda'
+app.crud.save: Gorde
+app.crud.delete: Ezabatu

@@ -53,6 +53,8 @@ class Taldea
     public function __construct()
     {
         $this->karpetak = new ArrayCollection();
+        $this->created = new \DateTime();
+        $this->updated = new \DateTime();
         $this->enabled = 1;
     }
 

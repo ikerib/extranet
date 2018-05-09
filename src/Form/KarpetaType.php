@@ -8,6 +8,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -33,7 +34,10 @@ class KarpetaType extends AbstractType
 
 
         $builder
-            ->add('name', ChoiceType::class, array(
+            ->add('name', TextType::class, array(
+                'empty_data' => 'Idatzi izen bat ...'
+            ))
+            ->add('path', ChoiceType::class, array(
                 'choices'   => $karpetak,
                 'multiple'  =>false,
                 'placeholder' => 'Aukeratu bat...',
