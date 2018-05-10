@@ -8,11 +8,8 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Edit Taldea</h1>
+    <h1>{{ "app.taldea.edit" | trans }}</h1>
 
     {{ include('taldea/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('taldea_index') }}">back to list</a>
-
-    {{ include('taldea/_delete_form.html.twig') }}
 {% endblock %}

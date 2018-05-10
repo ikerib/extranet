@@ -78,13 +78,18 @@ class TaldeaController extends Controller
      */
     public function edit(Request $request, Taldea $taldea): Response
     {
-        $form = $this->createForm(TaldeaType::class, $taldea);
+        $ldap = $this->get( 'App\Controller\SecurityController' );
+        $form = $this->createForm(TaldeaType::class, $taldea, array(
+            'ldap'      => $ldap,
+            'action'    => $this->generateUrl('taldea_edit', array('id'=>$taldea->getId())),
+            'method'    => 'POST'
+        ));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('taldea_edit', ['id' => $taldea->getId()]);
+            return $this->redirectToRoute( 'taldea_index' );
         }
 
         return $this->render('taldea/edit.html.twig', [

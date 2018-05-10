@@ -39,7 +39,7 @@ class TaldeaType extends AbstractType
                 'placeholder' => 'Aukeratu bat...',
             ))
             ->add('enabled')
-            ->add('karpetak')
+//            ->add('karpetak')
         ;
     }
 
