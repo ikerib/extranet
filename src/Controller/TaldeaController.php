@@ -35,7 +35,10 @@ class TaldeaController extends Controller
     public function new(Request $request): Response
     {
         $taldea = new Taldea();
+        $ldap = $this->get( 'App\Controller\SecurityController' );
+
         $form = $this->createForm(TaldeaType::class, $taldea, array(
+            'ldap'      => $ldap,
             'action'    => $this->generateUrl('taldea_new'),
             'method'    => 'POST'
         ));

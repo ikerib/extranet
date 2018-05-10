@@ -14,8 +14,8 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>{{ "app.crud.Name" | trans }}</th>
+                <th>{{ "app.crud.Karpetak" | trans }}</th>
                 <th>{{ "app.crud.Enabled" | trans }}</th>
                 <th>{{ "app.crud.Created" | trans }}</th>
                 <th>{{ "app.crud.Updated" | trans }}</th>
@@ -25,8 +25,12 @@
         <tbody>
         {% for taldea in taldeas %}
             <tr>
-                <td>{{ taldea.id }}</td>
                 <td>{{ taldea.name }}</td>
+                <td>
+                    {% for k in taldea.karpetak %}
+                        <kbd>{{ k }}</kbd>
+                    {% endfor %}
+                </td>
                 <td>{{ taldea.enabled ? 'Yes' : 'No' }}</td>
                 <td>{{ taldea.created ? taldea.created|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ taldea.updated ? taldea.updated|date('Y-m-d H:i:s') : '' }}</td>

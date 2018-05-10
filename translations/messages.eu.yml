@@ -19,3 +19,4 @@ app.crud.save: Gorde
 app.crud.delete: Ezabatu
 app.crud.Taldeak: Taldeak
 app.karpeta.edit: 'Karpeta aldatzen'
+app.crud.Karpetak: Karpetak

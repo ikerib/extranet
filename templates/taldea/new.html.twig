@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Taldea{% endblock %}
+{% block title %}{{ "app.taldea.new" | trans }}{% endblock %}
 
 {% block sidebar %}{% endblock %}
 {% block main %}
@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Create new Taldea</h1>
+    <h1>{{ "app.taldea.new" | trans }}</h1>
 
     {{ include('taldea/_form.html.twig') }}
 

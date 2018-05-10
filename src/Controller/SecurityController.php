@@ -93,7 +93,6 @@ class SecurityController extends Controller
             array_push( $this->ldapTaldeak, $t );
         }
 
-
         /**
          * ESKURATU LDAP Taldeak
          */
@@ -102,22 +101,16 @@ class SecurityController extends Controller
             if (array_key_exists($groupName, $this->groupMapping)) { // Check if the group is in the mapping
                 $roles[] = $this->groupMapping[$groupName]; // Map the group to the role the user will have
             }
-
-
-
-
             $this->ldap_recursive(  $this->getGroupName($groupLine));
-
         }
-
-
-
 
         /**
          * Sesio bariable batean gorde agian erabilgarri izan daitekeen informazioa
          */
         $this->get('session')->set('memberOf', $this->ldapTaldeak);
         $this->get('session')->set('deparment', $entry->getAttribute( 'department' ) );
+
+
 
         /**
          * User objectu berria sortu, rol berriekin
@@ -128,9 +121,7 @@ class SecurityController extends Controller
             'main',
             $roles
         );
-
         $this->get( 'security.token_storage' )->setToken( $token );
-
 
         return $this->redirectToRoute( 'froga' );
 
@@ -193,5 +184,10 @@ class SecurityController extends Controller
                 }
             }
         }
+    }
+
+    public function getAllLdapGroups ($filter) {
+        $resp = $this->getLdapInfo( $filter );
+        dump( $resp );
     }
 }
