@@ -17,3 +17,5 @@ app.karpeta.new: 'Carpetas: nuevo'
 app.karpeta.zerrenda: 'Carpetas: listado'
 app.crud.save: Guardar
 app.crud.delete: Eliminar
+app.crud.Taldeak: Grupos
+app.karpeta.edit: 'Editar grupo'

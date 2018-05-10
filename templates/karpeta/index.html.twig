@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ "app.karpetum.zerrenda" |trans }}{% endblock %}
+{% block title %}{{ "app.karpeta.zerrenda" |trans }}{% endblock %}
 
 {% block sidebar %}{% endblock %}
 {% block main %}
@@ -14,7 +14,7 @@
         <thead>
             <tr>
                 <th>{{ "app.crud.Name" | trans }}</th>
-                <th>{{ "app.crud.Path" | trans }}</th>
+                <th>{{ "app.crud.Taldeak" | trans }}</th>
                 <th>{{ "app.crud.Enabled" | trans }}</th>
                 <th>{{ "app.crud.Created" | trans }}</th>
                 <th>{{ "app.crud.Updated" | trans }}</th>
@@ -24,8 +24,12 @@
         <tbody>
         {% for karpetum in karpetas %}
             <tr>
-                <td>{{ karpetum.name }}</td>
-                <td>{{ karpetum.path }}</td>
+                <td><a href="javascript:void(0);" data-toggle="popover" title="Path" data-content="{{ karpetum.path }}">{{ karpetum.name }}</a></td>
+                <td>
+                    {% for t in karpetum.taldeak %}
+                        <kbd>{{ t }}</kbd>
+                    {% endfor %}
+                </td>
                 <td>{{ karpetum.enabled ? 'Yes' : 'No' }}</td>
                 <td>{{ karpetum.created ? karpetum.created|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ karpetum.updated ? karpetum.updated|date('Y-m-d H:i:s') : '' }}</td>

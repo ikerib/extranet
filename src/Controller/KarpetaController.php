@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Karpeta;
+use App\Form\KarpetaEditType;
 use App\Form\KarpetaType;
 use App\Repository\KarpetaRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -77,10 +78,8 @@ class KarpetaController extends Controller
      */
     public function edit(Request $request, Karpeta $karpetum): Response
     {
-        $em = $this->getDoctrine()->getManager();
-        $form = $this->createForm(KarpetaType::class, $karpetum, array(
-            'entity_manager' => $em,
-            'action'    => $this->generateUrl('karpeta_new'),
+        $form = $this->createForm(KarpetaEditType::class, $karpetum, array(
+            'action'    => $this->generateUrl('karpeta_edit', array('id' => $karpetum->getId())),
             'method'    => 'POST'
         ));
         $form->handleRequest($request);
@@ -88,7 +87,7 @@ class KarpetaController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('karpeta_edit', ['id' => $karpetum->getId()]);
+            return $this->redirectToRoute('karpeta_index');
         }
 
         return $this->render('karpeta/edit.html.twig', [

@@ -1,7 +1,7 @@
-
 window.$ = require('jquery');
 require("popper.js");
-require('bootstrap');
+// require('bootstrap.bundle');
+require("../../node_modules/bootstrap/dist/js/bootstrap.bundle.min");
 import fontawesome from '../../node_modules/@fortawesome/fontawesome'
 
 import faUser from '@fortawesome/fontawesome-free-solid/faUser'
@@ -17,5 +17,7 @@ const swal = require("sweetalert2");
 
 'use strict';
 $(() => {
-    console.log("kaixoooooooooo");
+
+    $('[data-toggle="popover"]').popover()
+
 });
