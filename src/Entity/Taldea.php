@@ -46,7 +46,7 @@ class Taldea
     /*****************************************************************************************************************/
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Karpeta", mappedBy="taldeak")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Karpeta", inversedBy="taldeak", cascade={"persist", "remove"})
      */
     private $karpetak;
 
@@ -67,7 +67,7 @@ class Taldea
     /*** FIN ERLAZIOAK ***********************************************************************************************/
     /*****************************************************************************************************************/
 
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -96,34 +96,6 @@ class Taldea
         return $this;
     }
 
-    /**
-     * @return Collection|Karpeta[]
-     */
-    public function getKarpetak(): Collection
-    {
-        return $this->karpetak;
-    }
-
-    public function addKarpetak(Karpeta $karpetak): self
-    {
-        if (!$this->karpetak->contains($karpetak)) {
-            $this->karpetak[] = $karpetak;
-            $karpetak->addRelation($this);
-        }
-
-        return $this;
-    }
-
-    public function removeKarpetak(Karpeta $karpetak): self
-    {
-        if ($this->karpetak->contains($karpetak)) {
-            $this->karpetak->removeElement($karpetak);
-            $karpetak->removeRelation($this);
-        }
-
-        return $this;
-    }
-
     public function getCreated(): ?\DateTimeInterface
     {
         return $this->created;
@@ -144,6 +116,34 @@ class Taldea
     public function setUpdated(\DateTimeInterface $updated): self
     {
         $this->updated = $updated;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Karpeta[]
+     */
+    public function getKarpetak(): Collection
+    {
+        return $this->karpetak;
+    }
+
+    public function addKarpetak(Karpeta $karpetak): self
+    {
+        if (!$this->karpetak->contains($karpetak)) {
+            $this->karpetak[] = $karpetak;
+            $karpetak->addTaldeak($this);
+        }
+
+        return $this;
+    }
+
+    public function removeKarpetak(Karpeta $karpetak): self
+    {
+        if ($this->karpetak->contains($karpetak)) {
+            $this->karpetak->removeElement($karpetak);
+            $karpetak->removeTaldeak($this);
+        }
 
         return $this;
     }

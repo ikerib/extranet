@@ -51,7 +51,7 @@ class Karpeta
     /*****************************************************************************************************************/
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Taldea", inversedBy="karpetak")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Taldea", mappedBy="karpetak", cascade={"persist", "remove"})
      */
     private $taldeak;
 
@@ -69,10 +69,12 @@ class Karpeta
     }
 
     /*****************************************************************************************************************/
-    /*** ERLAZIOAK ***************************************************************************************************/
+    /*** FIN ERLAZIOAK ***********************************************************************************************/
     /*****************************************************************************************************************/
 
-    public function getId()
+
+
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -89,6 +91,18 @@ class Karpeta
         return $this;
     }
 
+    public function getPath(): ?string
+    {
+        return $this->path;
+    }
+
+    public function setPath(string $path): self
+    {
+        $this->path = $path;
+
+        return $this;
+    }
+
     public function getEnabled(): ?bool
     {
         return $this->enabled;
@@ -97,32 +111,6 @@ class Karpeta
     public function setEnabled(bool $enabled): self
     {
         $this->enabled = $enabled;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Taldea[]
-     */
-    public function getRelation(): Collection
-    {
-        return $this->taldeak;
-    }
-
-    public function addRelation(Taldea $relation): self
-    {
-        if (!$this->taldeak->contains($relation)) {
-            $this->taldeak[] = $relation;
-        }
-
-        return $this;
-    }
-
-    public function removeRelation(Taldea $relation): self
-    {
-        if ($this->taldeak->contains($relation)) {
-            $this->taldeak->removeElement($relation);
-        }
 
         return $this;
     }
@@ -173,18 +161,6 @@ class Karpeta
         if ($this->taldeak->contains($taldeak)) {
             $this->taldeak->removeElement($taldeak);
         }
-
-        return $this;
-    }
-
-    public function getPath(): ?string
-    {
-        return $this->path;
-    }
-
-    public function setPath(string $path): self
-    {
-        $this->path = $path;
 
         return $this;
     }

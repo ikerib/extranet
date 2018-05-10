@@ -22,7 +22,7 @@ class KarpetaEditType extends AbstractType
                 'empty_data' => 'Idatzi izen bat ...'
             ))
             ->add('enabled')
-            ->add('taldeak')
+//            ->add('taldeak')
         ;
     }
 
