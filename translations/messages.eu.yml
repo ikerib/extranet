@@ -1,22 +1,23 @@
-app.menu.home: Hasiera
-app.menu.taldeak: Taldeak
-app.menu.zerrenda: Zerrenda
-app.menu.berria: Berria
-app.menu.karpetak: Karpetak
-app.taldea.new: 'Talde berria'
-app.taldea.zerrenda: 'Taldeen zerrenda'
-app.crud.Name: Izena
-app.crud.Enabled: Erakutsi
-app.crud.Created: Sortua
-app.crud.Updated: Eguneratua
-app.crud.Path: Path
 app.crud.actions: Ekintzak
-app.crud.show: Ikusi
+app.crud.Created: Sortua
+app.crud.delete: Ezabatu
 app.crud.edit: Aldatu
+app.crud.Enabled: Erakutsi
+app.crud.Karpetak: Karpetak
+app.crud.Name: Izena
+app.crud.Path: Path
+app.crud.show: Ikusi
+app.crud.save: Gorde
+app.crud.Taldeak: Taldeak
+app.crud.Updated: Eguneratua
+app.karpeta.edit: 'Karpeta aldatzen'
 app.karpeta.new: 'Karpetak: berria'
 app.karpeta.zerrenda: 'Karpetak: zerrenda'
-app.crud.save: Gorde
-app.crud.delete: Ezabatu
-app.crud.Taldeak: Taldeak
-app.karpeta.edit: 'Karpeta aldatzen'
-app.crud.Karpetak: Karpetak
+app.menu.berria: Berria
+app.menu.home: Hasiera
+app.menu.karpetak: Karpetak
+app.menu.taldeak: Taldeak
+app.menu.zerrenda: Zerrenda
+app.taldea.edit: 'Taldea aldatzen'
+app.taldea.new: 'Talde berria'
+app.taldea.zerrenda: 'Taldeen zerrenda'

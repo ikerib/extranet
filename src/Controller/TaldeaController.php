@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Taldea;
+use App\Form\TaldeaEditType;
 use App\Form\TaldeaType;
 use App\Repository\TaldeaRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -78,9 +79,7 @@ class TaldeaController extends Controller
      */
     public function edit(Request $request, Taldea $taldea): Response
     {
-        $ldap = $this->get( 'App\Controller\SecurityController' );
-        $form = $this->createForm(TaldeaType::class, $taldea, array(
-            'ldap'      => $ldap,
+        $form = $this->createForm(TaldeaEditType::class, $taldea, array(
             'action'    => $this->generateUrl('taldea_edit', array('id'=>$taldea->getId())),
             'method'    => 'POST'
         ));

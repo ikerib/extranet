@@ -1,22 +1,24 @@
-app.menu.home: Inicio
-app.menu.taldeak: Grupos
-app.menu.zerrenda: Listado
-app.menu.berria: Nuevo
-app.menu.karpetak: Carpetas
-app.taldea.new: 'Nuevo Grupo'
-app.taldea.zerrenda: 'Grupos: listado'
-app.crud.Name: Nombre
-app.crud.Enabled: Visible
-app.crud.Created: Creado
-app.crud.Updated: Actualizado
-app.crud.Path: Path
 app.crud.actions: Acciones
-app.crud.show: Ver
+app.crud.Created: Creado
+app.crud.delete: Eliminar
 app.crud.edit: Editar
+app.crud.Enabled: Visible
+app.crud.Karpetak: Carpetas
+app.crud.Name: Nombre
+app.crud.Path: Path
+app.crud.show: Ver
+app.crud.save: Guardar
+app.crud.Taldeak: Grupos
+app.crud.Updated: Actualizado
+app.karpeta.edit: 'Editar grupo'
 app.karpeta.new: 'Carpetas: nuevo'
 app.karpeta.zerrenda: 'Carpetas: listado'
-app.crud.save: Guardar
-app.crud.delete: Eliminar
-app.crud.Taldeak: Grupos
-app.karpeta.edit: 'Editar grupo'
-app.crud.Karpetak: Carpetas
+app.menu.berria: Nuevo
+app.menu.home: Inicio
+app.menu.karpetak: Carpetas
+app.menu.taldeak: Grupos
+app.menu.zerrenda: Listado
+app.taldea.edit: 'Editar carpeta'
+app.taldea.new: 'Nuevo Grupo'
+app.taldea.zerrenda: 'Grupos: listado'
+
