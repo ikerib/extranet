@@ -28,6 +28,7 @@ class SecurityController extends Controller
     ];
 
     private $ldapTaldeak = [];
+    private $ldapInfo = [];
 
     /** @var string extracts group name from dn string */
     private $groupNameRegExp = '/^CN=(?P<group>[^,]+)/i'; // You might want to change it to match your ldap server
@@ -107,7 +108,11 @@ class SecurityController extends Controller
         /**
          * Sesio bariable batean gorde agian erabilgarri izan daitekeen informazioa
          */
-        $this->get('session')->set('memberOf', $this->ldapTaldeak);
+        foreach ($this->ldapTaldeak as $talde) {
+            array_push( $this->ldapInfo, $this->getGroupName( $talde ) );
+        }
+        sort( $this->ldapInfo );
+        $this->get('session')->set('ldapInfo', $this->ldapInfo);
         $this->get('session')->set('deparment', $entry->getAttribute( 'department' ) );
 
 

@@ -25,15 +25,33 @@ class DefaultController extends Controller
      */
     public function froga()
     {
-        $myPath = "/home/local/PASAIA/iibarguren/dev";
-        /** @var Finder $finder */
-        $finder = new Finder();
+        $ldapInfo = $this->get( 'session' )->get( 'ldapInfo' );
+        $groupTaldeaRegExp = '(^(Sarbide))';
 
-        $dirs = $finder->directories()->in( $myPath );
+        $em = $this->getDoctrine()->getManager();
+        $folders = [];
 
+        foreach ($ldapInfo as $l) {
+
+            if ( preg_match($groupTaldeaRegExp,$l) ) {
+
+                $dirs = $em->getRepository( 'App:Karpeta' )->getSidebarFoldersForSarbide( $l );
+
+                if ( count($dirs) >0 ) {
+
+                    foreach ( $dirs as $dir ) {
+                        array_push( $folders, $dir );
+                    }
+
+                }
+
+            }
+
+        }
 
         return $this->render('default/index.html.twig', [
             'controller_name' => 'frogaaaaaaaaaaaaaaaaaaa',
+            'folders' => $folders
         ]);
     }
 }

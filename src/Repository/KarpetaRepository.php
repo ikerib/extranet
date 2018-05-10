@@ -20,12 +20,31 @@ class KarpetaRepository extends ServiceEntityRepository
     }
 
 
+    /**
+     * @param $folderName
+     *
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
     public function isThisFolderOnMysql($folderName) {
+
         return $this->createQueryBuilder( 'k' )
                     ->andWhere( 'k.path = :path' )
                     ->setParameter( 'path', $folderName )
                     ->getQuery()
                     ->getOneOrNullResult();
+    }
+
+
+    public function getSidebarFoldersForSarbide($sarbide) {
+
+        return $this->createQueryBuilder( 'k' )
+            ->innerJoin('k.taldeak', 't')
+                         ->andWhere( 't.name like :sarbide' )
+                         ->setParameter( 'sarbide', $sarbide )
+                         ->getQuery()
+                         ->getResult();
+
     }
 
     /**
