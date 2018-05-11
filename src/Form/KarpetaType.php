@@ -3,8 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Karpeta;
-use Doctrine\ORM\Query;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;

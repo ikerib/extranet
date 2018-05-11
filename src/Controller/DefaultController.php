@@ -2,10 +2,11 @@
 
 namespace App\Controller;
 
-use http\Env\Request;
-use Symfony\Component\Finder\Finder;
+
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Finder\Finder;
 
 class DefaultController extends Controller
 {
@@ -51,32 +52,42 @@ class DefaultController extends Controller
 
         return $this->render( 'default/index.html.twig', [
             'folders' => $folders,
-            'files' => [],
-            'dirs'  => []
+            'files'   => [],
+            'dirs'    => [],
         ] );
     }
 
 
     /**
-     * @Route("/finder/{dirpath}", name="dirpath")
-     * @param         $dirpath
+     * @Route("/finder/", name="dirpath")
+     *
+     *
+     * @param Request $request
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function dirpath( $dirpath )
+    public function dirpath(Request $request)
     {
-        $finder = new Finder();
-
+        $dirpath = $request->get( 'dirpath' );
         $folders = $this->get( 'App\Controller\DefaultController' )->getSidebarFolders();
 
         $basedir = getenv( 'APP_FOLDER_PATH' );
-        $dirs    = $finder->directories()->in( $basedir . $dirpath );
-        $files   = $finder->files()->in( $basedir . $dirpath );
+        $myPath  = rtrim( $basedir . $dirpath, '/' ) . '/';
+
+
+        $folderFinder = new Finder();
+        $dirs         = $folderFinder->directories()->in( $myPath )->depth( '<1' )->sortByName();
+
+        $filesFinder = new Finder();
+        $files       = $filesFinder->files()->in( $myPath );
+
 
         return $this->render( 'default/index.html.twig', [
-            'folders' => $folders,
-            'dirs'    => $dirs,
-            'files'   => $files,
+            'currentDir' => $dirpath,
+            'folders'    => $folders,
+            'dirs'       => $dirs,
+            'files'      => $files,
         ] );
+
     }
 }
