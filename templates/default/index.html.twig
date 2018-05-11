@@ -7,9 +7,14 @@
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item"><a href="#">Library</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Data</li>
+
+                {% for key, value in breadcrumbs %}
+                    {% if loop.index == 1 %}
+                        <li class="breadcrumb-item"><a href="{{ path('dirpath', {'dirpath': "/" ~ value}) }}">{{ "app.breadcrumb.home" | trans }}</a></li>
+                    {% endif %}
+                        <li class="breadcrumb-item"><a href="{{ path('dirpath', {'dirpath': "/" ~ value}) }}">{{ key }}</a></li>
+                {% endfor %}
+
             </ol>
         </nav>
         <div class="btn-toolbar mb-2 mb-md-0">
@@ -24,6 +29,7 @@
             </div>
         </div>
     </div>
+
 
     <div class="row">
         <table class="table table-active table-bordered table-striped table-hover">
@@ -52,7 +58,7 @@
             {% if files is defined %}
                 {% for f in files %}
                     <tr>
-                        <td><span class="mb-4"><i class="fas fa-user fa-1x"></i></span></td>
+                        <td><span class="mb-4"><i class="fas fa-file fa-1x"></i></span></td>
                         <td>{{ f.filename }}</td>
                         <td>{{ f.cTime | date('Y-m-d H:m:s') }}</td>
                         <td>{{ f.mTime | date('Y-m-d H:m:s') }}</td>

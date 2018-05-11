@@ -51,6 +51,8 @@ class DefaultController extends Controller
         $folders = $this->get( 'App\Controller\DefaultController' )->getSidebarFolders();
 
         return $this->render( 'default/index.html.twig', [
+            'breadcrumbs'=>[],
+            'currentDir'=>[],
             'folders' => $folders,
             'files'   => [],
             'dirs'    => [],
@@ -66,12 +68,12 @@ class DefaultController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function dirpath(Request $request)
+    public function dirpath( Request $request )
     {
         $dirpath = $request->get( 'dirpath' );
         $folders = $this->get( 'App\Controller\DefaultController' )->getSidebarFolders();
 
-        $basedir = getenv( 'APP_FOLDER_PATH' );
+        $basedir = rtrim( getenv( 'APP_FOLDER_PATH' ), '/' );
         $myPath  = rtrim( $basedir . $dirpath, '/' ) . '/';
 
 
@@ -81,12 +83,24 @@ class DefaultController extends Controller
         $filesFinder = new Finder();
         $files       = $filesFinder->files()->in( $myPath );
 
+        $breadcrumbs = explode( '/', ltrim($dirpath, '/') );
+        $ogiazalak = [];
+
+        foreach ($breadcrumbs as $key=>$value) {
+            if ($key == 0) {
+                $ogiazalak[ $value ] = $value;
+            } else {
+                $ogiazalak[ $value ] = $breadcrumbs[ $key-1 ] . "/" . $value;
+            }
+
+        }
 
         return $this->render( 'default/index.html.twig', [
-            'currentDir' => $dirpath,
-            'folders'    => $folders,
-            'dirs'       => $dirs,
-            'files'      => $files,
+            'currentDir'  => $dirpath,
+            'breadcrumbs' => $ogiazalak,
+            'folders'     => $folders,
+            'dirs'        => $dirs,
+            'files'       => $files,
         ] );
 
     }

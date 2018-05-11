@@ -1,3 +1,4 @@
+app.breadcrumb.home: Inicio
 app.crud.actions: Acciones
 app.crud.Created: Creado
 app.crud.delete: Eliminar
@@ -22,5 +23,3 @@ app.menu.zerrenda: Listado
 app.taldea.edit: 'Editar carpeta'
 app.taldea.new: 'Nuevo Grupo'
 app.taldea.zerrenda: 'Grupos: listado'
-
-
