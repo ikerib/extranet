@@ -128,7 +128,7 @@ class SecurityController extends Controller
         );
         $this->get( 'security.token_storage' )->setToken( $token );
 
-        return $this->redirectToRoute( 'froga' );
+        return $this->redirectToRoute( 'homepage' );
 
     }
 

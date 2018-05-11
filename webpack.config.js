@@ -11,7 +11,7 @@ Encore
     // .enableVersioning(Encore.isProduction())
 
     // uncomment to define the assets of the project
-    .addEntry('js/app', './assets/js/app.js')
+    .addEntry('js/app', ['./assets/js/fontawesome-5.0.13.all.js','./assets/js/app.js'])
 
 
 

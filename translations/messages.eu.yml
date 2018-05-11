@@ -10,6 +10,7 @@ app.crud.show: Ikusi
 app.crud.save: Gorde
 app.crud.Taldeak: Taldeak
 app.crud.Updated: Eguneratua
+app.homepage.message: 'Egin klik ezkerreko menuko elementu batean karpeta horren fitxategiak ikusteko.'
 app.karpeta.edit: 'Karpeta aldatzen'
 app.karpeta.new: 'Karpetak: berria'
 app.karpeta.zerrenda: 'Karpetak: zerrenda'
