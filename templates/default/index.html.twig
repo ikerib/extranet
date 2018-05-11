@@ -10,7 +10,7 @@
 
                 {% for key, value in breadcrumbs %}
                     {% if loop.index == 1 %}
-                        <li class="breadcrumb-item"><a href="{{ path('dirpath', {'dirpath': "/" ~ value}) }}">{{ "app.breadcrumb.home" | trans }}</a></li>
+                        <li class="breadcrumb-item"><a href="{{ path('homepage') }}">{{ "app.breadcrumb.home" | trans }}</a></li>
                     {% endif %}
                         <li class="breadcrumb-item"><a href="{{ path('dirpath', {'dirpath': "/" ~ value}) }}">{{ key }}</a></li>
                 {% endfor %}
@@ -23,13 +23,12 @@
                 Ordena
             </button>
             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                <a class="dropdown-item" href="#">Izena</a>
-                <a class="dropdown-item" href="#">Sortua</a>
-                <a class="dropdown-item" href="#">Aldatua</a>
+                <a class="dropdown-item" href="{{ path('dirpath', {'dirpath':  app.request.get('dirpath'), 'orden': 'izena' }) }}">Izena</a>
+                <a class="dropdown-item" href="{{ path('dirpath', {'dirpath':  app.request.get('dirpath'), 'orden': 'created' }) }}">Sortua</a>
+                <a class="dropdown-item" href="{{ path('dirpath', {'dirpath':  app.request.get('dirpath'), 'orden': 'updated' }) }}">Aldatua</a>
             </div>
         </div>
     </div>
-
 
     <div class="row">
         <table class="table table-active table-bordered table-striped table-hover">
@@ -43,29 +42,45 @@
             </tr>
             </thead>
             <tbody>
-            {% if dirs is defined %}
 
-                {% for d in dirs %}
+            {% if app.request.get('_route') == 'homepage' %}
+
+                {% for d in homeFolders %}
                     <tr>
-                        <td><a href="{{ path('dirpath', {'dirpath': currentDir ~ "/" ~ d.basename}) }}"><span class="mb-4"><i class="fas fa-folder fa-1x"></i></span></a></td>
-                        <td><a href="{{ path('dirpath', {'dirpath': currentDir ~ "/" ~ d.basename}) }}">{{ d.basename }}</a></td>
-                        <td><a href="{{ path('dirpath', {'dirpath': currentDir ~ "/" ~ d.basename}) }}">{{ d.cTime | date('Y-m-d H:m:s') }}</a></td>
-                        <td><a href="{{ path('dirpath', {'dirpath': currentDir ~ "/" ~ d.basename}) }}">{{ d.mTime | date('Y-m-d H:m:s') }}</a></td>
-                        <td></td>
-                    </tr>
-                {% endfor %}
-            {% endif %}
-            {% if files is defined %}
-                {% for f in files %}
-                    <tr>
-                        <td><span class="mb-4"><i class="fas fa-file fa-1x"></i></span></td>
-                        <td>{{ f.filename }}</td>
-                        <td>{{ f.cTime | date('Y-m-d H:m:s') }}</td>
-                        <td>{{ f.mTime | date('Y-m-d H:m:s') }}</td>
+                        <td><a href="{{ path('dirpath', {'dirpath': currentDir ~ "/" ~ d.name}) }}"><span class="mb-4"><i class="fas fa-folder fa-1x"></i></span></a></td>
+                        <td><a href="{{ path('dirpath', {'dirpath': currentDir ~ "/" ~ d.name}) }}">{{ d.name }}</a></td>
+                        <td><a href="{{ path('dirpath', {'dirpath': currentDir ~ "/" ~ d.name}) }}">-.-.</a></td>
+                        <td><a href="{{ path('dirpath', {'dirpath': currentDir ~ "/" ~ d.name}) }}">-.-.</a></td>
                         <td></td>
                     </tr>
                 {% endfor %}
 
+            {% else %}
+
+                {% if dirs is defined %}
+
+                    {% for d in dirs %}
+                        <tr>
+                            <td><a href="{{ path('dirpath', {'dirpath': currentDir ~ "/" ~ d.basename}) }}"><span class="mb-4"><i class="fas fa-folder fa-1x"></i></span></a></td>
+                            <td><a href="{{ path('dirpath', {'dirpath': currentDir ~ "/" ~ d.basename}) }}">{{ d.basename }}</a></td>
+                            <td><a href="{{ path('dirpath', {'dirpath': currentDir ~ "/" ~ d.basename}) }}">{{ d.cTime | date('Y-m-d H:m:s') }}</a></td>
+                            <td><a href="{{ path('dirpath', {'dirpath': currentDir ~ "/" ~ d.basename}) }}">{{ d.mTime | date('Y-m-d H:m:s') }}</a></td>
+                            <td></td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+                {% if files is defined %}
+                    {% for f in files %}
+                        <tr>
+                            <td><span class="mb-4"><i class="fas fa-file fa-1x"></i></span></td>
+                            <td>{{ f.filename }}</td>
+                            <td>{{ f.cTime | date('Y-m-d H:m:s') }}</td>
+                            <td>{{ f.mTime | date('Y-m-d H:m:s') }}</td>
+                            <td><a href="{{ path('file_download', {'filePath': f.pathname}) }}"><i class="fas fa-download"></i> {{ "app.finder.download" | trans }}</a></td>
+                        </tr>
+                    {% endfor %}
+
+                {% endif %}
             {% endif %}
 
             </tbody>

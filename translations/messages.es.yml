@@ -11,6 +11,7 @@ app.crud.show: Ver
 app.crud.save: Guardar
 app.crud.Taldeak: Grupos
 app.crud.Updated: Actualizado
+app.finder.download: Descargar
 app.homepage.message: 'Haz klik en una carpeta del menu de la izquiera para ver su contenido'
 app.karpeta.edit: 'Editar grupo'
 app.karpeta.new: 'Carpetas: nuevo'
