@@ -162,8 +162,15 @@ class DefaultController extends Controller
             if ( !$fs->exists( $realNewFolderPath ) ) {
                 $fs->mkdir( $realNewFolderPath );
 
-                return $this->redirectToRoute( 'dirpath', array( 'dirpath' => $currentPath,
-                ) );
+                return $this->redirectToRoute( 'dirpath', array(
+                    'dirpath' => $currentPath,
+                ));
+            } else {
+                $this->addFlash( 'danger', 'Existe' );
+                return $this->redirectToRoute( 'dirpath', array(
+                    'dirpath' => $currentPath,
+                    'error' => 'Karpeta existitzen da'
+                ));
             }
         }
 
