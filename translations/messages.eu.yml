@@ -1,17 +1,20 @@
 app.breadcrumb.home: Hasiera
 app.crud.actions: Ekintzak
+app.crud.close: 'Itxi'
 app.crud.Created: Sortua
 app.crud.delete: Ezabatu
 app.crud.edit: Aldatu
 app.crud.Enabled: Erakutsi
 app.crud.Karpetak: Karpetak
 app.crud.Name: Izena
+app.crud.newFolder: 'Karpeta berria'
 app.crud.Path: Path
 app.crud.show: Ikusi
 app.crud.save: Gorde
 app.crud.Taldeak: Taldeak
 app.crud.Updated: Eguneratua
 app.finder.download: Jetsi
+app.finder.new.folder: 'Karpeta berria'
 app.homepage.message: 'Egin klik ezkerreko menuko elementu batean karpeta horren fitxategiak ikusteko.'
 app.karpeta.edit: 'Karpeta aldatzen'
 app.karpeta.new: 'Karpetak: berria'

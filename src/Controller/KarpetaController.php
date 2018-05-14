@@ -46,6 +46,9 @@ class KarpetaController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $arr = explode( '/', $karpetum->getPath() );
+            $lastFolder = $result = end($arr);
+            $karpetum->setFoldername( $lastFolder );
             $em->persist($karpetum);
             $em->flush();
 
@@ -56,17 +59,6 @@ class KarpetaController extends Controller
             'karpetum' => $karpetum,
             'form' => $form->createView(),
         ]);
-    }
-
-    /**
-     * @Route("/{id}", name="karpeta_show", methods="GET")
-     * @param Karpeta $karpetum
-     *
-     * @return Response
-     */
-    public function show(Karpeta $karpetum): Response
-    {
-        return $this->render('karpeta/show.html.twig', ['karpetum' => $karpetum]);
     }
 
     /**
@@ -85,7 +77,13 @@ class KarpetaController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $arr = explode( '/', $karpetum->getPath() );
+            $lastFolder = $result = end($arr);
+            $karpetum->setFoldername( $lastFolder );
+            $em = $this->getDoctrine()->getManager();
+            $em->persist( $karpetum );
+            $em->flush();
+//            $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('karpeta_index');
         }

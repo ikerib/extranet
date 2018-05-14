@@ -24,7 +24,7 @@
 
     <body class="{% block body_tag %}{% endblock %}">
         <nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Extranet</a>
+            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{{ path('homepage') }}">Extranet</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -32,7 +32,7 @@
             <div class="collapse navbar-collapse" id="navbarsExample03">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">{{ "app.menu.home" | trans }} <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="{{ path('homepage') }}">{{ "app.menu.home" | trans }} <span class="sr-only">(current)</span></a>
                     </li>
 
                     {% if is_granted('ROLE_ADMIN') %}
@@ -76,7 +76,7 @@
                                 <ul class="nav flex-column">
                                     {% for f in folders %}
                                         <li class="nav-item">
-                                            <a class="nav-link active" href="{{ path('dirpath', {'dirpath': "/" ~ f.name}) }}">
+                                            <a class="nav-link active" href="{{ path('dirpath', {'dirpath': "/" ~ f.foldername}) }}">
                                                 <i class="fas fa-folder"></i><span class="sidebarItem">{{ f }}</span>
                                             </a>
                                         </li>

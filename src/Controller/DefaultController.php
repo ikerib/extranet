@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
@@ -76,14 +78,22 @@ class DefaultController extends Controller
     {
         $dirpath = $request->get( 'dirpath' );
         $orden   = $request->get( 'orden' );
+
+        /**
+         * Security check
+         */
+//        $em = $this->getDoctrine()->getManager();
+//        $securityCheck = $em->getRepository('App:Karpeta')->isThisFolderAllowed()
+
+
         $folders = $this->get( 'App\Controller\DefaultController' )->getSidebarFolders();
-        $dirs = null;
+        $dirs    = null;
         $basedir = rtrim( getenv( 'APP_FOLDER_PATH' ), '/' );
         $myPath  = rtrim( $basedir . $dirpath, '/' ) . '/';
 
 
         $folderFinder = new Finder();
-        if ( isset( $orden ) ) {
+        if ( isset( $orden ) || ( is_null( $orden ) ) ) {
             $dirs = $folderFinder->directories()->in( $myPath )->depth( '<1' )->sortByName();
         } else {
             if ( $orden == "name" ) {
@@ -96,7 +106,7 @@ class DefaultController extends Controller
         }
 
         $filesFinder = new Finder();
-        $files       = $filesFinder->files()->in( $myPath );
+        $files       = $filesFinder->files()->in( $myPath )->depth( '<1' )->sortByName();
 
         $breadcrumbs = explode( '/', ltrim( $dirpath, '/' ) );
         $ogiazalak   = [];
@@ -118,6 +128,48 @@ class DefaultController extends Controller
             'files'       => $files,
         ] );
 
+    }
+
+
+    /**
+     * @Route("/finder/newfolder", name="finder_newfolder")
+     * @Method("POST")
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function newfolder( Request $request )
+    {
+        $form = $this->createFormBuilder()
+                     ->setAction( $this->generateUrl( 'finder_newfolder' ) )
+                     ->setMethod( 'POST' )
+                     ->add( 'name', 'Symfony\Component\Form\Extension\Core\Type\TextType', array(
+                         'required' => true,
+                     ) )
+                     ->add( 'curdir', 'Symfony\Component\Form\Extension\Core\Type\HiddenType')
+                     ->getForm();
+
+        $form->handleRequest( $request );
+
+        if ( $form->isSubmitted() && $form->isValid() ) {
+            $data       = $form->getData();
+            $base       = rtrim(getenv('APP_FOLDER_PATH'), "/");
+            $currentPath= rtrim($data[ 'curdir' ],"/").'/';
+            $folderName = rtrim($data[ 'name' ],"/").'/';
+            $realNewFolderPath = $base . $currentPath . $folderName;
+
+            $fs         = new Filesystem();
+            if ( !$fs->exists( $realNewFolderPath ) ) {
+                $fs->mkdir( $realNewFolderPath );
+
+                return $this->redirectToRoute( 'dirpath', array( 'dirpath' => $currentPath,
+                ) );
+            }
+        }
+
+        return $this->render( 'default/newform.html.twig', array(
+            'form'   => $form->createView(),
+        ) );
     }
 
     /**

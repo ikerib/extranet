@@ -47,6 +47,18 @@ class KarpetaRepository extends ServiceEntityRepository
 
     }
 
+    public function isThisFolderAllowed($folderPath, $sarbide) {
+
+        return $this->createQueryBuilder( 'k' )
+                    ->innerJoin('k.taldeak', 't')
+                    ->andWhere( 't.name like :sarbide' )
+                    ->setParameter( 'sarbide', $sarbide )
+
+                    ->getQuery()
+                    ->getResult();
+
+    }
+
     /**
      * @return Karpeta[] Returns an array of Karpeta objects
      */

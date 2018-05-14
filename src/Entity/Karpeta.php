@@ -25,6 +25,11 @@ class Karpeta
     private $name;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $foldername;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $path;
@@ -161,6 +166,18 @@ class Karpeta
         if ($this->taldeak->contains($taldeak)) {
             $this->taldeak->removeElement($taldeak);
         }
+
+        return $this;
+    }
+
+    public function getFoldername(): ?string
+    {
+        return $this->foldername;
+    }
+
+    public function setFoldername(?string $foldername): self
+    {
+        $this->foldername = $foldername;
 
         return $this;
     }

@@ -20,6 +20,13 @@
         <div class="btn-toolbar mb-2 mb-md-0">
             <button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span data-feather="calendar"></span>
+                Akzioak
+            </button>
+            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                <a class="dropdown-item" href="javascript:void(0);" data-toggle="modal" data-target="#newFolderModal">{{ "app.finder.new.folder" | trans }}</a>
+            </div>
+            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span data-feather="calendar"></span>
                 Ordena
             </button>
             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
@@ -88,5 +95,32 @@
 
     </div>
 
+
+    <div class="row">
+        <div class="modal fade" id="newFolderModal" tabindex="-1" role="dialog" aria-labelledby="newFolderModal" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                {{ render(controller(
+                    'App\\Controller\\DefaultController::newfolder'
+                )) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script>
+        $( document ).ready(function() {
+            $('#form_curdir').val("{{ app.request.get('dirpath') }}")
+
+            $('#newFolderModal').on('shown.bs.modal', function () {
+                $('#form_name').trigger('focus')
+            })
+
+        });
+    </script>
 
 {% endblock %}
