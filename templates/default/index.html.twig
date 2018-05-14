@@ -18,22 +18,28 @@
             </ol>
         </nav>
         <div class="btn-toolbar mb-2 mb-md-0">
-            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span data-feather="calendar"></span>
-                Akzioak
-            </button>
-            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                <a class="dropdown-item" href="javascript:void(0);" data-toggle="modal" data-target="#newFolderModal">{{ "app.finder.new.folder" | trans }}</a>
+            <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+            <div class="btn-group" role="group">
+                <button id="btnGroupDrop2" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Akzioak
+                </button>
+                <div class="dropdown-menu" aria-labelledby="btnGroupDrop2">
+                    <a class="dropdown-item"  href="javascript:void(0);" data-toggle="modal" data-target="#newFolderModal">{{ "app.finder.new.folder" | trans }}</a>
+                    <a class="dropdown-item disabled deleteFolder"  href="javascript:void(0);" >{{ "app.finder.delete.folder" | trans }}</a>
+                </div>
             </div>
-            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span data-feather="calendar"></span>
-                Ordena
-            </button>
-            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                <a class="dropdown-item" href="{{ path('dirpath', {'dirpath':  app.request.get('dirpath'), 'orden': 'izena' }) }}">Izena</a>
-                <a class="dropdown-item" href="{{ path('dirpath', {'dirpath':  app.request.get('dirpath'), 'orden': 'created' }) }}">Sortua</a>
-                <a class="dropdown-item" href="{{ path('dirpath', {'dirpath':  app.request.get('dirpath'), 'orden': 'updated' }) }}">Aldatua</a>
+
+            <div class="btn-group" role="group">
+                <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Ordena
+                </button>
+                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                    <a class="dropdown-item" href="{{ path('dirpath', {'dirpath':  app.request.get('dirpath'), 'orden': 'izena' }) }}">Izena</a>
+                    <a class="dropdown-item" href="{{ path('dirpath', {'dirpath':  app.request.get('dirpath'), 'orden': 'created' }) }}">Sortua</a>
+                    <a class="dropdown-item" href="{{ path('dirpath', {'dirpath':  app.request.get('dirpath'), 'orden': 'updated' }) }}">Aldatua</a>
+                </div>
             </div>
+        </div>
         </div>
     </div>
 
@@ -41,6 +47,7 @@
         <table class="table table-active table-bordered table-striped table-hover">
             <thead>
             <tr>
+                <th></th>
                 <th style="width: 2%;"></th>
                 <th>{{ "Izena" }}</th>
                 <th>{{ "Sortua" }}</th>
@@ -54,6 +61,7 @@
 
                 {% for d in homeFolders %}
                     <tr>
+                        <td style="width: 2%;"><input class="selCheckbox" type="checkbox" name="seleccion" /></td>
                         <td style="width: 2%;"><a href="{{ path('dirpath', {'dirpath': currentDir ~ "/" ~ d.name}) }}"><span class="mb-4"><i class="fas fa-folder fa-1x"></i></span></a>
                         </td>
                         <td><a href="{{ path('dirpath', {'dirpath': currentDir ~ "/" ~ d.name}) }}">{{ d.name }}</a></td>
@@ -69,6 +77,7 @@
 
                     {% for d in dirs %}
                         <tr>
+                            <td style="width: 2%;"><input class="selCheckbox" type="checkbox" name="seleccion" /></td>
                             <td style="width: 2%;"><a href="{{ path('dirpath', {'dirpath': currentDir ~ "/" ~ d.basename}) }}"><span class="mb-4"><i
                                                 class="fas fa-folder fa-1x"></i></span></a></td>
                             <td><a href="{{ path('dirpath', {'dirpath': currentDir ~ "/" ~ d.basename}) }}">{{ d.basename }}</a></td>
@@ -81,6 +90,7 @@
                 {% if files is defined %}
                     {% for f in files %}
                         <tr>
+                            <td style="width: 2%;"><input class="selCheckbox" type="checkbox" name="seleccion" /></td>
                             <td style="width: 2%;"><span class="mb-4"><i class="fas fa-file fa-1x"></i></span></td>
                             <td>{{ f.filename }}</td>
                             <td>{{ f.cTime | date('Y-m-d H:m:s') }}</td>
@@ -126,6 +136,23 @@
             $("#nireAlert").fadeTo(2000, 500).slideUp(500, function(){
                 $("#success-alert").slideUp(500);
             });
+
+            var checkedList=0;
+
+            $(".selCheckbox").on("change", function(e){
+                // $('input[type=checkbox]').each(function(){
+                //     if (this.checked === true) {
+                //         checkedList=checkedList + 1;
+                //     }
+                // });
+                checkedList = $("input[name='seleccion']:checked").length;
+                if ( checkedList > 0 ) {
+                    $(".deleteFolder").removeClass("disabled");
+                } else {
+                    $(".deleteFolder").addClass("disabled");
+                }
+            });
+
 
 
         });
