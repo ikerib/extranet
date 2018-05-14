@@ -77,7 +77,7 @@ class DefaultController extends Controller
         $dirpath = $request->get( 'dirpath' );
         $orden   = $request->get( 'orden' );
         $folders = $this->get( 'App\Controller\DefaultController' )->getSidebarFolders();
-
+        $dirs = null;
         $basedir = rtrim( getenv( 'APP_FOLDER_PATH' ), '/' );
         $myPath  = rtrim( $basedir . $dirpath, '/' ) . '/';
 
