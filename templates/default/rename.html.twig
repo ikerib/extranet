@@ -8,7 +8,8 @@
             </button>
         </div>
         <div class="modal-body">
-            {{ form_row(form.name) }}
+            {{ form_row(form.newname) }}
+            {{ form_row(form.oldFilename) }}
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ "app.crud.close" | trans }}</button>

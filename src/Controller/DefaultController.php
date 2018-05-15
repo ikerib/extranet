@@ -146,36 +146,37 @@ class DefaultController extends Controller
                      ->add( 'name', 'Symfony\Component\Form\Extension\Core\Type\TextType', array(
                          'required' => true,
                      ) )
-                     ->add( 'curdir', 'Symfony\Component\Form\Extension\Core\Type\HiddenType')
+                     ->add( 'curdir', 'Symfony\Component\Form\Extension\Core\Type\HiddenType' )
                      ->getForm();
 
         $form->handleRequest( $request );
 
         if ( $form->isSubmitted() && $form->isValid() ) {
-            $data       = $form->getData();
-            $base       = rtrim(getenv('APP_FOLDER_PATH'), "/");
-            $currentPath= rtrim($data[ 'curdir' ],"/").'/';
-            $folderName = rtrim($data[ 'name' ],"/").'/';
+            $data              = $form->getData();
+            $base              = rtrim( getenv( 'APP_FOLDER_PATH' ), "/" );
+            $currentPath       = rtrim( $data[ 'curdir' ], "/" ) . '/';
+            $folderName        = rtrim( $data[ 'name' ], "/" ) . '/';
             $realNewFolderPath = $base . $currentPath . $folderName;
 
-            $fs         = new Filesystem();
+            $fs = new Filesystem();
             if ( !$fs->exists( $realNewFolderPath ) ) {
                 $fs->mkdir( $realNewFolderPath );
 
                 return $this->redirectToRoute( 'dirpath', array(
                     'dirpath' => $currentPath,
-                ));
+                ) );
             } else {
                 $this->addFlash( 'danger', 'Existe' );
+
                 return $this->redirectToRoute( 'dirpath', array(
                     'dirpath' => $currentPath,
-                    'error' => 'Karpeta existitzen da'
-                ));
+                    'error'   => 'Karpeta existitzen da',
+                ) );
             }
         }
 
         return $this->render( 'default/newform.html.twig', array(
-            'form'   => $form->createView(),
+            'form' => $form->createView(),
         ) );
     }
 
@@ -191,39 +192,46 @@ class DefaultController extends Controller
         $form = $this->createFormBuilder()
                      ->setAction( $this->generateUrl( 'finder_rename_file_folder' ) )
                      ->setMethod( 'POST' )
-                     ->add( 'name', 'Symfony\Component\Form\Extension\Core\Type\TextType', array(
+                     ->add( 'newname', 'Symfony\Component\Form\Extension\Core\Type\TextType', array(
                          'required' => true,
                      ) )
-                     ->add( 'curdir', 'Symfony\Component\Form\Extension\Core\Type\HiddenType')
+                     ->add( 'oldFilename', 'Symfony\Component\Form\Extension\Core\Type\HiddenType', array(
+                         'required' => true,
+                     ) )
+                     ->add( 'curdir', 'Symfony\Component\Form\Extension\Core\Type\HiddenType' )
+                     ->add( 'currentdir', 'Symfony\Component\Form\Extension\Core\Type\HiddenType' )
                      ->getForm();
 
         $form->handleRequest( $request );
 
         if ( $form->isSubmitted() && $form->isValid() ) {
-            $data       = $form->getData();
-            $base       = rtrim(getenv('APP_FOLDER_PATH'), "/");
-            $currentPath= rtrim($data[ 'curdir' ],"/").'/';
-            $folderName = rtrim($data[ 'name' ],"/").'/';
-            $realNewFolderPath = $base . $currentPath . $folderName;
+            $data              = $form->getData();
+            $base              = rtrim( getenv( 'APP_FOLDER_PATH' ), "/" );
+            $currentPath       = rtrim( $data[ 'curdir' ], "/" ) . '/';
+            $currentDir        = rtrim( $data[ 'currentdir' ], "/" ) . '/';
+            $folderName        = $data[ 'newname' ];
+            $oldFileName       = $data[ 'oldFilename' ];
+            $realNewFolderPath = $base . $currentPath . $currentDir . $folderName;
 
-            $fs         = new Filesystem();
-            if ( !$fs->exists( $realNewFolderPath ) ) {
-                $fs->mkdir( $realNewFolderPath );
+            $fs = new Filesystem();
+            if ( $fs->exists( $oldFileName ) ) {
+                $fs->rename( $oldFileName, $realNewFolderPath );
 
                 return $this->redirectToRoute( 'dirpath', array(
-                    'dirpath' => $currentPath,
-                ));
+                    'dirpath' => $currentDir. $currentPath,
+                ) );
             } else {
                 $this->addFlash( 'danger', 'Existe' );
+
                 return $this->redirectToRoute( 'dirpath', array(
                     'dirpath' => $currentPath,
-                    'error' => 'Karpeta existitzen da'
-                ));
+                    'error'   => 'Karpeta ez da existitzen.',
+                ) );
             }
         }
 
         return $this->render( 'default/rename.html.twig', array(
-            'form'   => $form->createView(),
+            'form' => $form->createView(),
         ) );
     }
 

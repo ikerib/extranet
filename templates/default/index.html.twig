@@ -19,28 +19,28 @@
         </nav>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-            <div class="btn-group" role="group">
-                <button id="btnGroupDrop2" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Akzioak
-                </button>
-                <div class="dropdown-menu" aria-labelledby="btnGroupDrop2">
-                    <a class="dropdown-item"  href="javascript:void(0);" data-toggle="modal" data-target="#newFolderModal">{{ "app.finder.new.folder" | trans }}</a>
-                    <a class="dropdown-item enableWhenSelected disabled deleteFolder"  href="javascript:void(0);" >{{ "app.finder.delete.folder" | trans }}</a>
-                    <a class="dropdown-item enableWhenSelected disabled"  href="javascript:void(0);" data-toggle="modal" data-target="#renameFolderModal">{{ "app.finder.rename" | trans }}</a>
+                <div class="btn-group" role="group">
+                    <button id="btnGroupDrop2" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Akzioak
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop2">
+                        <a class="dropdown-item" href="javascript:void(0);" data-toggle="modal" data-target="#newFolderModal">{{ "app.finder.new.folder" | trans }}</a>
+                        <a class="dropdown-item enableWhenSelected disabled deleteFolder" href="javascript:void(0);">{{ "app.finder.delete.folder" | trans }}</a>
+                        <a id="btnRename" class="dropdown-item enableWhenSelected disabled" href="javascript:void(0);">{{ "app.finder.rename" | trans }}</a>
+                    </div>
                 </div>
-            </div>
 
-            <div class="btn-group" role="group">
-                <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Ordena
-                </button>
-                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                    <a class="dropdown-item" href="{{ path('dirpath', {'dirpath':  app.request.get('dirpath'), 'orden': 'izena' }) }}">Izena</a>
-                    <a class="dropdown-item" href="{{ path('dirpath', {'dirpath':  app.request.get('dirpath'), 'orden': 'created' }) }}">Sortua</a>
-                    <a class="dropdown-item" href="{{ path('dirpath', {'dirpath':  app.request.get('dirpath'), 'orden': 'updated' }) }}">Aldatua</a>
+                <div class="btn-group" role="group">
+                    <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Ordena
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                        <a class="dropdown-item" href="{{ path('dirpath', {'dirpath':  app.request.get('dirpath'), 'orden': 'izena' }) }}">Izena</a>
+                        <a class="dropdown-item" href="{{ path('dirpath', {'dirpath':  app.request.get('dirpath'), 'orden': 'created' }) }}">Sortua</a>
+                        <a class="dropdown-item" href="{{ path('dirpath', {'dirpath':  app.request.get('dirpath'), 'orden': 'updated' }) }}">Aldatua</a>
+                    </div>
                 </div>
             </div>
-        </div>
         </div>
     </div>
 
@@ -78,7 +78,7 @@
 
                     {% for d in dirs %}
                         <tr>
-                            <td style="width: 2%;"><input class="selCheckbox" type="checkbox" name="seleccion" /></td>
+                            <td style="width: 2%;"><input class="selCheckbox" type="checkbox" name="seleccion" data-oldFileName="{{ d.pathname }}" /></td>
                             <td style="width: 2%;"><a href="{{ path('dirpath', {'dirpath': currentDir ~ "/" ~ d.basename}) }}"><span class="mb-4"><i
                                                 class="fas fa-folder fa-1x"></i></span></a></td>
                             <td><a href="{{ path('dirpath', {'dirpath': currentDir ~ "/" ~ d.basename}) }}">{{ d.basename }}</a></td>
@@ -91,7 +91,7 @@
                 {% if files is defined %}
                     {% for f in files %}
                         <tr>
-                            <td style="width: 2%;"><input class="selCheckbox" type="checkbox" name="seleccion" /></td>
+                            <td style="width: 2%;"><input class="selCheckbox" type="checkbox" name="seleccion" data-oldFileName="{{ f.pathname }}" /></td>
                             <td style="width: 2%;"><span class="mb-4"><i class="fas fa-file fa-1x"></i></span></td>
                             <td>{{ f.filename }}</td>
                             <td>{{ f.cTime | date('Y-m-d H:m:s') }}</td>
@@ -139,27 +139,36 @@
     <script>
         $(document).ready(function () {
             $("#form_curdir").val("{{ app.request.get('dirpath') }}");
+            $("#form_currentdir").val("{{ currentDir }}");
 
             $("#newFolderModal").on("shown.bs.modal", function () {
                 $("#form_name").trigger("focus");
             });
 
-            $("#nireAlert").fadeTo(2000, 500).slideUp(500, function(){
+            $("#nireAlert").fadeTo(2000, 500).slideUp(500, function () {
                 $("#success-alert").slideUp(500);
             });
 
-            var checkedList=0;
+            $("#btnRename").on("click", function () {
+                var sel = $("input[name='seleccion']:checked");
+                $("#form_oldFilename").val($(sel[0]).data("oldfilename"));
+
+
+                $("#renameFolderModal").modal();
+            });
+
+            var checkedList = 0;
 
             {% if app.request.get('_route') != 'homepage' %}
 
-                $(".selCheckbox").on("change", function(e){
-                    checkedList = $("input[name='seleccion']:checked").length;
-                    if ( checkedList === 1 ) {
-                        $(".enableWhenSelected").removeClass("disabled");
-                    } else {
-                        $(".enableWhenSelected").addClass("disabled");
-                    }
-                });
+            $(".selCheckbox").on("change", function ( e ) {
+                checkedList = $("input[name='seleccion']:checked").length;
+                if ( checkedList === 1 ) {
+                    $(".enableWhenSelected").removeClass("disabled");
+                } else {
+                    $(".enableWhenSelected").addClass("disabled");
+                }
+            });
 
             {% endif %}
 
