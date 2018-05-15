@@ -65,9 +65,9 @@
                         <td style="width: 2%;"><input class="selCheckbox" type="checkbox" name="seleccion" /></td>
                         <td style="width: 2%;"><a href="{{ path('dirpath', {'dirpath': currentDir ~ "/" ~ d.name}) }}"><span class="mb-4"><i class="fas fa-folder fa-1x"></i></span></a>
                         </td>
-                        <td><a href="{{ path('dirpath', {'dirpath': currentDir ~ "/" ~ d.name}) }}">{{ d.name }}</a></td>
-                        <td><a href="{{ path('dirpath', {'dirpath': currentDir ~ "/" ~ d.name}) }}">-.-.</a></td>
-                        <td><a href="{{ path('dirpath', {'dirpath': currentDir ~ "/" ~ d.name}) }}">-.-.</a></td>
+                        <td><a href="{{ path('dirpath', {'dirpath': (currentDir=="/" ? "" : currentDir) ~ "/" ~ d.name}) }}">{{ d.name }}</a></td>
+                        <td><a href="{{ path('dirpath', {'dirpath': (currentDir=="/" ? "" : currentDir) ~ "/" ~ d.name}) }}">-.-.</a></td>
+                        <td><a href="{{ path('dirpath', {'dirpath': (currentDir=="/" ? "" : currentDir) ~ "/" ~ d.name}) }}">-.-.</a></td>
                         <td style="width: 5%"></td>
                     </tr>
                 {% endfor %}
@@ -79,11 +79,11 @@
                     {% for d in dirs %}
                         <tr>
                             <td style="width: 2%;"><input class="selCheckbox" type="checkbox" name="seleccion" data-oldFileName="{{ d.pathname }}" /></td>
-                            <td style="width: 2%;"><a href="{{ path('dirpath', {'dirpath': currentDir ~ "/" ~ d.basename}) }}"><span class="mb-4"><i
+                            <td style="width: 2%;"><a href="{{ path('dirpath', {'dirpath': (currentDir=="/" ? "" : currentDir) ~ "/" ~ d.basename}) }}"><span class="mb-4"><i
                                                 class="fas fa-folder fa-1x"></i></span></a></td>
-                            <td><a href="{{ path('dirpath', {'dirpath': currentDir ~ "/" ~ d.basename}) }}">{{ d.basename }}</a></td>
-                            <td><a href="{{ path('dirpath', {'dirpath': currentDir ~ "/" ~ d.basename}) }}">{{ d.cTime | date('Y-m-d H:m:s') }}</a></td>
-                            <td><a href="{{ path('dirpath', {'dirpath': currentDir ~ "/" ~ d.basename}) }}">{{ d.mTime | date('Y-m-d H:m:s') }}</a></td>
+                            <td><a href="{{ path('dirpath', {'dirpath': (currentDir=="/" ? "" : currentDir) ~ "/" ~ d.basename}) }}">{{ d.basename }}</a></td>
+                            <td><a href="{{ path('dirpath', {'dirpath': (currentDir=="/" ? "" : currentDir) ~ "/" ~ d.basename}) }}">{{ d.cTime | date('Y-m-d H:m:s') }}</a></td>
+                            <td><a href="{{ path('dirpath', {'dirpath': (currentDir=="/" ? "" : currentDir) ~ "/" ~ d.basename}) }}">{{ d.mTime | date('Y-m-d H:m:s') }}</a></td>
                             <td style="width: 5%"></td>
                         </tr>
                     {% endfor %}

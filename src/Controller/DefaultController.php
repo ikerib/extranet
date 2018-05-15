@@ -84,6 +84,15 @@ class DefaultController extends Controller
         $orden   = $request->get( 'orden' );
 
         str_replace( "//", "/", $dirpath );
+
+        if ( $dirpath != "/") {
+            $firstPath = "/" . explode( "/",$dirpath )[1];
+        } else {
+            $firstPath = "/";
+        }
+
+
+
         /**
          * Security check
          */
@@ -92,7 +101,7 @@ class DefaultController extends Controller
         $baimendua = false;
         foreach ( $sarbideak as $sarbide ) {
             if ( $baimendua == false ) {
-                $securityCheck = $em->getRepository( 'App:Karpeta' )->isThisFolderAllowed( $dirpath, $sarbide );
+                $securityCheck = $em->getRepository( 'App:Karpeta' )->isThisFolderAllowed( $firstPath, $sarbide );
                 if ( count( $securityCheck ) > 0 ) {
                     $baimendua = true;
                 }
@@ -111,6 +120,7 @@ class DefaultController extends Controller
                 return $this->redirect($request->server->get('HTTP_REFERER'));
             }
         }
+
 
 
         $folders = $this->get( 'App\Controller\DefaultController' )->getSidebarFolders();
