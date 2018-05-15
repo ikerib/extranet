@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 
+use App\Util\helper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -13,6 +14,8 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Finder\Finder;
+
+
 
 class DefaultController extends Controller
 {
@@ -80,11 +83,34 @@ class DefaultController extends Controller
         $dirpath = $request->get( 'dirpath' );
         $orden   = $request->get( 'orden' );
 
+        str_replace( "//", "/", $dirpath );
         /**
          * Security check
          */
-//        $em = $this->getDoctrine()->getManager();
-//        $securityCheck = $em->getRepository('App:Karpeta')->isThisFolderAllowed()
+        $em        = $this->getDoctrine()->getManager();
+        $sarbideak = $this->get( 'session' )->get( 'sarbideak' );
+        $baimendua = false;
+        foreach ( $sarbideak as $sarbide ) {
+            if ( $baimendua == false ) {
+                $securityCheck = $em->getRepository( 'App:Karpeta' )->isThisFolderAllowed( $dirpath, $sarbide );
+                if ( count( $securityCheck ) > 0 ) {
+                    $baimendua = true;
+                }
+            }
+        }
+
+        if ( $baimendua == false ) {
+            $this->addFlash(
+                'danger',
+                'Ez duzu baimenik karpeta honetara sartzeko'
+            );
+
+            if (is_null($request->server->get('HTTP_REFERER'))) {
+                return $this->redirectToRoute( 'homepage' );
+            } else {
+                return $this->redirect($request->server->get('HTTP_REFERER'));
+            }
+        }
 
 
         $folders = $this->get( 'App\Controller\DefaultController' )->getSidebarFolders();
@@ -218,7 +244,7 @@ class DefaultController extends Controller
                 $fs->rename( $oldFileName, $realNewFolderPath );
 
                 return $this->redirectToRoute( 'dirpath', array(
-                    'dirpath' => $currentDir. $currentPath,
+                    'dirpath' => $currentDir . $currentPath,
                 ) );
             } else {
                 $this->addFlash( 'danger', 'Existe' );

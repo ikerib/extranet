@@ -7,16 +7,16 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method Karpeta|null find($id, $lockMode = null, $lockVersion = null)
- * @method Karpeta|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Karpeta|null find( $id, $lockMode = null, $lockVersion = null )
+ * @method Karpeta|null findOneBy( array $criteria, array $orderBy = null )
  * @method Karpeta[]    findAll()
- * @method Karpeta[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Karpeta[]    findBy( array $criteria, array $orderBy = null, $limit = null, $offset = null )
  */
 class KarpetaRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct( RegistryInterface $registry )
     {
-        parent::__construct($registry, Karpeta::class);
+        parent::__construct( $registry, Karpeta::class );
     }
 
 
@@ -26,7 +26,8 @@ class KarpetaRepository extends ServiceEntityRepository
      * @return mixed
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function isThisFolderOnMysql($folderName) {
+    public function isThisFolderOnMysql( $folderName )
+    {
 
         return $this->createQueryBuilder( 'k' )
                     ->andWhere( 'k.path = :path' )
@@ -36,26 +37,32 @@ class KarpetaRepository extends ServiceEntityRepository
     }
 
 
-    public function getSidebarFoldersForSarbide($sarbide) {
+    public function getSidebarFoldersForSarbide( $sarbide )
+    {
 
         return $this->createQueryBuilder( 'k' )
-            ->innerJoin('k.taldeak', 't')
-                         ->andWhere( 't.name like :sarbide' )
-                         ->setParameter( 'sarbide', $sarbide )
-                         ->getQuery()
-                         ->getResult();
+                    ->innerJoin( 'k.taldeak', 't' )
+                    ->andWhere( 't.name like :sarbide' )
+                    ->setParameter( 'sarbide', $sarbide )
+                    ->getQuery()
+                    ->getResult();
 
     }
 
-    public function isThisFolderAllowed($folderPath, $sarbide) {
+    public function isThisFolderAllowed( $folderPath, $sarbide )
+    {
 
-        return $this->createQueryBuilder( 'k' )
-                    ->innerJoin('k.taldeak', 't')
+        $sql = $this->createQueryBuilder( 'k' )
+                    ->innerJoin( 'k.taldeak', 't' )
                     ->andWhere( 't.name like :sarbide' )
                     ->setParameter( 'sarbide', $sarbide )
+                    ->andWhere( 'k.path like :foldername' )
+                    ->setParameter( 'foldername', '%'.$folderPath )
+                    ->getQuery();
 
-                    ->getQuery()
-                    ->getResult();
+
+
+        return $sql->getResult();
 
     }
 

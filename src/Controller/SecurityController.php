@@ -33,6 +33,9 @@ class SecurityController extends Controller
     private $groupTaldeaRegExp = '(^(ROL|Saila|Taldea))'; // ROL - Taldea - Saila -rekin hasten den begiratzen du
 
     /** @var string extracts group name from dn string */
+    private $groupSarbideExp = '(^(Sarbide))'; // ROL - Taldea - Saila -rekin hasten den begiratzen du
+
+    /** @var string extracts group name from dn string */
     private $TaldeIzenaRegExp = '/^CN=([^,]+)/i'; // ROL - Taldea - Saila -rekin hasten den begiratzen du
 
 
@@ -108,8 +111,11 @@ class SecurityController extends Controller
             array_push( $this->ldapInfo, $this->getGroupName( $talde ) );
         }
         sort( $this->ldapInfo );
+
+        $matches  = preg_grep ($this->groupSarbideExp, $this->ldapInfo);
         $this->get( 'session' )->set( 'ldapInfo', $this->ldapInfo );
         $this->get( 'session' )->set( 'deparment', $entry->getAttribute( 'department' ) );
+        $this->get( 'session' )->set( 'sarbideak', $matches );
 
 
         /**
@@ -197,6 +203,6 @@ class SecurityController extends Controller
     public function getAllLdapGroups( $filter )
     {
         $resp = $this->getLdapInfo( $filter );
-        dump( $resp );
+
     }
 }
