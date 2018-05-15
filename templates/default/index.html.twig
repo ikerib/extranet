@@ -25,7 +25,8 @@
                 </button>
                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop2">
                     <a class="dropdown-item"  href="javascript:void(0);" data-toggle="modal" data-target="#newFolderModal">{{ "app.finder.new.folder" | trans }}</a>
-                    <a class="dropdown-item disabled deleteFolder"  href="javascript:void(0);" >{{ "app.finder.delete.folder" | trans }}</a>
+                    <a class="dropdown-item enableWhenSelected disabled deleteFolder"  href="javascript:void(0);" >{{ "app.finder.delete.folder" | trans }}</a>
+                    <a class="dropdown-item enableWhenSelected disabled"  href="javascript:void(0);" data-toggle="modal" data-target="#renameFolderModal">{{ "app.finder.rename" | trans }}</a>
                 </div>
             </div>
 
@@ -119,6 +120,16 @@
         </div>
     </div>
 
+    <div class="row">
+        <div class="modal fade" id="renameFolderModal" tabindex="-1" role="dialog" aria-labelledby="newFolderModal" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                {{ render(controller(
+                    'App\\Controller\\DefaultController::renameFileFolder'
+                )) }}
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
 
 {% block javascripts %}
@@ -139,21 +150,18 @@
 
             var checkedList=0;
 
-            $(".selCheckbox").on("change", function(e){
-                // $('input[type=checkbox]').each(function(){
-                //     if (this.checked === true) {
-                //         checkedList=checkedList + 1;
-                //     }
-                // });
-                checkedList = $("input[name='seleccion']:checked").length;
-                if ( checkedList > 0 ) {
-                    $(".deleteFolder").removeClass("disabled");
-                } else {
-                    $(".deleteFolder").addClass("disabled");
-                }
-            });
+            {% if app.request.get('_route') != 'homepage' %}
 
+                $(".selCheckbox").on("change", function(e){
+                    checkedList = $("input[name='seleccion']:checked").length;
+                    if ( checkedList === 1 ) {
+                        $(".enableWhenSelected").removeClass("disabled");
+                    } else {
+                        $(".enableWhenSelected").addClass("disabled");
+                    }
+                });
 
+            {% endif %}
 
         });
     </script>

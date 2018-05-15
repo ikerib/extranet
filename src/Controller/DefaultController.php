@@ -16,6 +16,7 @@ use Symfony\Component\Finder\Finder;
 
 class DefaultController extends Controller
 {
+
     /**
      * @Route("/sidebarfolders", name="sidebarfolders")
      * @return array
@@ -130,7 +131,6 @@ class DefaultController extends Controller
 
     }
 
-
     /**
      * @Route("/finder/newfolder", name="finder_newfolder")
      * @Method("POST")
@@ -175,6 +175,54 @@ class DefaultController extends Controller
         }
 
         return $this->render( 'default/newform.html.twig', array(
+            'form'   => $form->createView(),
+        ) );
+    }
+
+    /**
+     * @Route("/finder/rename", name="finder_rename_file_folder")
+     * @Method("POST")
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function renameFileFolder( Request $request )
+    {
+        $form = $this->createFormBuilder()
+                     ->setAction( $this->generateUrl( 'finder_rename_file_folder' ) )
+                     ->setMethod( 'POST' )
+                     ->add( 'name', 'Symfony\Component\Form\Extension\Core\Type\TextType', array(
+                         'required' => true,
+                     ) )
+                     ->add( 'curdir', 'Symfony\Component\Form\Extension\Core\Type\HiddenType')
+                     ->getForm();
+
+        $form->handleRequest( $request );
+
+        if ( $form->isSubmitted() && $form->isValid() ) {
+            $data       = $form->getData();
+            $base       = rtrim(getenv('APP_FOLDER_PATH'), "/");
+            $currentPath= rtrim($data[ 'curdir' ],"/").'/';
+            $folderName = rtrim($data[ 'name' ],"/").'/';
+            $realNewFolderPath = $base . $currentPath . $folderName;
+
+            $fs         = new Filesystem();
+            if ( !$fs->exists( $realNewFolderPath ) ) {
+                $fs->mkdir( $realNewFolderPath );
+
+                return $this->redirectToRoute( 'dirpath', array(
+                    'dirpath' => $currentPath,
+                ));
+            } else {
+                $this->addFlash( 'danger', 'Existe' );
+                return $this->redirectToRoute( 'dirpath', array(
+                    'dirpath' => $currentPath,
+                    'error' => 'Karpeta existitzen da'
+                ));
+            }
+        }
+
+        return $this->render( 'default/rename.html.twig', array(
             'form'   => $form->createView(),
         ) );
     }
