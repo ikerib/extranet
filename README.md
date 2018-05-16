@@ -12,4 +12,6 @@ sudo setfacl -R -m u:"www-data":rwX -m u:`whoami`:rwX EXTRANET
 sudo setfacl -dR -m u:"www-data":rwX -m u:`whoami`:rwX EXTRANET
 ```
  
-                                                                                          
+Oharrak:
+
+public/export karpetak idazteko baimenak behar ditu                                                                                          

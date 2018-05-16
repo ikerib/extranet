@@ -13,8 +13,9 @@ app.crud.show: Ikusi
 app.crud.save: Gorde
 app.crud.Taldeak: Taldeak
 app.crud.Updated: Eguneratua
-app.finder.delete.folder: 'Ezabatu'
+app.finder.delete.folder: Ezabatu
 app.finder.download: Jetsi
+app.finder.export: 'Deskargatu'
 app.finder.new.folder: 'Karpeta berria'
 app.finder.rename: 'Izena aldatu'
 app.homepage.message: 'Egin klik ezkerreko menuko elementu batean karpeta horren fitxategiak ikusteko.'

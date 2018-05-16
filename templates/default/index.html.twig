@@ -24,9 +24,10 @@
                         Akzioak
                     </button>
                     <div class="dropdown-menu" aria-labelledby="btnGroupDrop2">
-                        <a class="dropdown-item" href="javascript:void(0);" data-toggle="modal" data-target="#newFolderModal">{{ "app.finder.new.folder" | trans }}</a>
+                        <a class="dropdown-item {% if app.request.get('_route') == 'homepage' %} disabled {% endif %}" href="javascript:void(0);" data-toggle="modal" data-target="#newFolderModal">{{ "app.finder.new.folder" | trans }}</a>
                         <a class="dropdown-item enableWhenSelected disabled deleteFolder" href="javascript:void(0);">{{ "app.finder.delete.folder" | trans }}</a>
                         <a id="btnRename" class="dropdown-item enableWhenSelected disabled" href="javascript:void(0);">{{ "app.finder.rename" | trans }}</a>
+                        <a id="btnExport" class="dropdown-item enableWhenSelected disabled" href="javascript:void(0);">{{ "app.finder.export" | trans }}</a>
                     </div>
                 </div>
 
@@ -78,7 +79,7 @@
 
                     {% for d in dirs %}
                         <tr>
-                            <td style="width: 2%;"><input class="selCheckbox" type="checkbox" name="seleccion" data-oldFileName="{{ d.pathname }}" /></td>
+                            <td style="width: 2%;"><input class="selCheckbox" type="checkbox" name="seleccion" data-oldFileName="{{ d.pathname }}" data-type="folder" /></td>
                             <td style="width: 2%;"><a href="{{ path('dirpath', {'dirpath': (currentDir=="/" ? "" : currentDir) ~ "/" ~ d.basename}) }}"><span class="mb-4"><i
                                                 class="fas fa-folder fa-1x"></i></span></a></td>
                             <td><a href="{{ path('dirpath', {'dirpath': (currentDir=="/" ? "" : currentDir) ~ "/" ~ d.basename}) }}">{{ d.basename }}</a></td>
@@ -91,7 +92,7 @@
                 {% if files is defined %}
                     {% for f in files %}
                         <tr>
-                            <td style="width: 2%;"><input class="selCheckbox" type="checkbox" name="seleccion" data-oldFileName="{{ f.pathname }}" /></td>
+                            <td style="width: 2%;"><input class="selCheckbox" type="checkbox" name="seleccion" data-oldFileName="{{ f.pathname }}"  data-type="file"/></td>
                             <td style="width: 2%;"><span class="mb-4"><i class="fas fa-file fa-1x"></i></span></td>
                             <td>{{ f.filename }}</td>
                             <td>{{ f.cTime | date('Y-m-d H:m:s') }}</td>
@@ -130,6 +131,12 @@
         </div>
     </div>
 
+    <div class="row">
+        <div style="display: none;">
+            {{ render(controller('App\\Controller\\DefaultController::export')) }}
+        </div>
+    </div>
+
 {% endblock %}
 
 {% block javascripts %}
@@ -138,10 +145,15 @@
 
     <script>
         $(document).ready(function () {
-            $("#form_curdir").val("{{ app.request.get('dirpath') }}");
             $("#form_currentdir").val("{{ currentDir }}");
+            $("#form_exportcurrentdir").val("{{ currentDir }}");
 
             $("#newFolderModal").on("shown.bs.modal", function () {
+                e.preventDefault();
+
+                if ($(this).hasClass('disabled')) {
+                    return;
+                }
                 $("#form_name").trigger("focus");
             });
 
@@ -150,6 +162,12 @@
             });
 
             $("#btnRename").on("click", function () {
+                e.preventDefault();
+
+                if ($(this).hasClass('disabled')) {
+                    return;
+                }
+
                 var sel = $("input[name='seleccion']:checked");
                 $("#form_oldFilename").val($(sel[0]).data("oldfilename"));
 
@@ -157,18 +175,46 @@
                 $("#renameFolderModal").modal();
             });
 
+            $("#btnExport").on("click", function (e) {
+                e.preventDefault();
+
+                if ($(this).hasClass('disabled')) {
+                    return;
+                }
+
+                var files ="";
+                $("input[name='seleccion']:checked").each(function () {
+                    var filePath = $(this).data("oldfilename");
+                    var type = $(this).data("type");
+
+                    if ( type === "folder") {
+                        filePath = filePath + "/";
+                    }
+                    if ( files === "") {
+                        files = filePath;
+                    } else {
+                        files = files + "||" + filePath;
+                    }
+                });
+
+                $("#form_files").val(files);
+
+                $("#form_export").submit();
+
+            });
+
             var checkedList = 0;
 
             {% if app.request.get('_route') != 'homepage' %}
 
-            $(".selCheckbox").on("change", function ( e ) {
-                checkedList = $("input[name='seleccion']:checked").length;
-                if ( checkedList === 1 ) {
-                    $(".enableWhenSelected").removeClass("disabled");
-                } else {
-                    $(".enableWhenSelected").addClass("disabled");
-                }
-            });
+                $(".selCheckbox").on("change", function ( e ) {
+                    checkedList = $("input[name='seleccion']:checked").length;
+                    if ( checkedList === 1 ) {
+                        $(".enableWhenSelected").removeClass("disabled");
+                    } else {
+                        $(".enableWhenSelected").addClass("disabled");
+                    }
+                });
 
             {% endif %}
 

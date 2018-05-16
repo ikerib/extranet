@@ -13,10 +13,11 @@ app.crud.show: Ver
 app.crud.save: Guardar
 app.crud.Taldeak: Grupos
 app.crud.Updated: Actualizado
-app.finder.delete.folder: 'Eliminar'
+app.finder.delete.folder: Eliminar
 app.finder.download: Descargar
+app.finder.export: 'Descargar'
 app.finder.new.folder: 'Nueva Carpeta'
-app.finder.rename: 'Renombrar'
+app.finder.rename: Renombrar
 app.homepage.message: 'Haz klik en una carpeta del menu de la izquiera para ver su contenido'
 app.karpeta.edit: 'Editar grupo'
 app.karpeta.new: 'Carpetas: nuevo'
