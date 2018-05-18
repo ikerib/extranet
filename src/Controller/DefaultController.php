@@ -155,6 +155,8 @@ class DefaultController extends Controller
 
         }
 
+        $this->get('session')->set('curdir', $dirpath);
+
         return $this->render( 'default/index.html.twig', [
             'currentDir'  => $dirpath,
             'breadcrumbs' => $ogiazalak,

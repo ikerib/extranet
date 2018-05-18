@@ -37,3 +37,9 @@ services:
                 options:
                     protocol_version: 3
                     referrals: false
+
+
+    App\Uploader\Naming\FinderNamer:
+        public: true
+        arguments: ['@session']
+

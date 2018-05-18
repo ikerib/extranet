@@ -2,6 +2,15 @@
 
 {% block title %}{% endblock %}
 
+{% block stylesheets %}
+
+    {{ parent() }}
+    <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
+    <style>
+
+    </style>
+{% endblock %}
+
 {% block body %}
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -136,13 +145,14 @@
             {{ render(controller('App\\Controller\\DefaultController::export')) }}
         </div>
     </div>
-
+    <form action="{{ oneup_uploader_endpoint('gallery') }}" class="dropzone" >
+    </form>
 {% endblock %}
 
 {% block javascripts %}
 
     {{ parent() }}
-
+    <script type="text/javascript" src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
     <script>
         $(document).ready(function () {
             $("#form_currentdir").val("{{ currentDir }}");
