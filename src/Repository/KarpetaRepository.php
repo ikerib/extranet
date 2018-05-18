@@ -47,7 +47,7 @@ class KarpetaRepository extends ServiceEntityRepository
                     ->setParameter( 'sarbide', $sarbide )
                     ->getQuery();
 
-        $sql->getSQL();
+
 
 
         return $sql->getResult();
@@ -65,8 +65,6 @@ class KarpetaRepository extends ServiceEntityRepository
                     ->andWhere( 'k.path like :foldername' )
                     ->setParameter( 'foldername', '%'.$folderPath )
                     ->getQuery();
-
-
 
         return $sql->getResult();
 

@@ -32,9 +32,6 @@ class KarpetaType extends AbstractType
 
 
         $builder
-            ->add('name', TextType::class, array(
-                'empty_data' => 'Idatzi izen bat ...'
-            ))
             ->add('path', ChoiceType::class, array(
                 'choices'   => $karpetak,
                 'multiple'  =>false,

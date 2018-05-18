@@ -18,9 +18,6 @@ class KarpetaEditType extends AbstractType
     {
 
         $builder
-            ->add('name', TextType::class, array(
-                'empty_data' => 'Idatzi izen bat ...'
-            ))
             ->add('enabled')
         ;
     }

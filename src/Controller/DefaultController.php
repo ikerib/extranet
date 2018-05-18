@@ -60,7 +60,7 @@ class DefaultController extends Controller
     {
         $folders = $this->get( 'App\Controller\DefaultController' )->getSidebarFolders();
 
-        return $this->render( 'default/index.html.twig', [
+        return $this->render( 'default/homepage.html.twig', [
             'breadcrumbs' => [],
             'currentDir'  => "/",
             'folders'     => $folders,
