@@ -30,13 +30,14 @@
             <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                 <div class="btn-group" role="group">
                     <button id="btnGroupDrop2" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Akzioak
+                        {{ "app.crud.actions" | trans }}
                     </button>
                     <div class="dropdown-menu" aria-labelledby="btnGroupDrop2">
                         <a class="dropdown-item {% if app.request.get('_route') == 'homepage' %} disabled {% endif %}" href="javascript:void(0);" data-toggle="modal" data-target="#newFolderModal">{{ "app.finder.new.folder" | trans }}</a>
                         <a class="dropdown-item enableWhenSelected disabled deleteFolder" href="javascript:void(0);">{{ "app.finder.delete.folder" | trans }}</a>
                         <a id="btnRename" class="dropdown-item enableWhenSelected disabled" href="javascript:void(0);">{{ "app.finder.rename" | trans }}</a>
                         <a id="btnExport" class="dropdown-item enableWhenSelected disabled" href="javascript:void(0);">{{ "app.finder.export" | trans }}</a>
+                        <a id="btnUpload" class="dropdown-item enableWhenSelected disabled" href="javascript:void(0);" data-toggle="modal" data-target="#uploadForm">{{ "app.finder.upload" | trans }}</a>
                     </div>
                 </div>
 
@@ -145,8 +146,33 @@
             {{ render(controller('App\\Controller\\DefaultController::export')) }}
         </div>
     </div>
-    <form action="{{ oneup_uploader_endpoint('gallery') }}" class="dropzone" >
-    </form>
+
+    <div class="row">
+        <div class="modal fade" id="uploadForm" tabindex="-1" role="dialog" aria-labelledby="uploadForm" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">{{ "app.crud.newFolder" | trans }}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{ oneup_uploader_endpoint('gallery') }}" class="dropzone" >
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ "app.crud.close" | trans }}</button>
+                            <button id="closeUploadModalButton" type="button" class="btn btn-sm btn-primary">{{ "app.crud.save" | trans }}</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
 
 {% block javascripts %}
@@ -155,6 +181,11 @@
     <script type="text/javascript" src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
     <script>
         $(document).ready(function () {
+            $("#closeUploadModalButton").on("click", function (e) {
+                e.preventDefault();
+                location.reload();
+            });
+
             $("#form_currentdir").val("{{ currentDir }}");
             $("#form_exportcurrentdir").val("{{ currentDir }}");
 
