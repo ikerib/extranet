@@ -1,5 +1,6 @@
 app.breadcrumb.home: Inicio
 app.crud.actions: Acciones
+app.crud.canWrite: 'Permisos escritura'
 app.crud.close: Cerrar
 app.crud.Created: Creado
 app.crud.delete: Eliminar
@@ -23,11 +24,13 @@ app.homepage.message: 'Haz klik en una carpeta del menu de la izquiera para ver 
 app.karpeta.edit: 'Editar grupo'
 app.karpeta.new: 'Carpetas: nuevo'
 app.karpeta.zerrenda: 'Carpetas: listado'
+app.menu.baimenak: Permisos
 app.menu.berria: Nuevo
 app.menu.home: Inicio
 app.menu.karpetak: Carpetas
 app.menu.taldeak: Grupos
 app.menu.zerrenda: Listado
+app.permission.new: 'Nuevo permiso'
 app.taldea.edit: 'Editar carpeta'
 app.taldea.new: 'Nuevo Grupo'
 app.taldea.zerrenda: 'Grupos: listado'

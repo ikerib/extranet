@@ -27,8 +27,13 @@
             <tr>
                 <td>{{ taldea.name }}</td>
                 <td>
-                    {% for k in taldea.karpetak %}
-                        <kbd>{{ k }}</kbd>
+                    {% for p in taldea.permissions %}
+                        {% if p.canWrite == true %}
+                            <span class="badge badge-success">{{ p.karpeta }}</span>
+                        {% else %}
+                            <span class="badge badge-danger">{{ p.karpeta }}</span>
+                        {% endif %}
+
                     {% endfor %}
                 </td>
                 <td>{{ taldea.enabled ? 'Yes' : 'No' }}</td>

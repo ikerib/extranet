@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ "app.permission.new" | trans }}{% endblock %}
+
+{% block sidebar %}{% endblock %}
+{% block main %}
+    <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
+{% endblock %}
+
+{% block body %}
+    <h1>{{ "app.permission.new" | trans }}</h1>
+
+    {{ include('permission/_form.html.twig') }}
+
+{% endblock %}

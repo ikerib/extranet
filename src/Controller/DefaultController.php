@@ -155,7 +155,7 @@ class DefaultController extends Controller
 
         }
 
-        $this->get('session')->set('curdir', $dirpath);
+        $this->get( 'session' )->set( 'curdir', $dirpath );
 
         return $this->render( 'default/index.html.twig', [
             'currentDir'  => $dirpath,
@@ -353,7 +353,7 @@ class DefaultController extends Controller
                         }
                     }
                 } else {
-                    if (is_file($f)) {
+                    if ( is_file( $f ) ) {
                         $zip->addFromString( basename( $f ), file_get_contents( $f ) );
                     }
                 }

@@ -56,16 +56,16 @@ class Karpeta
     /*****************************************************************************************************************/
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Taldea", mappedBy="karpetak", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Permission", mappedBy="karpeta")
      */
-    private $taldeak;
+    private $permissions;
 
     public function __construct()
     {
-        $this->taldeak = new ArrayCollection();
         $this->created = new \DateTime();
         $this->updated = new \DateTime();
         $this->enabled = 1;
+        $this->permissions = new ArrayCollection();
     }
 
     public function __toString()
@@ -144,32 +144,6 @@ class Karpeta
         return $this;
     }
 
-    /**
-     * @return Collection|Taldea[]
-     */
-    public function getTaldeak(): Collection
-    {
-        return $this->taldeak;
-    }
-
-    public function addTaldeak(Taldea $taldeak): self
-    {
-        if (!$this->taldeak->contains($taldeak)) {
-            $this->taldeak[] = $taldeak;
-        }
-
-        return $this;
-    }
-
-    public function removeTaldeak(Taldea $taldeak): self
-    {
-        if ($this->taldeak->contains($taldeak)) {
-            $this->taldeak->removeElement($taldeak);
-        }
-
-        return $this;
-    }
-
     public function getFoldername(): ?string
     {
         return $this->foldername;
@@ -178,6 +152,37 @@ class Karpeta
     public function setFoldername(?string $foldername): self
     {
         $this->foldername = $foldername;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Permission[]
+     */
+    public function getPermissions(): Collection
+    {
+        return $this->permissions;
+    }
+
+    public function addPermission(Permission $permission): self
+    {
+        if (!$this->permissions->contains($permission)) {
+            $this->permissions[] = $permission;
+            $permission->setKarpeta($this);
+        }
+
+        return $this;
+    }
+
+    public function removePermission(Permission $permission): self
+    {
+        if ($this->permissions->contains($permission)) {
+            $this->permissions->removeElement($permission);
+            // set the owning side to null (unless already changed)
+            if ($permission->getKarpeta() === $this) {
+                $permission->setKarpeta(null);
+            }
+        }
 
         return $this;
     }

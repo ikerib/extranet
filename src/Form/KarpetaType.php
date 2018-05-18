@@ -41,7 +41,6 @@ class KarpetaType extends AbstractType
                 'placeholder' => 'Aukeratu bat...',
             ))
             ->add('enabled')
-            ->add('taldeak')
         ;
     }
 

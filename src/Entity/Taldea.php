@@ -46,16 +46,16 @@ class Taldea
     /*****************************************************************************************************************/
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Karpeta", inversedBy="taldeak", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Permission", mappedBy="taldea")
      */
-    private $karpetak;
+    private $permissions;
 
     public function __construct()
     {
-        $this->karpetak = new ArrayCollection();
         $this->created = new \DateTime();
         $this->updated = new \DateTime();
         $this->enabled = 1;
+        $this->permissions = new ArrayCollection();
     }
 
     public function __toString()
@@ -121,28 +121,31 @@ class Taldea
     }
 
     /**
-     * @return Collection|Karpeta[]
+     * @return Collection|Permission[]
      */
-    public function getKarpetak(): Collection
+    public function getPermissions(): Collection
     {
-        return $this->karpetak;
+        return $this->permissions;
     }
 
-    public function addKarpetak(Karpeta $karpetak): self
+    public function addPermission(Permission $permission): self
     {
-        if (!$this->karpetak->contains($karpetak)) {
-            $this->karpetak[] = $karpetak;
-            $karpetak->addTaldeak($this);
+        if (!$this->permissions->contains($permission)) {
+            $this->permissions[] = $permission;
+            $permission->setTaldea($this);
         }
 
         return $this;
     }
 
-    public function removeKarpetak(Karpeta $karpetak): self
+    public function removePermission(Permission $permission): self
     {
-        if ($this->karpetak->contains($karpetak)) {
-            $this->karpetak->removeElement($karpetak);
-            $karpetak->removeTaldeak($this);
+        if ($this->permissions->contains($permission)) {
+            $this->permissions->removeElement($permission);
+            // set the owning side to null (unless already changed)
+            if ($permission->getTaldea() === $this) {
+                $permission->setTaldea(null);
+            }
         }
 
         return $this;

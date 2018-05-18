@@ -1,5 +1,6 @@
 app.breadcrumb.home: Hasiera
 app.crud.actions: Ekintzak
+app.crud.canWrite: 'Idazteko baimenak'
 app.crud.close: Itxi
 app.crud.Created: Sortua
 app.crud.delete: Ezabatu
@@ -23,11 +24,13 @@ app.homepage.message: 'Egin klik ezkerreko menuko elementu batean karpeta horren
 app.karpeta.edit: 'Karpeta aldatzen'
 app.karpeta.new: 'Karpetak: berria'
 app.karpeta.zerrenda: 'Karpetak: zerrenda'
+app.menu.baimenak: 'Baimenak'
 app.menu.berria: Berria
 app.menu.home: Hasiera
 app.menu.karpetak: Karpetak
 app.menu.taldeak: Taldeak
 app.menu.zerrenda: Zerrenda
+app.permission.new: 'Baimen berriak'
 app.taldea.edit: 'Taldea aldatzen'
 app.taldea.new: 'Talde berria'
 app.taldea.zerrenda: 'Taldeen zerrenda'

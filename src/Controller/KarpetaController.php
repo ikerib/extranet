@@ -83,7 +83,6 @@ class KarpetaController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist( $karpetum );
             $em->flush();
-//            $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('karpeta_index');
         }

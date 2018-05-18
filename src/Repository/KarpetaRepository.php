@@ -40,12 +40,17 @@ class KarpetaRepository extends ServiceEntityRepository
     public function getSidebarFoldersForSarbide( $sarbide )
     {
 
-        return $this->createQueryBuilder( 'k' )
-                    ->innerJoin( 'k.taldeak', 't' )
+        $sql = $this->createQueryBuilder( 'k' )
+                    ->leftJoin( 'k.permissions', 'p' )
+                    ->leftJoin( 'p.taldea', 't' )
                     ->andWhere( 't.name like :sarbide' )
                     ->setParameter( 'sarbide', $sarbide )
-                    ->getQuery()
-                    ->getResult();
+                    ->getQuery();
+
+        $sql->getSQL();
+
+
+        return $sql->getResult();
 
     }
 
@@ -53,7 +58,8 @@ class KarpetaRepository extends ServiceEntityRepository
     {
 
         $sql = $this->createQueryBuilder( 'k' )
-                    ->innerJoin( 'k.taldeak', 't' )
+                    ->innerJoin( 'k.permissions', 'p' )
+                    ->innerJoin( 'p.taldea', 't' )
                     ->andWhere( 't.name like :sarbide' )
                     ->setParameter( 'sarbide', $sarbide )
                     ->andWhere( 'k.path like :foldername' )
