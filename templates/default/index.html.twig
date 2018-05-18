@@ -103,7 +103,17 @@
                     {% for f in files %}
                         <tr>
                             <td style="width: 2%;"><input class="selCheckbox" type="checkbox" name="seleccion" data-oldFileName="{{ f.pathname }}"  data-type="file"/></td>
-                            <td style="width: 2%;"><span class="mb-4"><i class="fas fa-file fa-1x"></i></span></td>
+                            <td style="width: 2%;">
+                                <span class="mb-4">
+                                    {% set ext = f.filename|split('.')|last %}
+                                    {% if ext == "pdf" %}
+                                        <i class="fas fa-file-pdf fa-1x" style="color: #721c24"></i>
+                                    {% else %}
+                                        <i class="fas fa-file fa-1x"></i>
+                                    {% endif %}
+
+                                </span>
+                            </td>
                             <td>{{ f.filename }}</td>
                             <td>{{ f.cTime | date('Y-m-d H:m:s') }}</td>
                             <td>{{ f.mTime | date('Y-m-d H:m:s') }}</td>
