@@ -19,6 +19,23 @@ class PermissionRepository extends ServiceEntityRepository
         parent::__construct($registry, Permission::class);
     }
 
+
+    public function canUpload( $folderPath, $sarbide )
+    {
+
+        $sql = $this->createQueryBuilder( 'p' )
+                    ->innerJoin( 'p.karpeta', 'k' )
+                    ->innerJoin( 'p.taldea', 't' )
+                    ->andWhere( 't.name like :sarbide' )
+                    ->setParameter( 'sarbide', $sarbide )
+                    ->andWhere( 'k.path like :foldername' )
+                    ->setParameter( 'foldername', '%'.$folderPath )
+                    ->getQuery();
+
+        return $sql->getResult();
+
+    }
+
 //    /**
 //     * @return Permission[] Returns an array of Permission objects
 //     */

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 
+use App\Entity\Permission;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -98,11 +99,20 @@ class DefaultController extends Controller
         $em        = $this->getDoctrine()->getManager();
         $sarbideak = $this->get( 'session' )->get( 'sarbideak' );
         $baimendua = false;
+        $canupload = false;
         foreach ( $sarbideak as $sarbide ) {
             if ( $baimendua == false ) {
                 $securityCheck = $em->getRepository( 'App:Karpeta' )->isThisFolderAllowed( $firstPath, $sarbide );
                 if ( count( $securityCheck ) > 0 ) {
                     $baimendua = true;
+                    $permissions = $em->getRepository('App:Permission')->canUpload($firstPath, $sarbide );
+
+                    /** @var Permission $p */
+                    foreach ( $permissions as $p ) {
+                        if ( $p->getCanWrite() == true ) {
+                            $canupload = true;
+                        }
+                    }
                 }
             }
         }
@@ -157,12 +167,14 @@ class DefaultController extends Controller
 
         $this->get( 'session' )->set( 'curdir', $dirpath );
 
+
         return $this->render( 'default/index.html.twig', [
             'currentDir'  => $dirpath,
             'breadcrumbs' => $ogiazalak,
             'folders'     => $folders,
             'dirs'        => $dirs,
             'files'       => $files,
+            'canupload'   => $canupload,
         ] );
 
     }
