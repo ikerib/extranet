@@ -1,7 +1,16 @@
 
-#Symfony 4 + Bootstrap + Font Awesome
+#Extranet
 
-LDAP Auth
+
+### Requirements
+ - apache2
+ - php
+    - php7.2
+    - php7.2-ldap
+    - php7.2-zip
+ - mysql
+ - node
+ - yarn
 
 ##### Elastic Search
 ```
