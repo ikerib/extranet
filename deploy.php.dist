@@ -1,0 +1,20 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: iibarguren
+ * Date: 23/05/18
+ * Time: 7:37
+ */
+
+require 'vendor/deployer/deployer/recipe/symfony.php'; 
+
+// Define a server for deployment.
+// Let's name it "prod".
+server('prod', '127.0.0.1')
+    ->user('user') // Defind SSH username
+    ->password('password') // Define SSH user's password
+    ->stage('production') // Define stage name
+    ->env('deploy_path', '/home/user/project'); // Define the base path to deploy your project to.
+
+// Specify the repository from which to download your project's code.
+set('repository', 'git@github.com:org/app.git');
