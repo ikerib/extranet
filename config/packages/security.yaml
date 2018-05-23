@@ -4,9 +4,9 @@ security:
         my_ldap:
             ldap:
                 service: Symfony\Component\Ldap\Ldap
-                base_dn: '%env(resolve:LDAP_BASE_DN)%'
-                search_dn: '%env(resolve:LDAP_SEARCH_DN)%'
-                search_password: '%env(resolve:LDAP_PASSWD)%'
+                base_dn: "%env(resolve:LDAP_BASE_DN)%"
+                search_dn: "%env(resolve:LDAP_SEARCH_DN)%"
+                search_password: "%env(resolve:LDAP_PASSWD)%"
                 default_roles: ROLE_USER
                 uid_key: sAMAccountName
 
