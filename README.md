@@ -12,6 +12,9 @@
  - node
  - yarn
 
+ - a2enmod ldap
+ - a2enmod rewrite
+
 ##### Elastic Search
 ```
 sudo apt update
