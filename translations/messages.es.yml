@@ -27,6 +27,7 @@ app.karpeta.zerrenda: 'Carpetas: listado'
 app.menu.baimenak: Permisos
 app.menu.berria: Nuevo
 app.menu.home: Inicio
+app.menu.irten: 'Cerrar sesión'
 app.menu.karpetak: Carpetas
 app.menu.taldeak: Grupos
 app.menu.zerrenda: Listado

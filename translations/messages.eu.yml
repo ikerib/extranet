@@ -24,9 +24,10 @@ app.homepage.message: 'Egin klik ezkerreko menuko elementu batean karpeta horren
 app.karpeta.edit: 'Karpeta aldatzen'
 app.karpeta.new: 'Karpetak: berria'
 app.karpeta.zerrenda: 'Karpetak: zerrenda'
-app.menu.baimenak: 'Baimenak'
+app.menu.baimenak: Baimenak
 app.menu.berria: Berria
 app.menu.home: Hasiera
+app.menu.irten: 'Saioa itxi'
 app.menu.karpetak: Karpetak
 app.menu.taldeak: Taldeak
 app.menu.zerrenda: Zerrenda

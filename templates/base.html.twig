@@ -68,9 +68,22 @@
 
 
                 </ul>
-                <form class="form-inline my-2 my-md-0">
+                {#<form class="form-inline my-2 my-md-0">#}
                     {#<input class="form-control" type="text" placeholder="Search">#}
-                </form>
+                {#</form>#}
+
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ app.user.username }}
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="#">Jakinarazpenak</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ path('logout') }}">{{ "app.menu.irten" | trans }}</a>
+                    </div>
+                </div>
+
             </div>
         </nav>
 
