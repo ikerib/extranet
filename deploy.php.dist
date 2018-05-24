@@ -1,20 +1,70 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: iibarguren
- * Date: 23/05/18
- * Time: 7:37
- */
+namespace Deployer;
 
-require 'vendor/deployer/deployer/recipe/symfony.php'; 
+(new \Symfony\Component\Dotenv\Dotenv())->load('.env');
+array_map(function ($var) { set($var, getenv($var)); }, explode(',', $_SERVER['SYMFONY_DOTENV_VARS']));
 
-// Define a server for deployment.
-// Let's name it "prod".
-server('prod', '127.0.0.1')
-    ->user('user') // Defind SSH username
-    ->password('password') // Define SSH user's password
-    ->stage('production') // Define stage name
-    ->env('deploy_path', '/home/user/project'); // Define the base path to deploy your project to.
+require 'recipe/symfony4.php';
 
-// Specify the repository from which to download your project's code.
-set('repository', 'git@github.com:org/app.git');
+// Project name
+set('application', 'Extranet');
+
+// Project repository
+set('repository', 'git@github.com:ikerib/extranet.git');
+
+// [Optional] Allocate tty for git clone. Default value is false.
+set('git_tty', true);
+
+set('shared_dirs', ['var/log', 'var/sessions', 'EXTRANET']);
+
+set('writable_dirs', ['var', 'EXTRANET']);
+
+set('allow_anonymous_stats', false);
+
+set('env', [
+    'APP_FOLDER_PATH' => 'EXTRANET',
+]);
+
+// Hosts
+host('XXX.XXX.XXX')
+    ->user('REMOTE_HOST_USER (root)')
+    ->set('branch', 'master')
+    ->set('deploy_path', '/var/www/extranet');
+    
+// Tasks
+
+task('build', function () {
+    run('cd {{release_path}} && build');
+});
+
+// [Optional] if deploy fails automatically unlock.
+after('deploy:failed', 'deploy:unlock');
+
+// Migrate database before symlink new release.
+before('deploy:symlink', 'database:migrate');
+
+set('bin/yarn', function () {
+    return run('which yarn');
+});
+desc('Install Yarn packages');
+task('yarn:install', function () {
+    if (has('previous_release')) {
+        if (test('[ -d {{previous_release}}/node_modules ]')) {
+            run('cp -R {{previous_release}}/node_modules {{release_path}}');
+        }
+    }
+    run("cd {{release_path}} && {{bin/yarn}}");
+});
+
+desc('Build my assets');
+task('yarn:build', function () {
+    if (has('previous_release')) {
+        if (test('[ -d {{previous_release}}/node_modules ]')) {
+            run('cp -R {{previous_release}}/node_modules {{release_path}}');
+        }
+    }
+    run("cd {{release_path}} && {{bin/yarn}} build");
+});
+
+after( 'deploy:symlink', 'yarn:install' );
+after( 'yarn:install', 'yarn:build' );
