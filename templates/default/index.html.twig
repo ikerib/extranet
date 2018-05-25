@@ -13,14 +13,13 @@
 
 {% block body %}
 
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom div-breadcrumb">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
 
                 {% for key, value in breadcrumbs %}
                     {% if loop.index == 1 %}
                         <li class="breadcrumb-item"><a href="{{ path('homepage') }}">{{ "app.breadcrumb.home" | trans }}</a></li>
-                    {% elseif loop.index == 2 %}
                         <li class="breadcrumb-item"><a href="{{ path('dirpath', {'dirpath': "/" ~ value}) }}">{{ key }}</a></li>
                     {% else %}
                         <li class="breadcrumb-item"><a href="{{ path('dirpath', {'dirpath': "/" ~ value}) }}">{{ key }}</a></li>
@@ -61,6 +60,7 @@
             </div>
         </div>
     </div>
+
 
     <div class="row">
         <table class="table table-active table-bordered table-striped table-hover">

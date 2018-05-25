@@ -45,6 +45,8 @@ class KarpetaRepository extends ServiceEntityRepository
                     ->leftJoin( 'p.taldea', 't' )
                     ->andWhere( 't.name like :sarbide' )
                     ->setParameter( 'sarbide', $sarbide )
+                    ->orWhere('t.name like :denak')
+                    ->setParameter('denak','Denak')
                     ->getQuery();
 
 
@@ -62,6 +64,8 @@ class KarpetaRepository extends ServiceEntityRepository
                     ->innerJoin( 'p.taldea', 't' )
                     ->andWhere( 't.name like :sarbide' )
                     ->setParameter( 'sarbide', $sarbide )
+                    ->orWhere('t.name like :denak')
+                    ->setParameter('denak','Denak')
                     ->andWhere( 'k.path like :foldername' )
                     ->setParameter( 'foldername', '%'.$folderPath )
                     ->getQuery();

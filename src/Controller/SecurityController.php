@@ -33,7 +33,8 @@ class SecurityController extends Controller
     private $groupTaldeaRegExp = '(^(ROL|Saila|Taldea))'; // ROL - Taldea - Saila -rekin hasten den begiratzen du
 
     /** @var string extracts group name from dn string */
-    private $groupSarbideExp = '(^(Sarbide))'; // ROL - Taldea - Saila -rekin hasten den begiratzen du
+    private $groupSarbideExp = '/Sarbide/i'; // ROL - Taldea - Saila -rekin hasten den begiratzen du
+//    private $groupSarbideExp = '(^(Sarbide)i)'; // ROL - Taldea - Saila -rekin hasten den begiratzen du
 
     /** @var string extracts group name from dn string */
     private $TaldeIzenaRegExp = '/^CN=([^,]+)/i'; // ROL - Taldea - Saila -rekin hasten den begiratzen du
@@ -100,6 +101,8 @@ class SecurityController extends Controller
             $groupName = strtolower( $this->getGroupName( $groupLine ) ); // Extract and normalize the group name fron the line
             if ( array_key_exists( $groupName, $this->groupMapping ) ) { // Check if the group is in the mapping
                 $roles[] = $this->groupMapping[ $groupName ]; // Map the group to the role the user will have
+            } else {
+                $roles[] = 'ROLE_USER';
             }
             $this->ldap_recursive( $this->getGroupName( $groupLine ) );
         }

@@ -28,7 +28,8 @@ class DefaultController extends Controller
     public function getSidebarFolders()
     {
         $ldapInfo          = $this->get( 'session' )->get( 'ldapInfo' );
-        $groupTaldeaRegExp = '(^(Sarbide))';
+//        $groupTaldeaRegExp = '(^(Sarbide))';
+        $groupTaldeaRegExp = '/(Sarbide|Denak)/i';
 
         $em      = $this->getDoctrine()->getManager();
         $folders = [];
@@ -42,7 +43,9 @@ class DefaultController extends Controller
                 if ( count( $dirs ) > 0 ) {
 
                     foreach ( $dirs as $dir ) {
-                        array_push( $folders, $dir );
+                        if ( ! in_array($dir,$folders, true)) {
+                            array_push( $folders, $dir );
+                        }
                     }
 
                 }
