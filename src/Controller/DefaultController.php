@@ -4,6 +4,7 @@ namespace App\Controller;
 
 
 use App\Entity\Permission;
+use Monolog\Logger;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -208,6 +209,7 @@ class DefaultController extends Controller
             $currentPath       = rtrim( $data[ 'curdir' ], "/" ) . '/';
             $folderName        = rtrim( $data[ 'name' ], "/" ) . '/';
             $realNewFolderPath = $base . $currentPath . $folderName;
+
 
             $fs = new Filesystem();
             if ( !$fs->exists( $realNewFolderPath ) ) {
