@@ -29,7 +29,6 @@ class DefaultController extends Controller
     public function getSidebarFolders()
     {
         $ldapInfo          = $this->get( 'session' )->get( 'ldapInfo' );
-//        $groupTaldeaRegExp = '(^(Sarbide))';
         $groupTaldeaRegExp = '/(Sarbide|Denak)/i';
 
         $em      = $this->getDoctrine()->getManager();
@@ -44,7 +43,7 @@ class DefaultController extends Controller
                 if ( count( $dirs ) > 0 ) {
 
                     foreach ( $dirs as $dir ) {
-                        if ( ! in_array($dir,$folders, true)) {
+                        if ( !in_array( $dir, $folders, true ) ) {
                             array_push( $folders, $dir );
                         }
                     }
@@ -108,8 +107,8 @@ class DefaultController extends Controller
             if ( $baimendua == false ) {
                 $securityCheck = $em->getRepository( 'App:Karpeta' )->isThisFolderAllowed( $firstPath, $sarbide );
                 if ( count( $securityCheck ) > 0 ) {
-                    $baimendua = true;
-                    $permissions = $em->getRepository('App:Permission')->canUpload($firstPath, $sarbide );
+                    $baimendua   = true;
+                    $permissions = $em->getRepository( 'App:Permission' )->canUpload( $firstPath, $sarbide );
 
                     /** @var Permission $p */
                     foreach ( $permissions as $p ) {
@@ -164,7 +163,7 @@ class DefaultController extends Controller
             if ( $_key == 0 ) {
                 $_ogiazalak[ $_value ] = $_value;
             } else {
-                $_ogiazalak[ $_value ] = $_ogiazalak[$_breadcrumbs[ $_key - 1 ]] . "/" . $_value;
+                $_ogiazalak[ $_value ] = $_ogiazalak[ $_breadcrumbs[ $_key - 1 ] ] . "/" . $_value;
             }
 
         }
@@ -282,6 +281,51 @@ class DefaultController extends Controller
         }
 
         return $this->render( 'default/rename.html.twig', array(
+            'form' => $form->createView(),
+        ) );
+    }
+
+    /**
+     * @Route("/finder/delete", name="finder_delete")
+     * @Method("DELETE")
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function deleteFileFolder( Request $request )
+    {
+
+        $form = $this->createFormBuilder()
+                     ->setAction( $this->generateUrl( 'finder_delete' ) )
+                     ->setMethod( 'DELETE' )
+                     ->add( 'filefolders', 'Symfony\Component\Form\Extension\Core\Type\TextareaType', array(
+                         'required' => true,
+                     ) )
+                     ->add( 'currentdir2', 'Symfony\Component\Form\Extension\Core\Type\HiddenType' )
+                     ->getForm();
+
+        $form->handleRequest( $request );
+//
+        if ( $form->isSubmitted() && $form->isValid() ) {
+            $data        = $form->getData();
+            $base        = rtrim( getenv( 'APP_FOLDER_PATH' ), "/" );
+            $currentDir  = rtrim( $data[ 'currentdir2' ], "/" ) . '/';
+            $filefolders = json_decode( $data[ 'filefolders' ] );
+            $fs = new Filesystem();
+
+            foreach ($filefolders as $f) {
+                if ( $fs->exists($f)) {
+                    $fs->remove( $f );
+                }
+            }
+
+            return $this->redirectToRoute( 'dirpath', array(
+                'dirpath' => $currentDir
+            ) );
+
+        }
+
+        return $this->render( 'default/delete.html.twig', array(
             'form' => $form->createView(),
         ) );
     }

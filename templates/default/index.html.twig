@@ -40,7 +40,7 @@
                     </button>
                     <div class="dropdown-menu" aria-labelledby="btnGroupDrop2">
                         <a class="dropdown-item {% if app.request.get('_route') == 'homepage' %} disabled {% endif %}" href="javascript:void(0);" data-toggle="modal" data-target="#newFolderModal">{{ "app.finder.new.folder" | trans }}</a>
-                        <a class="dropdown-item enableWhenSelected disabled deleteFolder" href="javascript:void(0);">{{ "app.finder.delete.folder" | trans }}</a>
+                        <a id="btnDelete" class="dropdown-item enableWhenSelected disabled deleteFolder" href="javascript:void(0);">{{ "app.finder.delete.folder" | trans }}</a>
                         <a id="btnRename" class="dropdown-item enableWhenSelected disabled" href="javascript:void(0);">{{ "app.finder.rename" | trans }}</a>
                         <a id="btnExport" class="dropdown-item enableWhenSelected disabled" href="javascript:void(0);">{{ "app.finder.export" | trans }}</a>
 
@@ -127,7 +127,6 @@
 
     </div>
 
-
     <div class="row">
         <div class="modal fade" id="newFolderModal" tabindex="-1" role="dialog" aria-labelledby="newFolderModal" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -138,6 +137,7 @@
         </div>
     </div>
 
+    {#RENAME#}
     <div class="row">
         <div class="modal fade" id="renameFolderModal" tabindex="-1" role="dialog" aria-labelledby="newFolderModal" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -148,12 +148,18 @@
         </div>
     </div>
 
+    {#DELETE#}
+    <div class="row" style="display: none;">
+        {{ render(controller('App\\Controller\\DefaultController::deleteFileFolder')) }}
+    </div>
+
     <div class="row">
         <div style="display: none;">
             {{ render(controller('App\\Controller\\DefaultController::export')) }}
         </div>
     </div>
 
+    {#upload form#}
     <div class="row">
         <div class="modal fade" id="uploadForm" tabindex="-1" role="dialog" aria-labelledby="uploadForm" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -193,9 +199,11 @@
                 location.reload();
             });
 
+
             $("#form_currentdir").val("{{ currentDir }}");
             $("#form_exportcurrentdir").val("{{ currentDir }}");
             $('#form_curdir').val("{{ currentDir }}");
+            $('#form_currentdir2').val("{{ currentDir }}");
 
             $("#newFolderModal").on("shown.bs.modal", function () {
                 e.preventDefault();
@@ -210,7 +218,7 @@
                 $("#success-alert").slideUp(500);
             });
 
-            $("#btnRename").on("click", function () {
+            $("#btnRename").on("click", function (e) {
                 e.preventDefault();
 
                 if ($(this).hasClass('disabled')) {
@@ -218,6 +226,10 @@
                 }
 
                 var sel = $("input[name='seleccion']:checked");
+                if ( length(sel)>1) {
+                    alert("Fitxategi bat baino gehiago duzu aukeratuta");
+                    return;
+                }
                 $("#form_oldFilename").val($(sel[0]).data("oldfilename"));
 
 
@@ -252,13 +264,17 @@
 
             });
 
+
+
             var checkedList = 0;
 
             {% if app.request.get('_route') != 'homepage' %}
 
                 $(".selCheckbox").on("change", function ( e ) {
                     checkedList = $("input[name='seleccion']:checked").length;
-                    if ( checkedList === 1 ) {
+                    if (checkedList > 1) {
+                        $("#btnRename").addClass("disabled");
+                    } else if ( checkedList > 0 ) {
                         $(".enableWhenSelected").removeClass("disabled");
                     } else {
                         $(".enableWhenSelected").addClass("disabled");
