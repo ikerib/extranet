@@ -157,14 +157,14 @@ class DefaultController extends Controller
         $filesFinder = new Finder();
         $files       = $filesFinder->files()->in( $myPath )->depth( '<1' )->sortByName();
 
-        $breadcrumbs = explode( '/', ltrim( $dirpath, '/' ) );
-        $ogiazalak   = [];
+        $_breadcrumbs = explode( '/', ltrim( $dirpath, '/' ) );
+        $_ogiazalak   = [];
 
-        foreach ( $breadcrumbs as $key => $value ) {
-            if ( $key == 0 ) {
-                $ogiazalak[ $value ] = $value;
+        foreach ( $_breadcrumbs as $_key => $_value ) {
+            if ( $_key == 0 ) {
+                $_ogiazalak[ $_value ] = $_value;
             } else {
-                $ogiazalak[ $value ] = $breadcrumbs[ $key - 1 ] . "/" . $value;
+                $_ogiazalak[ $_value ] = $_ogiazalak[$_breadcrumbs[ $_key - 1 ]] . "/" . $_value;
             }
 
         }
@@ -174,7 +174,7 @@ class DefaultController extends Controller
 
         return $this->render( 'default/index.html.twig', [
             'currentDir'  => $dirpath,
-            'breadcrumbs' => $ogiazalak,
+            'breadcrumbs' => $_ogiazalak,
             'folders'     => $folders,
             'dirs'        => $dirs,
             'files'       => $files,
