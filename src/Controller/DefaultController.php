@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 
+use App\Entity\Log;
 use App\Entity\Permission;
 use Monolog\Logger;
 use RecursiveDirectoryIterator;
@@ -21,6 +22,16 @@ use Symfony\Component\Finder\Finder;
 
 class DefaultController extends Controller
 {
+
+    private function  Nirelog($action, $desc ) {
+        $em = $this->getDoctrine()->getManager();
+        $log = new Log();
+        $log->setUser( $this->getUser()->getUsername() );
+        $log->setAction( $action );
+        $log->setDescription( $desc);
+        $em->persist( $log );
+        $em->flush();
+    }
 
     /**
      * @Route("/sidebarfolders", name="sidebarfolders")
@@ -96,6 +107,9 @@ class DefaultController extends Controller
         }
 
 
+        $this->Nirelog( 'dir', $dirpath );
+
+
         /**
          * Security check
          */
@@ -121,6 +135,7 @@ class DefaultController extends Controller
         }
 
         if ( $baimendua == false ) {
+            $this->Nirelog( 'Baimenik ez', $dirpath );
             $this->addFlash(
                 'danger',
                 'Ez duzu baimenik karpeta honetara sartzeko'
@@ -214,10 +229,15 @@ class DefaultController extends Controller
             if ( !$fs->exists( $realNewFolderPath ) ) {
                 $fs->mkdir( $realNewFolderPath );
 
+                $this->Nirelog( 'Karpeta berria', $realNewFolderPath );
+
                 return $this->redirectToRoute( 'dirpath', array(
                     'dirpath' => $currentPath,
                 ) );
             } else {
+
+                $this->Nirelog( 'Error', "Karpeta existitzen da: " . $realNewFolderPath  );
+
                 $this->addFlash( 'danger', 'Existe' );
 
                 return $this->redirectToRoute( 'dirpath', array(
@@ -265,6 +285,9 @@ class DefaultController extends Controller
 
             $fs = new Filesystem();
             if ( $fs->exists( $oldFileName ) ) {
+
+                $this->Nirelog( 'Izena aldatu', "Izen zaharra: " . $oldFileName . " // Izen berria: " . $realNewFolderPath );
+
                 $fs->rename( $oldFileName, $realNewFolderPath );
 
                 return $this->redirectToRoute( 'dirpath', array(
@@ -272,6 +295,8 @@ class DefaultController extends Controller
                 ) );
             } else {
                 $this->addFlash( 'danger', 'Existe' );
+
+                $this->Nirelog( 'Error', "Karpeta ez da existitzen: " . $oldFileName);
 
                 return $this->redirectToRoute( 'dirpath', array(
                     'dirpath' => $currentDir,
@@ -315,6 +340,7 @@ class DefaultController extends Controller
 
             foreach ($filefolders as $f) {
                 if ( $fs->exists($f)) {
+                    $this->Nirelog( 'Ezabatu', "Ezabatu da: " . $f);
                     $fs->remove( $f );
                 }
             }
@@ -346,6 +372,9 @@ class DefaultController extends Controller
         /** @var Filesystem $fs */
         $fs = new Filesystem();
         if ( $fs->exists( $filePath ) ) {
+
+            $this->Nirelog( 'Download', $filePath);
+
             $response = new BinaryFileResponse( $filePath );
             $response->setContentDisposition( ResponseHeaderBag::DISPOSITION_ATTACHMENT );
 
@@ -396,9 +425,6 @@ class DefaultController extends Controller
                     $files = new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $f ), RecursiveIteratorIterator::SELF_FIRST );
 
                     foreach ( $files as $file ) {
-                        // Ignore "." and ".." folders
-//                        if( in_array(substr($file, strrpos($file, '/')+1), array('.', '..')) )
-//                            continue;
 
                         $file = realpath( $file );
 
@@ -419,6 +445,8 @@ class DefaultController extends Controller
                     }
                 }
 
+                $this->Nirelog( 'Zip', "Konprimitzera gehitu da " . $f);
+
             }
             $zip->close();
 
@@ -426,6 +454,8 @@ class DefaultController extends Controller
             $response->headers->set( 'Content-Type', 'application/zip' );
             $response->headers->set( 'Content-Disposition', 'attachment;filename="' . $zipName . '"' );
             $response->headers->set( 'Content-length', filesize( $zipName ) );
+
+            $this->Nirelog( 'Zip', "Fitxategia sortu eta deskargatu da: " . $zipName);
 
             return $response;
         }

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Log;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Ldap\Adapter\ExtLdap\Adapter;
 use Symfony\Component\Routing\Annotation\Route;
@@ -131,6 +132,15 @@ class SecurityController extends Controller
             $roles
         );
         $this->get( 'security.token_storage' )->setToken( $token );
+
+
+        $em = $this->getDoctrine()->getManager();
+        $log = new Log( );
+        $log->setUser( $this->getUser()->getUsername() );
+        $log->setAction( 'Login' );
+        $log->setDescription( 'Saioa hasi du.' );
+        $em->persist( $log );
+        $em->flush();
 
         return $this->redirectToRoute( 'homepage' );
 
