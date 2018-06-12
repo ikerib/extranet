@@ -26,7 +26,7 @@ class PermissionRepository extends ServiceEntityRepository
         $sql = $this->createQueryBuilder( 'p' )
                     ->innerJoin( 'p.karpeta', 'k' )
                     ->innerJoin( 'p.taldea', 't' )
-                    ->andWhere( 't.name like :sarbide' )
+                    ->andWhere( 't.name = :sarbide' )
                     ->setParameter( 'sarbide', $sarbide )
                     ->andWhere( 'k.path like :foldername' )
                     ->setParameter( 'foldername', '%'.$folderPath )
@@ -36,32 +36,5 @@ class PermissionRepository extends ServiceEntityRepository
 
     }
 
-//    /**
-//     * @return Permission[] Returns an array of Permission objects
-//     */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Permission
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

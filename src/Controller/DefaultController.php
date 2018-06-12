@@ -118,7 +118,7 @@ class DefaultController extends Controller
         $baimendua = false;
         $canupload = false;
         foreach ( $sarbideak as $sarbide ) {
-            if ( $baimendua == false ) {
+            //if ( $baimendua == false ) {
                 $securityCheck = $em->getRepository( 'App:Karpeta' )->isThisFolderAllowed( $firstPath, $sarbide );
                 if ( count( $securityCheck ) > 0 ) {
                     $baimendua   = true;
@@ -131,7 +131,7 @@ class DefaultController extends Controller
                         }
                     }
                 }
-            }
+            //}
         }
 
         if ( $baimendua == false ) {
@@ -330,7 +330,7 @@ class DefaultController extends Controller
                      ->getForm();
 
         $form->handleRequest( $request );
-//
+
         if ( $form->isSubmitted() && $form->isValid() ) {
             $data        = $form->getData();
             $base        = rtrim( getenv( 'APP_FOLDER_PATH' ), "/" );
