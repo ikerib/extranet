@@ -5,7 +5,8 @@ namespace App\Controller;
 
 use App\Entity\Log;
 use App\Entity\Permission;
-use Monolog\Logger;
+use Ouzo\Utilities\Arrays;
+use Ouzo\Utilities\Comparator;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -18,6 +19,7 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Finder\Finder;
+use Ouzo;
 
 
 class DefaultController extends Controller
@@ -65,7 +67,10 @@ class DefaultController extends Controller
 
         }
 
-        return $folders;
+        // Alfabetikoki ordenatu
+        $result = Arrays::sort($folders, Comparator::compareBy('foldername'));
+
+        return $result;
     }
 
     /**

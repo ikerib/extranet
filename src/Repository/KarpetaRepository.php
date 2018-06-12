@@ -47,6 +47,7 @@ class KarpetaRepository extends ServiceEntityRepository
                     ->setParameter( 'sarbide', $sarbide )
                     ->orWhere('t.name like :denak')
                     ->setParameter('denak','Denak')
+                    ->orderBy('k.foldername')
                     ->getQuery();
 
 
