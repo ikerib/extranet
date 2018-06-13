@@ -35,6 +35,12 @@ class DefaultController extends Controller
         $em->flush();
     }
 
+    private function isArrayInArray($lookingFor, $mainArray){
+        foreach ($mainArray as $m) {
+            return  $m == $lookingFor ? true : false;
+        }
+    }
+
     /**
      * @Route("/sidebarfolders", name="sidebarfolders")
      * @return array
@@ -56,15 +62,12 @@ class DefaultController extends Controller
                 if ( count( $dirs ) > 0 ) {
 
                     foreach ( $dirs as $dir ) {
-                        if ( !in_array( $dir, $folders, true ) ) {
+                        if ( ! $this->isArrayInArray($dir, $folders)) {
                             array_push( $folders, $dir );
                         }
                     }
-
                 }
-
             }
-
         }
 
         // Alfabetikoki ordenatu
@@ -72,6 +75,7 @@ class DefaultController extends Controller
 
         return $result;
     }
+
 
     /**
      * @Route("/", name="homepage")

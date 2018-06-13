@@ -98,7 +98,7 @@
                                     {% for f in folders %}
                                         <li class="nav-item">
                                             <a class="nav-link active" href="{{ path('dirpath', {'dirpath': "/" ~ f.foldername}) }}">
-                                                <i class="fas fa-folder"></i><span class="sidebarItem">{{ f }}</span>
+                                                <i class="fas fa-folder"></i><span class="sidebarItem">{{ f.foldername }}</span>
                                             </a>
                                         </li>
                                     {% endfor %}

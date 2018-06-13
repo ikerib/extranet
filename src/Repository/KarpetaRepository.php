@@ -53,7 +53,7 @@ class KarpetaRepository extends ServiceEntityRepository
 
 
 
-        return $sql->getResult();
+        return $sql->getResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
 
     }
 
