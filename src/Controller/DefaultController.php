@@ -25,20 +25,27 @@ use Ouzo;
 class DefaultController extends Controller
 {
 
-    private function  Nirelog($action, $desc ) {
-        $em = $this->getDoctrine()->getManager();
+    private function Nirelog( $action, $desc )
+    {
+        $em  = $this->getDoctrine()->getManager();
         $log = new Log();
         $log->setUser( $this->getUser()->getUsername() );
         $log->setAction( $action );
-        $log->setDescription( $desc);
+        $log->setDescription( $desc );
         $em->persist( $log );
         $em->flush();
     }
 
-    private function isArrayInArray($lookingFor, $mainArray){
-        foreach ($mainArray as $m) {
-            return  $m == $lookingFor ? true : false;
+    private function isArrayInArray( $lookingFor, $mainArray )
+    {
+        $badago = false;
+        foreach ( $mainArray as $m ) {
+            if ($m == $lookingFor) {
+                $badago = true;
+            }
         }
+
+        return $badago;
     }
 
     /**
@@ -62,7 +69,7 @@ class DefaultController extends Controller
                 if ( count( $dirs ) > 0 ) {
 
                     foreach ( $dirs as $dir ) {
-                        if ( ! $this->isArrayInArray($dir, $folders)) {
+                        if ( !$this->isArrayInArray( $dir, $folders ) ) {
                             array_push( $folders, $dir );
                         }
                     }
@@ -71,11 +78,10 @@ class DefaultController extends Controller
         }
 
         // Alfabetikoki ordenatu
-        $result = Arrays::sort($folders, Comparator::compareBy('foldername'));
+        $result = Arrays::sort( $folders, Comparator::compareBy( 'foldername' ) );
 
         return $result;
     }
-
 
     /**
      * @Route("/", name="homepage")
@@ -128,18 +134,18 @@ class DefaultController extends Controller
         $canupload = false;
         foreach ( $sarbideak as $sarbide ) {
             //if ( $baimendua == false ) {
-                $securityCheck = $em->getRepository( 'App:Karpeta' )->isThisFolderAllowed( $firstPath, $sarbide );
-                if ( count( $securityCheck ) > 0 ) {
-                    $baimendua   = true;
-                    $permissions = $em->getRepository( 'App:Permission' )->canUpload( $firstPath, $sarbide );
+            $securityCheck = $em->getRepository( 'App:Karpeta' )->isThisFolderAllowed( $firstPath, $sarbide );
+            if ( count( $securityCheck ) > 0 ) {
+                $baimendua   = true;
+                $permissions = $em->getRepository( 'App:Permission' )->canUpload( $firstPath, $sarbide );
 
-                    /** @var Permission $p */
-                    foreach ( $permissions as $p ) {
-                        if ( $p->getCanWrite() == true ) {
-                            $canupload = true;
-                        }
+                /** @var Permission $p */
+                foreach ( $permissions as $p ) {
+                    if ( $p->getCanWrite() == true ) {
+                        $canupload = true;
                     }
                 }
+            }
             //}
         }
 
@@ -245,7 +251,7 @@ class DefaultController extends Controller
                 ) );
             } else {
 
-                $this->Nirelog( 'Error', "Karpeta existitzen da: " . $realNewFolderPath  );
+                $this->Nirelog( 'Error', "Karpeta existitzen da: " . $realNewFolderPath );
 
                 $this->addFlash( 'danger', 'Existe' );
 
@@ -305,7 +311,7 @@ class DefaultController extends Controller
             } else {
                 $this->addFlash( 'danger', 'Existe' );
 
-                $this->Nirelog( 'Error', "Karpeta ez da existitzen: " . $oldFileName);
+                $this->Nirelog( 'Error', "Karpeta ez da existitzen: " . $oldFileName );
 
                 return $this->redirectToRoute( 'dirpath', array(
                     'dirpath' => $currentDir,
@@ -345,17 +351,17 @@ class DefaultController extends Controller
             $base        = rtrim( getenv( 'APP_FOLDER_PATH' ), "/" );
             $currentDir  = rtrim( $data[ 'currentdir2' ], "/" ) . '/';
             $filefolders = json_decode( $data[ 'filefolders' ] );
-            $fs = new Filesystem();
+            $fs          = new Filesystem();
 
-            foreach ($filefolders as $f) {
-                if ( $fs->exists($f)) {
-                    $this->Nirelog( 'Ezabatu', "Ezabatu da: " . $f);
+            foreach ( $filefolders as $f ) {
+                if ( $fs->exists( $f ) ) {
+                    $this->Nirelog( 'Ezabatu', "Ezabatu da: " . $f );
                     $fs->remove( $f );
                 }
             }
 
             return $this->redirectToRoute( 'dirpath', array(
-                'dirpath' => $currentDir
+                'dirpath' => $currentDir,
             ) );
 
         }
@@ -382,7 +388,7 @@ class DefaultController extends Controller
         $fs = new Filesystem();
         if ( $fs->exists( $filePath ) ) {
 
-            $this->Nirelog( 'Download', $filePath);
+            $this->Nirelog( 'Download', $filePath );
 
             $response = new BinaryFileResponse( $filePath );
             $response->setContentDisposition( ResponseHeaderBag::DISPOSITION_ATTACHMENT );
@@ -454,7 +460,7 @@ class DefaultController extends Controller
                     }
                 }
 
-                $this->Nirelog( 'Zip', "Konprimitzera gehitu da " . $f);
+                $this->Nirelog( 'Zip', "Konprimitzera gehitu da " . $f );
 
             }
             $zip->close();
@@ -464,7 +470,7 @@ class DefaultController extends Controller
             $response->headers->set( 'Content-Disposition', 'attachment;filename="' . $zipName . '"' );
             $response->headers->set( 'Content-length', filesize( $zipName ) );
 
-            $this->Nirelog( 'Zip', "Fitxategia sortu eta deskargatu da: " . $zipName);
+            $this->Nirelog( 'Zip', "Fitxategia sortu eta deskargatu da: " . $zipName );
 
             return $response;
         }
