@@ -39,9 +39,11 @@
                         {{ "app.crud.actions" | trans }}
                     </button>
                     <div class="dropdown-menu" aria-labelledby="btnGroupDrop2">
-                        <a class="dropdown-item {% if app.request.get('_route') == 'homepage' %} disabled {% endif %}" href="javascript:void(0);" data-toggle="modal" data-target="#newFolderModal">{{ "app.finder.new.folder" | trans }}</a>
-                        <a id="btnDelete" class="dropdown-item enableWhenSelected disabled deleteFolder" href="javascript:void(0);">{{ "app.finder.delete.folder" | trans }}</a>
-                        <a id="btnRename" class="dropdown-item enableWhenSelected disabled" href="javascript:void(0);">{{ "app.finder.rename" | trans }}</a>
+                        {% if canupload == true %}
+                            <a class="dropdown-item {% if app.request.get('_route') == 'homepage' %} disabled {% endif %}" href="javascript:void(0);" data-toggle="modal" data-target="#newFolderModal">{{ "app.finder.new.folder" | trans }}</a>
+                            <a id="btnDelete" class="dropdown-item enableWhenSelected disabled deleteFolder" href="javascript:void(0);">{{ "app.finder.delete.folder" | trans }}</a>
+                            <a id="btnRename" class="dropdown-item enableWhenSelected disabled" href="javascript:void(0);">{{ "app.finder.rename" | trans }}</a>
+                        {% endif %}
                         <a id="btnExport" class="dropdown-item enableWhenSelected disabled" href="javascript:void(0);">{{ "app.finder.export" | trans }}</a>
 
                     </div>
