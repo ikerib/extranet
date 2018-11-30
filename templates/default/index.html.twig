@@ -68,7 +68,7 @@
         <table class="table table-active table-bordered table-striped table-hover">
             <thead>
             <tr>
-                <th></th>
+                <th style="width: 2%;"><input id="checkAll" class="selCheckbox" type="checkbox" name="seleccion" /></th>
                 <th style="width: 2%;"></th>
                 <th>{{ "Izena" }}</th>
                 <th>{{ "Sortua" }}</th>
@@ -196,6 +196,12 @@
     <script type="text/javascript" src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
     <script>
         $(document).ready(function () {
+
+            $("#checkAll").on("change", function () {
+                var c = this.checked;
+                $(':checkbox').prop('checked',c);
+            });
+
             $("#closeUploadModalButton").on("click", function (e) {
                 e.preventDefault();
                 location.reload();
