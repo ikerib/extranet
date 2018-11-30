@@ -25,3 +25,8 @@ yarn-error.log
 .idea/
 /EXTRANET/
 /deploy.php
+EXTRANET
+.gitignore.swp
+public/export
+public/export/.gitkeep
+yarn.lock
