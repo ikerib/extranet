@@ -43,3 +43,11 @@ services:
         public: true
         arguments: ['@session']
 
+    App\EventListener\LoginListener:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@session'
+            - '@security.token_storage'
+            - '@security.authentication.manager'
+        tags:
+            - { name: 'kernel.event_listener', event: 'security.interactive_login' }
