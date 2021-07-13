@@ -169,10 +169,34 @@ class DefaultController extends Controller
         $basedir = rtrim( getenv( 'APP_FOLDER_PATH' ), '/' );
         $myPath  = rtrim( $basedir . $dirpath, '/' ) . '/';
 
+        $_breadcrumbs = explode( '/', ltrim( $dirpath, '/' ) );
+        $_ogiazalak   = [];
+
+        foreach ( $_breadcrumbs as $_key => $_value ) {
+            if ( $_key === 0 ) {
+                $_ogiazalak[ $_value ] = $_value;
+            } else {
+                $_ogiazalak[ $_value ] = $_ogiazalak[ $_breadcrumbs[ $_key - 1 ] ] . "/" . $_value;
+            }
+
+        }
 
         $folderFinder = new Finder();
         if ( isset( $orden ) || ( is_null( $orden ) ) ) {
-            $dirs = $folderFinder->directories()->in( $myPath )->depth( '<1' )->sortByName();
+            try {
+                $dirs = $folderFinder->directories()->in( $myPath )->depth( '<1' )->sortByName();
+            } catch ( \Exception $e) {
+                return $this->render( 'default/error.html.twig', [
+                    'currentDir'  => $dirpath,
+                    'breadcrumbs' => $_ogiazalak,
+                    'folders'     => $folders,
+                    'dirs'        => $dirs,
+                    'files'       => null,
+                    'canupload'   => $canupload,
+                    'errors'      => $e
+                ] );
+            }
+
         } else {
             if ( $orden == "name" ) {
                 $dirs = $folderFinder->directories()->in( $myPath )->depth( '<1' )->sortByName();
@@ -185,18 +209,6 @@ class DefaultController extends Controller
 
         $filesFinder = new Finder();
         $files       = $filesFinder->files()->in( $myPath )->depth( '<1' )->sortByName();
-
-        $_breadcrumbs = explode( '/', ltrim( $dirpath, '/' ) );
-        $_ogiazalak   = [];
-
-        foreach ( $_breadcrumbs as $_key => $_value ) {
-            if ( $_key == 0 ) {
-                $_ogiazalak[ $_value ] = $_value;
-            } else {
-                $_ogiazalak[ $_value ] = $_ogiazalak[ $_breadcrumbs[ $_key - 1 ] ] . "/" . $_value;
-            }
-
-        }
 
         $this->get( 'session' )->set( 'curdir', $dirpath );
 
