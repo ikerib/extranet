@@ -52,4 +52,47 @@ class SecurityController extends Controller
     }
 
 
+    public function getLdapInfo( $username )
+    {
+        /** Irakurri .env datuak  **/
+        $ip       = getenv( 'LDAP_IP' );
+        $searchdn = getenv( 'LDAP_SEARCH_DN' );
+        $basedn   = getenv( 'LDAP_BASE_DN' );
+        $passwd   = getenv( 'LDAP_PASSWD' );
+
+
+        /**
+         * LDAP KONTSULTA EGIN erabiltzailearen bila
+         */
+        $ldap = new Adapter( array( 'host' => $ip ) );
+        $ldap->getConnection()->bind( $searchdn, $passwd );
+        $query = $ldap->createQuery( $basedn, "(sAMAccountName=$username)", array() );
+
+        return $query->execute();
+    }
+
+    public function ldap_recursive( $name )
+    {
+        if ( preg_match( $this->groupTaldeaRegExp, $name ) ) {
+            $tal = $this->getLdapInfo( $name );
+
+            if ( count( $tal ) ) {
+                $taldek = $tal[ 0 ]->getAttribute( 'memberOf' );
+                if ( !is_null( $taldek ) ) {
+                    foreach ( $taldek as $t ) {
+                        if ( !in_array( $t, $this->ldapTaldeak ) ) {
+                            array_push( $this->ldapTaldeak, $t );
+                            $this->ldap_recursive( $this->getGroupName( $t ) );
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public function getAllLdapGroups( $filter )
+    {
+        $resp = $this->getLdapInfo( $filter );
+
+    }
 }
