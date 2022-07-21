@@ -5,8 +5,13 @@
         "php": "^7.1.3",
         "ext-iconv": "*",
         "deployer/deployer": "^6.2",
+        "doctrine/annotations": "^1.0",
+        "doctrine/doctrine-bundle": "^2.7",
+        "doctrine/doctrine-migrations-bundle": "^3.2",
+        "doctrine/orm": "^2.12",
         "letsdrink/ouzo-goodies": "^1.6",
         "oneup/uploader-bundle": "^2.0",
+        "phpdocumentor/reflection-docblock": "^5.3",
         "sensio/framework-extra-bundle": "^5.1",
         "stof/doctrine-extensions-bundle": "^1.3",
         "symfony/apache-pack": "^1.0",
@@ -21,31 +26,36 @@
         "symfony/ldap": "^4.0",
         "symfony/lts": "^4@dev",
         "symfony/monolog-bundle": "^3.1",
-        "symfony/orm-pack": "*",
         "symfony/process": "^4.0",
+        "symfony/property-access": "^4.0",
+        "symfony/property-info": "^4.0",
+        "symfony/proxy-manager-bridge": "^4.0",
         "symfony/security-bundle": "^4.0",
-        "symfony/serializer-pack": "*",
+        "symfony/serializer": "^4.0",
         "symfony/swiftmailer-bundle": "^3.1",
         "symfony/twig-bundle": "^4.0",
         "symfony/validator": "^4.0",
         "symfony/web-link": "^4.0",
-        "symfony/webpack-encore-pack": "*",
         "symfony/yaml": "^4.0"
     },
     "require-dev": {
         "symfony/browser-kit": "^4.0",
         "symfony/css-selector": "^4.0",
-        "symfony/debug-pack": "*",
+        "symfony/debug-bundle": "^4.0",
         "symfony/maker-bundle": "^1.0",
         "symfony/phpunit-bridge": "^4.0",
-        "symfony/profiler-pack": "*",
+        "symfony/stopwatch": "^4.0",
+        "symfony/web-profiler-bundle": "^4.0",
         "symfony/web-server-bundle": "^4.0"
     },
     "config": {
         "preferred-install": {
             "*": "dist"
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "symfony/flex": true
+        }
     },
     "autoload": {
         "psr-4": {

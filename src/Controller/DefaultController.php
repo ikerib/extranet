@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 
+use App\Entity\Karpeta;
 use App\Entity\Log;
 use App\Entity\Permission;
 use Ouzo\Utilities\Arrays;
@@ -64,7 +65,7 @@ class DefaultController extends Controller
 
             if ( preg_match( $groupTaldeaRegExp, $l ) ) {
 
-                $dirs = $em->getRepository( 'App:Karpeta' )->getSidebarFoldersForSarbide( $l );
+                $dirs = $em->getRepository( Karpeta::class )->getSidebarFoldersForSarbide( $l );
 
                 if ( count( $dirs ) > 0 ) {
 

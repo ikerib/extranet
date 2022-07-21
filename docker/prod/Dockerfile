@@ -1,13 +1,8 @@
-FROM php:7.3-fpm-alpine3.15
+FROM php:8.1-fpm-alpine3.15
 
-ARG USER_ID=1000
-ARG GROUP_ID=1000
-ARG DOCKER_TIMEZONE=${DOCKER_TIMEZONE}
-ARG DEBUGMODE=0
 ARG FOSJSDUMP=0
 
-ENV PS1="\u@\h:\w\\$ "
-
+ARG DOCKER_TIMEZONE=${DOCKER_TIMEZONE}
 RUN echo "${DOCKER_TIMEZONE}" > /etc/timezone
 
 # 2 Set working directory
@@ -23,7 +18,6 @@ RUN apk update && apk add --no-cache \
     freetype-dev \
     postgresql-dev \
     aspell-dev \
-    git\
     autoconf
 
 # 4 Add and Enable PHP-PDO Extenstions
@@ -34,10 +28,9 @@ RUN docker-php-ext-install pgsql
 RUN docker-php-ext-install pspell
 RUN docker-php-ext-enable pdo_pgsql pgsql pspell
 RUN docker-php-ext-install zip
+RUN docker-php-ext-configure gd --with-jpeg --with-webp --with-freetype
+RUN docker-php-ext-install gd
 RUN docker-php-ext-configure intl && docker-php-ext-install intl
-
-# DEBUG
-RUN pecl install xdebug && docker-php-ext-enable xdebug
 
 # ldap
 RUN apk add --update --no-cache \
@@ -56,20 +49,17 @@ RUN pecl install -o -f redis apcu  \
 
 RUN apk --no-cache add nodejs yarn npm --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
 
-
 # 5 Install PHP Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # 6 Remove Cache
 RUN rm -rf /var/cache/apk/*
 
-WORKDIR /usr/src/app
-
 # 7 Add UID '1000' to www-data
-RUN usermod -u ${USER_ID} www-data
+#RUN usermod -u ${USER_ID} www-data
 
 # 8 Copy existing application directory permissions
-COPY --chown=www-data:www-data . /usr/src/app
+COPY . /usr/src/app
 
 RUN composer install --no-scripts --prefer-dist --no-interaction --optimize-autoloader
 
@@ -77,9 +67,24 @@ RUN php bin/console cache:clear
 
 RUN mkdir -p /usr/src/app/public/uploads
 RUN chmod -R 777 /usr/src/app/public/uploads
-RUN chown -R www-data:www-data /usr/src/app
+
+RUN yarn install
+
+RUN if [[ "$FOSJSDUMP" = "0"]] ; \
+    then \
+        echo "FOSJSROUTING DISABLED" ; \
+    else \
+        echo Argument is $FOSJSDUMP \
+        RUN php bin/console ckedit:install \
+        RUN php bin/console fos:js-routing:dump --format=json --target=public/js/fos_js_routes.json \
+        RUN php bin/console assets:install --symlink public \
+    ; fi
+
+RUN yarn encore prod
+#RUN chown -R www-data:www-data /usr/src/app
+
 # 9 Change current user
-USER www-data
+#USER www-data
 # 10 Expose port 9000 and start php-fpm server
 EXPOSE 9000
 CMD ["php-fpm"]
