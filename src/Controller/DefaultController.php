@@ -10,7 +10,7 @@ use Ouzo\Utilities\Arrays;
 use Ouzo\Utilities\Comparator;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -18,8 +18,6 @@ use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Finder\Finder;
 use Ouzo;
 
@@ -90,7 +88,7 @@ class DefaultController extends AbstractController
      */
     public function index()
     {
-        $folders = $this->get( 'App\Controller\DefaultController' )->getSidebarFolders();
+        $folders = $this->getSidebarFolders();
 
         return $this->render( 'default/homepage.html.twig', [
             'breadcrumbs' => [],
@@ -166,7 +164,7 @@ class DefaultController extends AbstractController
         }
 
 
-        $folders = $this->get(DefaultController::class)->getSidebarFolders();
+        $folders = $this->getSidebarFolders();
         $dirs    = null;
         $basedir = rtrim( getenv( 'APP_FOLDER_PATH' ), '/' );
         $myPath  = rtrim( $basedir . $dirpath, '/' ) . '/';
@@ -227,8 +225,7 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * @Route("/finder/newfolder", name="finder_newfolder")
-     * @Method("POST")
+     * @Route("/finder/newfolder", name="finder_newfolder", methods={"POST"})
      * @param Request $request
      *
      * @return \Symfony\Component\HttpFoundation\Response
@@ -282,8 +279,7 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * @Route("/finder/rename", name="finder_rename_file_folder")
-     * @Method("POST")
+     * @Route("/finder/rename", name="finder_rename_file_folder", methods={"POST"})
      * @param Request $request
      *
      * @return \Symfony\Component\HttpFoundation\Response
@@ -340,8 +336,7 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * @Route("/finder/delete", name="finder_delete")
-     * @Method("DELETE")
+     * @Route("/finder/delete", name="finder_delete", methods={"DELETE"})
      * @param Request $request
      *
      * @return \Symfony\Component\HttpFoundation\Response

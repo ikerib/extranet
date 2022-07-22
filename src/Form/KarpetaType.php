@@ -25,7 +25,7 @@ class KarpetaType extends AbstractType
 
         /** @var \DirectoryIterator $d */
         foreach ($dirs as $d) {
-            if ( $em->getRepository('App:Karpeta')->isThisFolderOnMysql($d->getRealPath()) == null ) {
+            if ( $em->getRepository(Karpeta::class)->isThisFolderOnMysql($d->getRealPath()) === null ) {
                 $karpetak[$d->getBasename()] = $d->getRealPath();
             }
         }
