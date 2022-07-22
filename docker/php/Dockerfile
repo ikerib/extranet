@@ -1,4 +1,4 @@
-FROM php:7.3-fpm-alpine3.15
+FROM php:7.4-fpm-alpine3.16
 
 ARG USER_ID=1000
 ARG GROUP_ID=1000
