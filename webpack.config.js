@@ -12,11 +12,12 @@ Encore
 
     // uncomment to define the assets of the project
     .addEntry('js/app', ['./assets/js/fontawesome-5.0.13.all.js','./assets/js/app.js'])
-
+    .addEntry('js/dropzone', ['./assets/js/dropzone.js'])
 
 
     .addStyleEntry('css/app', ['./assets/css/app.scss', './assets/css/dashboard.scss'])
     .addStyleEntry('css/login', './assets/css/login.scss')
+    .addStyleEntry('css/dropzone', './assets/css/dropzone.css')
     // .addStyleEntry('css/dashboard', './assets/css/dashboard.scss')
 
     // uncomment if you use Sass/SCSS files

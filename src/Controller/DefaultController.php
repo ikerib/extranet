@@ -21,6 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Finder\Finder;
 use Ouzo;
+use App\Controller\DefaultController;
 
 
 class DefaultController extends Controller
@@ -135,10 +136,10 @@ class DefaultController extends Controller
         $canupload = false;
         foreach ( $sarbideak as $sarbide ) {
             //if ( $baimendua == false ) {
-            $securityCheck = $em->getRepository( 'App:Karpeta' )->isThisFolderAllowed( $firstPath, $sarbide );
+            $securityCheck = $em->getRepository( Karpeta::class )->isThisFolderAllowed( $firstPath, $sarbide );
             if ( count( $securityCheck ) > 0 ) {
                 $baimendua   = true;
-                $permissions = $em->getRepository( 'App:Permission' )->canUpload( $firstPath, $sarbide );
+                $permissions = $em->getRepository( Permission::class )->canUpload( $firstPath, $sarbide );
 
                 /** @var Permission $p */
                 foreach ( $permissions as $p ) {
@@ -165,7 +166,7 @@ class DefaultController extends Controller
         }
 
 
-        $folders = $this->get( 'App\Controller\DefaultController' )->getSidebarFolders();
+        $folders = $this->get(DefaultController::class)->getSidebarFolders();
         $dirs    = null;
         $basedir = rtrim( getenv( 'APP_FOLDER_PATH' ), '/' );
         $myPath  = rtrim( $basedir . $dirpath, '/' ) . '/';

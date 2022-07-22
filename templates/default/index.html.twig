@@ -5,10 +5,10 @@
 {% block stylesheets %}
 
     {{ parent() }}
-    <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
-    <style>
+{#    <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">#}
+    <link rel="stylesheet" href="{{ asset('build/css/dropzone.css') }}">
 
-    </style>
+
 {% endblock %}
 
 {% block body %}
@@ -193,7 +193,9 @@
 {% block javascripts %}
 
     {{ parent() }}
-    <script type="text/javascript" src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
+{#    <script type="text/javascript" src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>#}
+    <script src="{{ asset('build/js/dropzone.js') }}"></script>
+
     <script>
         $(document).ready(function () {
 
