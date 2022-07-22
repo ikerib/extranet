@@ -6,7 +6,7 @@ use App\Entity\Taldea;
 use App\Form\TaldeaEditType;
 use App\Form\TaldeaType;
 use App\Repository\TaldeaRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/taldea")
  */
-class TaldeaController extends Controller
+class TaldeaController extends AbstractController
 {
     /**
      * @Route("/", name="taldea_index", methods="GET")
@@ -33,10 +33,10 @@ class TaldeaController extends Controller
      *
      * @return Response
      */
-    public function new(Request $request): Response
+    public function new(Request $request, SecurityController $ldap): Response
     {
         $taldea = new Taldea();
-        $ldap = $this->get( 'App\Controller\SecurityController' );
+//        $ldap = $this->get( 'App\Controller\SecurityController' );
 
         $form = $this->createForm(TaldeaType::class, $taldea, array(
             'ldap'      => $ldap,

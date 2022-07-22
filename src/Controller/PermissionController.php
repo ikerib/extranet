@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Permission;
 use App\Form\PermissionType;
 use App\Repository\PermissionRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/permission")
  */
-class PermissionController extends Controller
+class PermissionController extends AbstractController
 {
     /**
      * @Route("/", name="permission_index", methods="GET")

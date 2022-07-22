@@ -6,6 +6,7 @@ use App\Entity\Karpeta;
 use App\Form\KarpetaEditType;
 use App\Form\KarpetaType;
 use App\Repository\KarpetaRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/karpeta")
  */
-class KarpetaController extends Controller
+class KarpetaController extends AbstractController
 {
     /**
      * @Route("/", name="karpeta_index", methods="GET")

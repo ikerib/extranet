@@ -11,6 +11,7 @@ use Ouzo\Utilities\Comparator;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
@@ -21,10 +22,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Finder\Finder;
 use Ouzo;
-use App\Controller\DefaultController;
 
 
-class DefaultController extends Controller
+class DefaultController extends AbstractController
 {
 
     private function Nirelog( $action, $desc )
