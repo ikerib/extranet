@@ -300,13 +300,25 @@
         "version": "v4.0.8"
     },
     "symfony/framework-bundle": {
-        "version": "3.3",
+        "version": "4.4",
         "recipe": {
             "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "3.3",
-            "ref": "8a2f7fa50a528f0aad1d7a87ae3730c981b367ce"
-        }
+            "branch": "main",
+            "version": "4.4",
+            "ref": "24eb45d1355810154890460e6a05c0ca27318fe7"
+        },
+        "files": [
+            "config/bootstrap.php",
+            "config/packages/cache.yaml",
+            "config/packages/framework.yaml",
+            "config/packages/test/framework.yaml",
+            "config/preload.php",
+            "config/routes/dev/framework.yaml",
+            "config/services.yaml",
+            "public/index.php",
+            "src/Controller/.gitignore",
+            "src/Kernel.php"
+        ]
     },
     "symfony/http-client-contracts": {
         "version": "v2.4.0"
