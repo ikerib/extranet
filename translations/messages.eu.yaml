@@ -35,3 +35,9 @@ app.permission.new: 'Baimen berriak'
 app.taldea.edit: 'Taldea aldatzen'
 app.taldea.new: 'Talde berria'
 app.taldea.zerrenda: 'Taldeen zerrenda'
+Name: Izena
+Old filename: 'Fichero antiguo'
+Filefolders: Karpetak
+Files: Fitxategiak
+Exportcurrentdir: 'Esportatu uneko karpeta'
+Newname: 'Izen berria'

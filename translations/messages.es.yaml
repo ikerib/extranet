@@ -35,3 +35,9 @@ app.permission.new: 'Nuevo permiso'
 app.taldea.edit: 'Editar carpeta'
 app.taldea.new: 'Nuevo Grupo'
 app.taldea.zerrenda: 'Grupos: listado'
+Name: Nombre
+Old filename: 'Fichero antiguo'
+Filefolders: Carpetas
+Files: Ficheros
+Exportcurrentdir: 'Exportar carpeta actual'
+Newname: 'Nuevo nombre'
