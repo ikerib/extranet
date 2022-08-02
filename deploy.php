@@ -10,7 +10,8 @@ require 'recipe/symfony4.php';
 set('application', 'Extranet');
 
 // Project repository
-set('repository', 'git@github.com:ikerib/extranet.git');
+//set('repository', 'git@github.com:ikerib/extranet.git');
+set('repository', 'https://github.com/ikerib/extranet.git');
 
 set('http_user', 'www-data');
 set('shared_files', [
