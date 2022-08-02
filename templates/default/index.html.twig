@@ -12,7 +12,7 @@
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom div-breadcrumb">
         <nav aria-label="breadcrumb">
 
-            <ol class="breadcrumb">
+            <ol class="breadcrumb ">
                 {% for key, value in breadcrumbs %}
                     {% if loop.index == 1 %}
                         <li class="breadcrumb-item"><a href="{{ path('homepage') }}">{{ "app.breadcrumb.home" | trans }}</a></li>
@@ -112,7 +112,7 @@
                         <tr>
                             <td style="width: 2%;"><input class="selCheckbox" type="checkbox" name="seleccion" data-oldFileName="{{ f.pathname }}"  data-type="file"/></td>
                             <td style="width: 2%;">
-                                <a href="{{ path('file_download', {'filePath': f.pathname}) }}">
+                                <a class="filedownload" href="{{ path('file_download', {'filePath': f.pathname}) }}">
                                     {% set extensioa = f.filename [-3:] %}
 
                                     {% if extensioa is same as 'pdf'  %}
@@ -129,22 +129,22 @@
                                 </a>
                             </td>
                             <td>
-                                <a href="{{ path('file_download', {'filePath': f.pathname}) }}">
+                                <a class="filedownload" href="{{ path('file_download', {'filePath': f.pathname}) }}">
                                     {{ f.filename  }}
                                 </a>
                             </td>
                             <td>
-                                <a href="{{ path('file_download', {'filePath': f.pathname}) }}">
+                                <a class="filedownload" href="{{ path('file_download', {'filePath': f.pathname}) }}">
                                     {{ f.cTime | date('Y-m-d H:m:s') }}
                                 </a>
                             </td>
                             <td>
-                                <a href="{{ path('file_download', {'filePath': f.pathname}) }}">
+                                <a class="filedownload" href="{{ path('file_download', {'filePath': f.pathname}) }}">
                                     {{ f.mTime | date('Y-m-d H:m:s') }}
                                 </a>
                             </td>
                             <td style="width: 5%" class="text-center">
-                                <a href="{{ path('file_download', {'filePath': f.pathname}) }}">
+                                <a class="filedownload" href="{{ path('file_download', {'filePath': f.pathname}) }}">
 {#                                    <i class="fas fa-download"></i> {{ "app.finder.download" | trans }}#}
                                     <i class="fas fa-download"></i>
                                 </a>

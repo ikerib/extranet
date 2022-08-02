@@ -19,7 +19,7 @@ a,
 a:hover,
 a:focus {
   color: inherit;
-  text-decoration: none;
+  //text-decoration: none;
   transition: all 0.3s
 }
 
@@ -172,7 +172,7 @@ a.download:hover {
 
 //SIDEBAR
 
-.sidebar-sticky > .nav > .nav-item > a:visited, a:active {
+#sidebar > .sidebar-sticky > li > a:visited, a:active {
   color: #000000 !important;
 }
 .titulua {
