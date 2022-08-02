@@ -14,7 +14,6 @@
         "phpdocumentor/reflection-docblock": "^5.3",
         "sensio/framework-extra-bundle": "^v6.2.6",
         "stof/doctrine-extensions-bundle": "^1.7",
-
         "symfony/apache-pack": "^1.0",
         "symfony/asset": "5.4.*",
         "symfony/console": "5.4.*",
@@ -25,7 +24,6 @@
         "symfony/form": "5.4.*",
         "symfony/framework-bundle": "5.4.*",
         "symfony/ldap": "5.4.*",
-
         "symfony/monolog-bundle": "^3.1",
         "symfony/process": "5.4.*",
         "symfony/property-access": "5.4.*",

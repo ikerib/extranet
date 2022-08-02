@@ -3,12 +3,8 @@
 {% block title %}{% endblock %}
 
 {% block stylesheets %}
-
     {{ parent() }}
-{#    <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">#}
     <link rel="stylesheet" href="{{ asset('build/css/dropzone.css') }}">
-
-
 {% endblock %}
 
 {% block body %}
@@ -99,8 +95,11 @@
                     {% for d in dirs %}
                         <tr>
                             <td style="width: 2%;"><input class="selCheckbox" type="checkbox" name="seleccion" data-oldFileName="{{ d.pathname }}" data-type="folder" /></td>
-                            <td style="width: 2%;"><a href="{{ path('dirpath', {'dirpath': (currentDir=="/" ? "" : currentDir) ~ "/" ~ d.basename}) }}"><span class="mb-4"><i
-                                                class="fas fa-folder fa-1x"></i></span></a></td>
+                            <td style="width: 2%;">
+                                <a href="{{ path('dirpath', {'dirpath': (currentDir=="/" ? "" : currentDir) ~ "/" ~ d.basename}) }}"><span class="mb-4">
+                                        <i class="fas fa-folder fa-1x"></i></span>
+                                </a>
+                            </td>
                             <td><a href="{{ path('dirpath', {'dirpath': (currentDir=="/" ? "" : currentDir) ~ "/" ~ d.basename}) }}">{{ d.basename }}</a></td>
                             <td><a href="{{ path('dirpath', {'dirpath': (currentDir=="/" ? "" : currentDir) ~ "/" ~ d.basename}) }}">{{ d.cTime | date('Y-m-d H:m:s') }}</a></td>
                             <td><a href="{{ path('dirpath', {'dirpath': (currentDir=="/" ? "" : currentDir) ~ "/" ~ d.basename}) }}">{{ d.mTime | date('Y-m-d H:m:s') }}</a></td>
@@ -112,12 +111,44 @@
                     {% for f in files %}
                         <tr>
                             <td style="width: 2%;"><input class="selCheckbox" type="checkbox" name="seleccion" data-oldFileName="{{ f.pathname }}"  data-type="file"/></td>
-                            <td style="width: 2%;"><span class="mb-4"><i class="fas fa-file fa-1x"></i></span></td>
-                            <td>{{ f.filename }}</td>
-                            <td>{{ f.cTime | date('Y-m-d H:m:s') }}</td>
-                            <td>{{ f.mTime | date('Y-m-d H:m:s') }}</td>
-                            <td style="width: 5%"><a href="{{ path('file_download', {'filePath': f.pathname}) }}"><i
-                                            class="fas fa-download"></i> {{ "app.finder.download" | trans }}</a></td>
+                            <td style="width: 2%;">
+                                <a href="{{ path('file_download', {'filePath': f.pathname}) }}">
+                                    {% set extensioa = f.filename [-3:] %}
+
+                                    {% if extensioa is same as 'pdf'  %}
+                                        <span class="mb-4"><i class="far fa-file-pdf"></i></span>
+                                    {% elseif extensioa is same as 'odt' or extensioa is same as 'doc' %}
+                                        <span class="mb-4"><i class="far fa-file-alt"></i></span>
+                                    {% elseif extensioa is same as 'xls' or extensioa is same as 'ods' %}
+                                        <span class="mb-4"><i class="far fa-file-word"></i></span>
+                                    {% elseif extensioa is same as 'xls' or extensioa is same as 'ods' %}
+                                        <span class="mb-4"><i class="far fa-file-excel"></i></span>
+                                    {% else %}
+                                        <span class="mb-4"><i class="fal fa-file"></i></span>
+                                    {% endif %}
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{ path('file_download', {'filePath': f.pathname}) }}">
+                                    {{ f.filename  }}
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{ path('file_download', {'filePath': f.pathname}) }}">
+                                    {{ f.cTime | date('Y-m-d H:m:s') }}
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{ path('file_download', {'filePath': f.pathname}) }}">
+                                    {{ f.mTime | date('Y-m-d H:m:s') }}
+                                </a>
+                            </td>
+                            <td style="width: 5%" class="text-center">
+                                <a href="{{ path('file_download', {'filePath': f.pathname}) }}">
+{#                                    <i class="fas fa-download"></i> {{ "app.finder.download" | trans }}#}
+                                    <i class="fas fa-download"></i>
+                                </a>
+                            </td>
                         </tr>
                     {% endfor %}
 

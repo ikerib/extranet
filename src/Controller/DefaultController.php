@@ -86,7 +86,7 @@ class DefaultController extends AbstractController
     /**
      * @Route("/", name="homepage")
      */
-    public function index()
+    public function index(): Response
     {
         $folders = $this->getSidebarFolders();
 
@@ -102,28 +102,21 @@ class DefaultController extends AbstractController
 
     /**
      * @Route("/finder/", name="dirpath")
-     *
-     *
-     * @param Request $request
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function dirpath( Request $request )
+    public function dirpath( Request $request ): Response
     {
         $dirpath = $request->get( 'dirpath' );
         $orden   = $request->get( 'orden' );
 
         str_replace( "//", "/", $dirpath );
 
-        if ( $dirpath != "/" ) {
+        if ( $dirpath !== "/" ) {
             $firstPath = "/" . explode( "/", $dirpath )[ 1 ];
         } else {
             $firstPath = "/";
         }
 
-
         $this->Nirelog( 'dir', $dirpath );
-
 
         /**
          * Security check
@@ -133,7 +126,6 @@ class DefaultController extends AbstractController
         $baimendua = false;
         $canupload = false;
         foreach ( $sarbideak as $sarbide ) {
-            //if ( $baimendua == false ) {
             $securityCheck = $em->getRepository( Karpeta::class )->isThisFolderAllowed( $firstPath, $sarbide );
             if ( count( $securityCheck ) > 0 ) {
                 $baimendua   = true;
@@ -141,15 +133,14 @@ class DefaultController extends AbstractController
 
                 /** @var Permission $p */
                 foreach ( $permissions as $p ) {
-                    if ( $p->getCanWrite() == true ) {
+                    if ($p->getCanWrite()) {
                         $canupload = true;
                     }
                 }
             }
-            //}
         }
 
-        if ( $baimendua == false ) {
+        if (!$baimendua) {
             $this->Nirelog( 'Baimenik ez', $dirpath );
             $this->addFlash(
                 'danger',
@@ -158,9 +149,9 @@ class DefaultController extends AbstractController
 
             if ( is_null( $request->server->get( 'HTTP_REFERER' ) ) ) {
                 return $this->redirectToRoute( 'homepage' );
-            } else {
-                return $this->redirect( $request->server->get( 'HTTP_REFERER' ) );
             }
+
+            return $this->redirect( $request->server->get( 'HTTP_REFERER' ) );
         }
 
 
@@ -197,14 +188,12 @@ class DefaultController extends AbstractController
                 ] );
             }
 
-        } else {
-            if ( $orden == "name" ) {
-                $dirs = $folderFinder->directories()->in( $myPath )->depth( '<1' )->sortByName();
-            } elseif ( $orden == "created" ) {
-                $dirs = $folderFinder->directories()->in( $myPath )->depth( '<1' )->sortByChangedTime();
-            } elseif ( $orden == "updated" ) {
-                $dirs = $folderFinder->directories()->in( $myPath )->depth( '<1' )->sortByModifiedTime();
-            }
+        } else if ( $orden === "name" ) {
+            $dirs = $folderFinder->directories()->in( $myPath )->depth( '<1' )->sortByName();
+        } elseif ( $orden === "created" ) {
+            $dirs = $folderFinder->directories()->in( $myPath )->depth( '<1' )->sortByChangedTime();
+        } elseif ( $orden === "updated" ) {
+            $dirs = $folderFinder->directories()->in( $myPath )->depth( '<1' )->sortByModifiedTime();
         }
 
         $filesFinder = new Finder();
@@ -228,7 +217,7 @@ class DefaultController extends AbstractController
      * @Route("/finder/newfolder", name="finder_newfolder", methods={"POST"})
      * @param Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function newfolder( Request $request )
     {
@@ -282,7 +271,7 @@ class DefaultController extends AbstractController
      * @Route("/finder/rename", name="finder_rename_file_folder", methods={"POST"})
      * @param Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function renameFileFolder( Request $request )
     {
@@ -339,7 +328,7 @@ class DefaultController extends AbstractController
      * @Route("/finder/delete", name="finder_delete", methods={"DELETE"})
      * @param Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function deleteFileFolder( Request $request )
     {
@@ -386,7 +375,7 @@ class DefaultController extends AbstractController
      *
      * @param Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function fileDownload( Request $request )
     {
@@ -416,7 +405,7 @@ class DefaultController extends AbstractController
      *
      * @param Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function export( Request $request )
     {
