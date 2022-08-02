@@ -11,8 +11,8 @@
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom div-breadcrumb">
         <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
 
+            <ol class="breadcrumb">
                 {% for key, value in breadcrumbs %}
                     {% if loop.index == 1 %}
                         <li class="breadcrumb-item"><a href="{{ path('homepage') }}">{{ "app.breadcrumb.home" | trans }}</a></li>
@@ -61,8 +61,8 @@
 
 
     <div class="row">
-        <table class="table table-active table-bordered table-striped table-hover">
-            <thead>
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
             <tr>
                 <th style="width: 2%;"><input id="checkAll" class="selCheckbox" type="checkbox" name="seleccion" /></th>
                 <th style="width: 2%;"></th>

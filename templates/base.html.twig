@@ -2,7 +2,6 @@
 <html lang="{{ app.request.locale }}">
     <head>
         <meta charset="UTF-8">
-<<<<<<< ours
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="Pasaiako Udala - Extranetªa">
@@ -65,13 +64,7 @@
                             </div>
                         </li>
                     {% endif %}
-
-
-
                 </ul>
-                {#<form class="form-inline my-2 my-md-0">#}
-                    {#<input class="form-control" type="text" placeholder="Search">#}
-                {#</form>#}
 
                 {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                     <div class="btn-group">
@@ -91,11 +84,10 @@
         <div class="container-fluid">
             <div class="row">
                 {% block sidebar %}
-                    <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                    <nav id="sidebar" class="col-md-2 d-none d-md-block bg-light sidebar">
                         <div class="sidebar-sticky">
-                        <p>Karpeta nagusiak:</p>
+                        <p class="titulua">KARPETA NAGUSIAK</p>
                             {% block sidemenu %}
-                                <ul class="nav flex-column">
                                     {% for f in folders %}
                                         <li class="nav-item">
                                             <a class="nav-link active" href="{{ path('dirpath', {'dirpath': "/" ~ f.foldername}) }}">
@@ -128,6 +120,7 @@
                             </div>
                             <div class="col-md-2 ml-sm-auto col-lg-2 px-4"></div>
                         </div>
+                        <div class="row">&nbsp;</div>
                 {% endblock %}
 
                     {% block body %}
