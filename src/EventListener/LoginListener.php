@@ -120,10 +120,10 @@ class LoginListener
     public function getLdapInfo( $username )
     {
         /** Irakurri .env datuak  **/
-        $ip       = getenv( 'LDAP_IP' );
-        $searchdn = getenv( 'LDAP_SEARCH_DN' );
-        $basedn   = getenv( 'LDAP_BASE_DN' );
-        $passwd   = getenv( 'LDAP_PASSWD' );
+        $ip       = $_ENV[ 'LDAP_IP' ];
+        $searchdn = $_ENV[ 'LDAP_SEARCH_DN' ];
+        $basedn   = $_ENV[ 'LDAP_BASE_DN' ];
+        $passwd   = $_ENV[ 'LDAP_PASSWD' ];
 
 
         /**
