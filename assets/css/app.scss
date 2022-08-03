@@ -51,16 +51,16 @@ a:focus {
 }
 
 #sidebar {
-  min-width: 250px;
-  max-width: 250px;
+  //min-width: 250px;
+  //max-width: 250px;
   background: #005086;
   color: #fff;
   transition: all 0.3s
 }
 
-#sidebar.active {
-  margin-left: -250px
-}
+//#sidebar.active {
+//  margin-left: -250px
+//}
 
 #sidebar .sidebar-header {
   padding: 20px;
@@ -104,7 +104,7 @@ a[data-toggle="collapse"] {
   display: block;
   position: absolute;
   top: 50%;
-  right: 20px;
+  right: 0px;
   transform: translateY(-50%)
 }
 
@@ -144,9 +144,9 @@ a.download:hover {
 }
 
 @media(maz-width:768px) {
-  #sidebar {
-    margin-left: -250px
-  }
+  //#sidebar {
+  //  margin-left: -250px
+  //}
 
   #sidebar.active {
     margin-left: 0px
