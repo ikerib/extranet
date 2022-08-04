@@ -6,4 +6,4 @@ oneup_uploader:
             frontend: dropzone # or any uploader you use in the frontend
             namer: App\Uploader\Naming\FinderNamer
             storage:
-                directory: "%kernel.project_dir%/../EXTRANET/"
+                directory: "%kernel.project_dir%/EXTRANET"
