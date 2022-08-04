@@ -16,7 +16,7 @@ class KarpetaType extends AbstractType
     {
 
         $finder = new Finder();
-        $dirs = $finder->directories()->in( getenv( 'APP_FOLDER_PATH' ) )->depth('<1')->sortByName();
+        $dirs = $finder->directories()->in( $_ENV[ 'APP_FOLDER_PATH'] )->depth('<1')->sortByName();
 
         $karpetak = [];
 

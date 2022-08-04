@@ -127,7 +127,9 @@ class DefaultController extends AbstractController
         $canupload = false;
         foreach ( $sarbideak as $sarbide ) {
             $securityCheck = $em->getRepository( Karpeta::class )->isThisFolderAllowed( $firstPath, $sarbide );
+
             if ( count( $securityCheck ) > 0 ) {
+
                 $baimendua   = true;
                 $permissions = $em->getRepository( Permission::class )->canUpload( $firstPath, $sarbide );
 
@@ -139,6 +141,8 @@ class DefaultController extends AbstractController
                 }
             }
         }
+
+
 
         if (!$baimendua) {
             $this->Nirelog( 'Baimenik ez', $dirpath );
@@ -157,7 +161,7 @@ class DefaultController extends AbstractController
 
         $folders = $this->getSidebarFolders();
         $dirs    = null;
-        $basedir = rtrim( getenv( 'APP_FOLDER_PATH' ), '/' );
+        $basedir = rtrim( $_ENV[ 'APP_FOLDER_PATH'], '/' );
         $myPath  = rtrim( $basedir . $dirpath, '/' ) . '/';
 
         $_breadcrumbs = explode( '/', ltrim( $dirpath, '/' ) );
@@ -177,6 +181,7 @@ class DefaultController extends AbstractController
             try {
                 $dirs = $folderFinder->directories()->in( $myPath )->depth( '<1' )->sortByName();
             } catch ( \Exception $e) {
+
                 return $this->render( 'default/error.html.twig', [
                     'currentDir'  => $dirpath,
                     'breadcrumbs' => $_ogiazalak,
@@ -234,7 +239,7 @@ class DefaultController extends AbstractController
 
         if ( $form->isSubmitted() && $form->isValid() ) {
             $data              = $form->getData();
-            $base              = rtrim( getenv( 'APP_FOLDER_PATH' ), "/" );
+            $base              = rtrim( $_ENV[ 'APP_FOLDER_PATH'], "/" );
             $currentPath       = rtrim( $data[ 'curdir' ], "/" ) . '/';
             $folderName        = rtrim( $data[ 'name' ], "/" ) . '/';
             $realNewFolderPath = $base . $currentPath . $folderName;
@@ -291,7 +296,7 @@ class DefaultController extends AbstractController
 
         if ( $form->isSubmitted() && $form->isValid() ) {
             $data              = $form->getData();
-            $base              = rtrim( getenv( 'APP_FOLDER_PATH' ), "/" );
+            $base              = rtrim( $_ENV[ 'APP_FOLDER_PATH' ], "/" );
             $currentDir        = rtrim( $data[ 'currentdir' ], "/" ) . '/';
             $folderName        = $data[ 'newname' ];
             $oldFileName       = $data[ 'oldFilename' ];
@@ -346,7 +351,7 @@ class DefaultController extends AbstractController
 
         if ( $form->isSubmitted() && $form->isValid() ) {
             $data        = $form->getData();
-            $base        = rtrim( getenv( 'APP_FOLDER_PATH' ), "/" );
+            $base        = rtrim( $_ENV[ 'APP_FOLDER_PATH' ], "/" );
             $currentDir  = rtrim( $data[ 'currentdir2' ], "/" ) . '/';
             $filefolders = json_decode( $data[ 'filefolders' ] );
             $fs          = new Filesystem();
@@ -422,7 +427,7 @@ class DefaultController extends AbstractController
 
         if ( $form->isSubmitted() && $form->isValid() ) {
             $data       = $form->getData();
-            $base       = rtrim( getenv( 'APP_FOLDER_PATH' ), "/" );
+            $base       = rtrim( $_ENV[ 'APP_FOLDER_PATH' ], "/" );
             $currentDir = rtrim( $data[ 'exportcurrentdir' ], "/" ) . '/';
 
             $removeString = $base . $currentDir;

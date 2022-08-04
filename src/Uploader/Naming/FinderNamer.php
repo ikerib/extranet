@@ -34,7 +34,7 @@ class FinderNamer implements NamerInterface
     {
         $curdir   = $this->session->get( 'curdir' );
         $izena    = ( rtrim( $curdir, '/' ) . '/' ) . $file->getClientOriginalName();
-        $base     = rtrim( getenv( 'APP_FOLDER_PATH' ), '/' ) . '/';
+        $base     = rtrim( $_ENV[ 'APP_FOLDER_PATH'], '/' ) . '/';
         $realName = $base . $izena;
 
         $fs = new Filesystem();
