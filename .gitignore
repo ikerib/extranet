@@ -21,7 +21,7 @@ yarn-error.log
 public/uploads
 docker/ssl
 docker/uploads
-/docker/ssl/
+/docker/nginx/ssl/
 /doc/
 
 ###> symfony/phpunit-bridge ###

@@ -7,3 +7,4 @@ oneup_uploader:
             namer: App\Uploader\Naming\FinderNamer
             storage:
                 directory: "%kernel.project_dir%/EXTRANET"
+            max_size: -1
