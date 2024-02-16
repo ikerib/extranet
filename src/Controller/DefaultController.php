@@ -107,6 +107,7 @@ class DefaultController extends AbstractController
     {
         $dirpath = $request->get( 'dirpath' );
         $orden   = $request->get( 'orden' );
+        $direction   = $request->get( 'direction' );
 
         str_replace( "//", "/", $dirpath );
 
@@ -179,7 +180,11 @@ class DefaultController extends AbstractController
         $folderFinder = new Finder();
         if ( isset( $orden ) || ( is_null( $orden ) ) ) {
             try {
-                $dirs = $folderFinder->directories()->in( $myPath )->depth( '<1' )->sortByChangedTime()->reverseSorting();
+                if ($direction === "ASC") {
+                    $dirs = $folderFinder->directories()->in( $myPath )->depth( '<1' )->sortByChangedTime();
+                } else {
+                    $dirs = $folderFinder->directories()->in( $myPath )->depth( '<1' )->sortByChangedTime()->reverseSorting();
+                }
             } catch ( \Exception $e) {
 
                 return $this->render( 'default/error.html.twig', [
@@ -194,18 +199,34 @@ class DefaultController extends AbstractController
             }
 
         } else if ( $orden === "name" ) {
-            $dirs = $folderFinder->directories()->in( $myPath )->depth( '<1' )->sortByName();
+            if ($direction === "ASC") {
+                $dirs = $folderFinder->directories()->in( $myPath )->depth( '<1' )->sortByName();
+            } else {
+                $dirs = $folderFinder->directories()->in( $myPath )->depth( '<1' )->sortByName()->reverseSorting();
+            }
         } elseif ( $orden === "created" ) {
-            $dirs = $folderFinder->directories()->in( $myPath )->depth( '<1' )->sortByChangedTime()->reverseSorting();
+            if ( $direction === "ASC") {
+                $dirs = $folderFinder->directories()->in( $myPath )->depth( '<1' )->sortByChangedTime();
+            } else {
+                $dirs = $folderFinder->directories()->in( $myPath )->depth( '<1' )->sortByChangedTime()->reverseSorting();
+            }
         } elseif ( $orden === "updated" ) {
-            $dirs = $folderFinder->directories()->in( $myPath )->depth( '<1' )->sortByModifiedTime()->reverseSorting();
+            if ( $direction === "ASC") {
+                $dirs = $folderFinder->directories()->in( $myPath )->depth( '<1' )->sortByModifiedTime();
+            } else {
+                $dirs = $folderFinder->directories()->in( $myPath )->depth( '<1' )->sortByModifiedTime()->reverseSorting();
+            }
         }
 
         $filesFinder = new Finder();
 
         if ( isset( $orden ) || ( is_null( $orden ) ) ) {
             try {
-                $files       = $filesFinder->files()->in( $myPath )->depth( '<1' )->sortByChangedTime()->reverseSorting();
+                if ($direction === "ASC") {
+                    $files       = $filesFinder->files()->in( $myPath )->depth( '<1' )->sortByChangedTime();
+                } else {
+                    $files       = $filesFinder->files()->in( $myPath )->depth( '<1' )->sortByChangedTime()->reverseSorting();
+                }
             } catch ( \Exception $e) {
 
                 return $this->render( 'default/error.html.twig', [
@@ -220,11 +241,23 @@ class DefaultController extends AbstractController
             }
 
         } else if ( $orden === "name" ) {
-            $files       = $filesFinder->files()->in( $myPath )->depth( '<1' )->sortByName();
+            if ( $direction === "ASC") {
+                $files       = $filesFinder->files()->in( $myPath )->depth( '<1' )->sortByName();
+            } else {
+                $files       = $filesFinder->files()->in( $myPath )->depth( '<1' )->sortByName()->reverseSorting();
+            }
         } elseif ( $orden === "created" ) {
-            $files       = $filesFinder->files()->in( $myPath )->depth( '<1' )->sortByChangedTime()->reverseSorting();
+            if ( $direction === "ASC") {
+                $files       = $filesFinder->files()->in( $myPath )->depth( '<1' )->sortByChangedTime();
+            } else {
+                $files       = $filesFinder->files()->in( $myPath )->depth( '<1' )->sortByChangedTime()->reverseSorting();
+            }
         } elseif ( $orden === "updated" ) {
-            $files       = $filesFinder->files()->in( $myPath )->depth( '<1' )->sortByModifiedTime()->reverseSorting();
+            if ( $direction === "ASC") {
+                $files       = $filesFinder->files()->in( $myPath )->depth( '<1' )->sortByModifiedTime();
+            } else {
+                $files       = $filesFinder->files()->in( $myPath )->depth( '<1' )->sortByModifiedTime()->reverseSorting();
+            }
         }
 
 
