@@ -39,3 +39,5 @@ docker/uploads
 !/EXTRANET/
 /EXTRANET/
 EXTRANET/
+!/docker/EXTRANET/
+docker/EXTRANET

@@ -1,4 +1,11 @@
+FROM node:10.2-alpine AS node
 FROM php:7.4-fpm-alpine3.16
+
+COPY --from=node /usr/lib /usr/lib
+COPY --from=node /usr/local/share /usr/local/share
+COPY --from=node /usr/local/lib /usr/local/lib
+COPY --from=node /usr/local/include /usr/local/include
+COPY --from=node /usr/local/bin /usr/local/bin
 
 ARG USER_ID=1000
 ARG GROUP_ID=1000
@@ -37,8 +44,11 @@ RUN docker-php-ext-install zip
 RUN docker-php-ext-configure intl && docker-php-ext-install intl
 
 # DEBUG
-RUN pecl install xdebug && docker-php-ext-enable xdebug
-
+#RUN pecl install xdebug && docker-php-ext-enable xdebug
+RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS \
+    && pecl install xdebug-3.0.0 \
+    && docker-php-ext-enable xdebug \
+    && apk del -f .build-deps
 # ldap
 RUN apk add --update --no-cache \
           libldap && \
@@ -54,7 +64,8 @@ RUN pecl install -o -f redis apcu  \
 &&  rm -rf /tmp/pear \
 &&  docker-php-ext-enable redis apcu
 
-RUN apk --no-cache add nodejs yarn npm --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
+#RUN apk --no-cache add nodejs yarn npm --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
+RUN apk --no-cache add yarn
 
 
 # 5 Install PHP Composer
@@ -80,6 +91,7 @@ RUN chmod -R 777 /usr/src/app/public/uploads
 RUN chown -R www-data:www-data /usr/src/app
 # 9 Change current user
 USER www-data
+
 # 10 Expose port 9000 and start php-fpm server
 EXPOSE 9000
 CMD ["php-fpm"]

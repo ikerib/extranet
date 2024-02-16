@@ -31,13 +31,3 @@ stop:
 
 ssh:
 	docker compose exec app zsh
-
-fixtures:
-	docker compose exec app ./bin/console doctrine:fixtures:load --no-interaction
-	docker compose exec app ./bin/console app:import:01-guneak doc/csv/guneak.txt
-	docker compose exec app ./bin/console app:import:02-bezeroa doc/csv/bezeroa.txt
-	docker compose exec app ./bin/console app:import:03-ibilbidea doc/csv/ibilbidea.txt
-	docker compose exec app ./bin/console app:import:04-eguraldia doc/csv/eguraldia.txt
-	docker compose exec app ./bin/console app:import:05-zigorra doc/csv/zigorrak.txt
-	docker compose exec app ./bin/console app:import:06-bizikleta doc/csv/bizikleta.txt
-	docker compose exec app ./bin/console app:import:07-mailegua doc/csv/maileguak.txt

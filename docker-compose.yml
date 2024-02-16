@@ -37,7 +37,7 @@ services:
       - "./docker/php/conf/php.ini:/usr/local/etc/php/php.ini:ro"
       - "./docker/php/conf/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:ro"
       - "./docker/uploads/:/usr/src/app/public/uploads"
-      - "./EXTRANET/:/usr/src/app/EXTRANET"
+      - "./docker/EXTRANET/:/usr/src/app/EXTRANET"
     working_dir: /usr/src/app
 
   nginx:
