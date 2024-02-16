@@ -179,7 +179,7 @@ class DefaultController extends AbstractController
         $folderFinder = new Finder();
         if ( isset( $orden ) || ( is_null( $orden ) ) ) {
             try {
-                $dirs = $folderFinder->directories()->in( $myPath )->depth( '<1' )->sortByName();
+                $dirs = $folderFinder->directories()->in( $myPath )->depth( '<1' )->sortByChangedTime()->reverseSorting();
             } catch ( \Exception $e) {
 
                 return $this->render( 'default/error.html.twig', [
@@ -196,13 +196,39 @@ class DefaultController extends AbstractController
         } else if ( $orden === "name" ) {
             $dirs = $folderFinder->directories()->in( $myPath )->depth( '<1' )->sortByName();
         } elseif ( $orden === "created" ) {
-            $dirs = $folderFinder->directories()->in( $myPath )->depth( '<1' )->sortByChangedTime();
+            $dirs = $folderFinder->directories()->in( $myPath )->depth( '<1' )->sortByChangedTime()->reverseSorting();
         } elseif ( $orden === "updated" ) {
-            $dirs = $folderFinder->directories()->in( $myPath )->depth( '<1' )->sortByModifiedTime();
+            $dirs = $folderFinder->directories()->in( $myPath )->depth( '<1' )->sortByModifiedTime()->reverseSorting();
         }
 
         $filesFinder = new Finder();
-        $files       = $filesFinder->files()->in( $myPath )->depth( '<1' )->sortByName();
+
+        if ( isset( $orden ) || ( is_null( $orden ) ) ) {
+            try {
+                $files       = $filesFinder->files()->in( $myPath )->depth( '<1' )->sortByChangedTime()->reverseSorting();
+            } catch ( \Exception $e) {
+
+                return $this->render( 'default/error.html.twig', [
+                    'currentDir'  => $dirpath,
+                    'breadcrumbs' => $_ogiazalak,
+                    'folders'     => $folders,
+                    'dirs'        => $dirs,
+                    'files'       => null,
+                    'canupload'   => $canupload,
+                    'errors'      => $e
+                ] );
+            }
+
+        } else if ( $orden === "name" ) {
+            $files       = $filesFinder->files()->in( $myPath )->depth( '<1' )->sortByName();
+        } elseif ( $orden === "created" ) {
+            $files       = $filesFinder->files()->in( $myPath )->depth( '<1' )->sortByChangedTime()->reverseSorting();
+        } elseif ( $orden === "updated" ) {
+            $files       = $filesFinder->files()->in( $myPath )->depth( '<1' )->sortByModifiedTime()->reverseSorting();
+        }
+
+
+
 
         $this->get( 'session' )->set( 'curdir', $dirpath );
 
