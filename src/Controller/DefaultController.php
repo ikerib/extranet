@@ -178,7 +178,7 @@ class DefaultController extends AbstractController
         }
 
         $folderFinder = new Finder();
-        if ( isset( $orden ) || ( is_null( $orden ) ) ) {
+        if ( !isset( $orden ) || ( is_null( $orden ) ) ) {
             try {
                 if ($direction === "ASC") {
                     $dirs = $folderFinder->directories()->in( $myPath )->depth( '<1' )->sortByChangedTime();
