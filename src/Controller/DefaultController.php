@@ -220,7 +220,7 @@ class DefaultController extends AbstractController
 
         $filesFinder = new Finder();
 
-        if ( isset( $orden ) || ( is_null( $orden ) ) ) {
+        if ( !isset( $orden ) || ( is_null( $orden ) ) ) {
             try {
                 if ($direction === "ASC") {
                     $files       = $filesFinder->files()->in( $myPath )->depth( '<1' )->sortByChangedTime();
@@ -240,7 +240,7 @@ class DefaultController extends AbstractController
                 ] );
             }
 
-        } else if ( $orden === "name" ) {
+        } else if ( $orden === "izena" ) {
             if ( $direction === "ASC") {
                 $files       = $filesFinder->files()->in( $myPath )->depth( '<1' )->sortByName();
             } else {
