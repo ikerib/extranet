@@ -198,7 +198,7 @@ class DefaultController extends AbstractController
                 ] );
             }
 
-        } else if ( $orden === "name" ) {
+        } else if ( $orden === "izena" ) {
             if ($direction === "ASC") {
                 $dirs = $folderFinder->directories()->in( $myPath )->depth( '<1' )->sortByName();
             } else {
